@@ -16,7 +16,7 @@ struct ContentView: View {
                     Image(systemName: "magnifyingglass")
                     Text("Explorar")
             }
-            ExploreView(demands: testData)
+            AllInProgressView(demandsInProgress: testData)
                 .tabItem {
                     Image(systemName: "square.and.pencil")
                     Text("Em andamento")

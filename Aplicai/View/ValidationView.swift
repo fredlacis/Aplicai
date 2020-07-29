@@ -44,23 +44,25 @@ struct ValidationView: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                NavigationLink(destination: ExploreView(demands: testData)) {
-                    HStack {
-                        Text("Voltar a navegação!")
-                        .font(.title)
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(Color.blue)
-                    .cornerRadius(15)
-                        
-                }
-                .isDetailLink(false)
+//                NavigationLink(destination: ExploreView(demands: testData)) {
+//                    HStack {
+//                        Text("Voltar a navegação!")
+//                        .font(.title)
+//                    }
+//                    .frame(minWidth: 0, maxWidth: .infinity)
+//                    .padding()
+//                    .foregroundColor(.white)
+//                    .background(Color.blue)
+//                    .cornerRadius(15)
+//
+//                }
+//                .isDetailLink(false)
                 
             }
             .padding()
         }
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
