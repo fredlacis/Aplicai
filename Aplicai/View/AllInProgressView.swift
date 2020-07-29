@@ -21,7 +21,7 @@ struct AllInProgressView: View {
                ScrollView {
                    VStack(spacing: 16) {
                        ForEach(demandsInProgress, id: \.id){ demand in
-                           NavigationLink(destination: DemandView(demand: demand)){
+                           NavigationLink(destination: DemandInProgressView(demand: demand)){
                             VStack {
                                 HStack(alignment: .center) {
                                        Image(demand.image)

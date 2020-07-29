@@ -13,6 +13,8 @@
 		D4545E8124D1E7670009489C /* AllInProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8024D1E7670009489C /* AllInProgressView.swift */; };
 		D4545E8324D1E94F0009489C /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8224D1E94F0009489C /* ProgressBar.swift */; };
 		D4545E8524D1F5360009489C /* DemandInProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8424D1F5360009489C /* DemandInProgressView.swift */; };
+		D4545E8724D216150009489C /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8624D216150009489C /* NotificationsView.swift */; };
+		D4545E8924D21A630009489C /* ThemeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8824D21A630009489C /* ThemeProvider.swift */; };
 		D4EA02C524CB569D0063C625 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EA02C424CB569D0063C625 /* AppDelegate.swift */; };
 		D4EA02C724CB569D0063C625 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EA02C624CB569D0063C625 /* SceneDelegate.swift */; };
 		D4EA02CA24CB569D0063C625 /* Aplicai.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D4EA02C824CB569D0063C625 /* Aplicai.xcdatamodeld */; };
@@ -32,6 +34,8 @@
 		D4545E8024D1E7670009489C /* AllInProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllInProgressView.swift; sourceTree = "<group>"; };
 		D4545E8224D1E94F0009489C /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		D4545E8424D1F5360009489C /* DemandInProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemandInProgressView.swift; sourceTree = "<group>"; };
+		D4545E8624D216150009489C /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		D4545E8824D21A630009489C /* ThemeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeProvider.swift; sourceTree = "<group>"; };
 		D4EA02C124CB569D0063C625 /* Aplicai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aplicai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EA02C424CB569D0063C625 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4EA02C624CB569D0063C625 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,7 +114,9 @@
 				D4545E5424CF761D0009489C /* ValidationView.swift */,
 				D4545E8024D1E7670009489C /* AllInProgressView.swift */,
 				D4545E8424D1F5360009489C /* DemandInProgressView.swift */,
+				D4545E8624D216150009489C /* NotificationsView.swift */,
 				D4545E8224D1E94F0009489C /* ProgressBar.swift */,
+				D4545E8824D21A630009489C /* ThemeProvider.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -204,6 +210,7 @@
 				D4EA02CA24CB569D0063C625 /* Aplicai.xcdatamodeld in Sources */,
 				D4EA02E424CB7C5C0063C625 /* SubscriptionView.swift in Sources */,
 				D4EA02C524CB569D0063C625 /* AppDelegate.swift in Sources */,
+				D4545E8924D21A630009489C /* ThemeProvider.swift in Sources */,
 				D4EA02DE24CB5CA40063C625 /* ExploreView.swift in Sources */,
 				D4EA02E224CB65C30063C625 /* DemandView.swift in Sources */,
 				D4EA02CC24CB569D0063C625 /* ContentView.swift in Sources */,
@@ -213,6 +220,7 @@
 				D4545E8124D1E7670009489C /* AllInProgressView.swift in Sources */,
 				D4545E8324D1E94F0009489C /* ProgressBar.swift in Sources */,
 				D4EA02C724CB569D0063C625 /* SceneDelegate.swift in Sources */,
+				D4545E8724D216150009489C /* NotificationsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,8 @@ struct DemandInProgressView: View {
     
     var demand: Demand
     
+    @State private var newToDo: String = ""
+
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -48,6 +50,68 @@ struct DemandInProgressView: View {
                             }
                         }
                     }
+                    VStack(alignment: .trailing, spacing: 5) {
+                        Text("Faltam 13 dias")
+                        ProgressBar(value: 0.6)
+                            .frame(height: 10)
+                        HStack {
+                            Spacer()
+                            VStack(alignment: .trailing) {
+                                Text("Entrega do projeto")
+                                    .fontWeight(.thin)
+                                Text("23/11/2020")
+                            }
+                            Image(systemName: "calendar")
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(Color.gray)
+                        }
+                    }
+                    VStack(alignment: .leading){
+                        Text("Tarefas")
+                            .font(.title)
+                        HStack {
+                            Image(systemName: "checkmark.square")
+                                .resizable()
+                                .frame(width: 35, height: 35)
+                                .aspectRatio(contentMode: .fit)
+                            VStack(alignment: .leading) {
+                                Text("10/10/2000")
+                                    .font(.subheadline)
+                                    .fontWeight(.thin)
+                                Text("Preparar materiais de aula")
+                            }
+                            Spacer()
+                        }
+                        HStack {
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 35, height: 35)
+                                .aspectRatio(contentMode: .fit)
+                            VStack(alignment: .leading) {
+                                Text("10/10/2000")
+                                    .font(.subheadline)
+                                    .fontWeight(.thin)
+                                Text("Testar em diferentes simuladores, incluindo thinkercad.")
+                            }
+                            Spacer()
+                        }
+                        VStack {
+                            TextField("Nova tarefa", text: $newToDo, onCommit: {
+                                print("Nova tarefa adicionada!")
+                            })
+                                .padding(.horizontal)
+                                .padding(.top)
+                            Divider()
+                                .padding(.horizontal)
+                                .padding(.bottom)
+                            
+                        }
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(15)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
                 }
                 .padding()
             }

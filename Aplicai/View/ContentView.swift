@@ -21,7 +21,7 @@ struct ContentView: View {
                     Image(systemName: "square.and.pencil")
                     Text("Em andamento")
             }
-            ExploreView(demands: testData)
+            NotificationsView()
                 .tabItem {
                     Image(systemName: "bell")
                     Text("Notificações")
