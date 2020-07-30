@@ -20,7 +20,6 @@ struct ProgressBar: View {
                     .frame(minWidth: 0, idealWidth:self.getProgressBarWidth(geometry: geometry),
                            maxWidth: self.getProgressBarWidth(geometry: geometry))
                     .foregroundColor(Color.blue)
-//                    .animation(.easeIn)
             }
             .frame(height:10)
         }

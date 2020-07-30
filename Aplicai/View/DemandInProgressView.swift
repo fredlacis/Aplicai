@@ -17,35 +17,34 @@ struct DemandInProgressView: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        ZStack {
-            Color(colorScheme == .dark ? #colorLiteral(red: 0.1529411765, green: 0.168627451, blue: 0.1803921569, alpha: 1) : #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 1, alpha: 1)).edgesIgnoringSafeArea(.all)
+        Container {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack(alignment: .top) {
-                        Image(demand.image)
+                        Image(self.demand.image)
                             .resizable()
                             .frame(width: 100, height: 100)
                             .cornerRadius(20)
                         VStack(alignment: .leading, spacing: 5) {
-                            Text(demand.title)
+                            Text(self.demand.title)
                                 .font(.headline)
                             Divider()
                             HStack {
                                 Image(systemName: "briefcase.fill")
                                     .scaleEffect(0.7)
-                                Text(demand.businessName)
+                                Text(self.demand.businessName)
                                     .font(.subheadline)
                             }
                             HStack {
                                 Image(systemName: "folder.fill")
                                     .scaleEffect(0.7)
-                                Text(demand.categorys.joined(separator: ", "))
+                                Text(self.demand.categorys.joined(separator: ", "))
                                     .font(.subheadline)
                             }
                             HStack {
                                 Image(systemName: "location.fill")
                                     .scaleEffect(0.7)
-                                Text(demand.location)
+                                Text(self.demand.location)
                                     .font(.subheadline)
                             }
                         }
@@ -94,11 +93,12 @@ struct DemandInProgressView: View {
                                     .font(.subheadline)
                                     .fontWeight(.thin)
                                 Text("Testar em diferentes simuladores, incluindo thinkercad.")
+                                    .fixedSize(horizontal: false, vertical: true)
                             }
                             Spacer()
                         }
                         VStack {
-                            TextField("Nova tarefa", text: $newToDo, onCommit: {
+                            TextField("Nova tarefa", text: self.$newToDo, onCommit: {
                                 print("Nova tarefa adicionada!")
                             })
                                 .padding(.horizontal)

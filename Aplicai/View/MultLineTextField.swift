@@ -1,9 +1,9 @@
 //
 //  MultLineTextField.swift
-//  FloatingButton
+//  Aplicai
 //
-//  Created by Ana Clara Filgueiras Granato on 25/07/20.
-//  Copyright © 2020 Ana Clara Filgueiras Granato. All rights reserved.
+//  Created by Frederico Lacis de Carvalho on 29/07/20.
+//  Copyright © 2020 Frederico Lacis de Carvalho. All rights reserved.
 //
 
 import Foundation
@@ -120,7 +120,8 @@ struct MultilineTextField: View {
                 Text(placeholder).foregroundColor(.gray)
                     .lineLimit(5)
                     .padding(.leading, 4)
-                    .padding(.leading, 8)
+                    .padding(.top, 8)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
     }

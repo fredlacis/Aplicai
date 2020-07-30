@@ -26,9 +26,9 @@ struct ContentView: View {
                     Image(systemName: "bell")
                     Text("Notificações")
             }
-            ExploreView(demands: testData)
+            ProfileView()
                 .tabItem {
-                    Image(systemName: "person.circle")
+                    Image(systemName: "person.crop.square")
                     Text("Perfil")
             }
                     

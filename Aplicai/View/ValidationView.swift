@@ -15,8 +15,7 @@ struct ValidationView: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        ZStack {
-            Color(colorScheme == .dark ? #colorLiteral(red: 0.1529411765, green: 0.168627451, blue: 0.1803921569, alpha: 1) : #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 1, alpha: 1)).edgesIgnoringSafeArea(.all)
+        Container {
             VStack {
                 Text("Sucesso!")
                     .font(.title)
@@ -24,16 +23,16 @@ struct ValidationView: View {
                 
                 Spacer()
                 
-                Image(demand.image)
+                Image(self.demand.image)
                     .resizable()
                     .frame(width: 170, height: 170)
                     .cornerRadius(20)
-                Text(demand.title)
+                Text(self.demand.title)
                     .font(.headline)
                 HStack {
                    Image(systemName: "briefcase.fill")
                        .scaleEffect(0.7)
-                   Text(demand.businessName)
+                    Text(self.demand.businessName)
                        .font(.subheadline)
                 }
                

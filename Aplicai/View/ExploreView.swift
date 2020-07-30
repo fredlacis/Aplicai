@@ -16,11 +16,10 @@ struct ExploreView: View {
     
     var body: some View {
         NavigationView{
-            ZStack {
-                Color(colorScheme == .dark ? #colorLiteral(red: 0.1529411765, green: 0.168627451, blue: 0.1803921569, alpha: 1) : #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 1, alpha: 1)).edgesIgnoringSafeArea(.all)
+            Container {
                 ScrollView {
                     VStack(spacing: 16) {
-                        ForEach(demands, id: \.id){ demand in
+                        ForEach(self.demands, id: \.id){ demand in
                             NavigationLink(destination: DemandView(demand: demand)){
                                 HStack(alignment: .center) {
                                     Image(demand.image)
@@ -31,6 +30,7 @@ struct ExploreView: View {
                                     VStack(alignment: .leading, spacing: 5) {
                                         Text(demand.title)
                                             .font(.headline)
+                                            .fixedSize(horizontal: false, vertical: true)
                                         Divider()
                                         HStack {
                                             Image(systemName: "briefcase.fill")
@@ -57,7 +57,7 @@ struct ExploreView: View {
                                     Spacer()
                                 }
                                 .padding()
-                                .background(Color(self.colorScheme == .dark ? #colorLiteral(red: 0.2240682542, green: 0.2468768656, blue: 0.2671875358, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                                .background(Color("cardBackgroundColor"))
                                 .cornerRadius(20)
                                 .shadow(radius: 6, y: 6)
                             }
