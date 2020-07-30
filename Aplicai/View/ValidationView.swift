@@ -27,6 +27,7 @@ struct ValidationView: View {
                     .resizable()
                     .frame(width: 170, height: 170)
                     .cornerRadius(20)
+                    .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
                 Text(self.demand.title)
                     .font(.headline)
                 HStack {

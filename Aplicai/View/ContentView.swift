@@ -9,27 +9,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isNavigationBarHidden = true
+    
     var body: some View {
         TabView {
             ExploreView(demands: testData)
-                .tabItem {
-                    Image(systemName: "magnifyingglass")
-                    Text("Explorar")
+            .tabItem {
+                Image(systemName: "magnifyingglass")
+                Text("Explorar")
             }
             AllInProgressView(demandsInProgress: testData)
-                .tabItem {
-                    Image(systemName: "square.and.pencil")
-                    Text("Em andamento")
+            .tabItem {
+                Image(systemName: "square.and.pencil")
+                Text("Em andamento")
             }
             NotificationsView()
-                .tabItem {
-                    Image(systemName: "bell")
-                    Text("Notificações")
+            .tabItem {
+                Image(systemName: "bell")
+                Text("Notificações")
             }
             ProfileView()
-                .tabItem {
-                    Image(systemName: "person.crop.square")
-                    Text("Perfil")
+            .tabItem {
+                Image(systemName: "person.crop.square")
+                Text("Perfil")
             }
                     
         }

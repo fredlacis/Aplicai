@@ -25,9 +25,9 @@ struct AllInProgressView: View {
                                     HStack(alignment: .center) {
                                         Image(demand.image)
                                             .resizable()
-                                            .aspectRatio(contentMode: .fill)
+                                            .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
                                             .frame(width: 120)
-                                            .cornerRadius(20)
+                                                .cornerRadius(20)
                                         VStack(alignment: .leading, spacing: 5) {
                                             Text(demand.title)
                                                 .font(.headline)
@@ -46,6 +46,7 @@ struct AllInProgressView: View {
                                                     .foregroundColor(Color.gray)
                                                 Text(demand.categorys.joined(separator: ", "))
                                                     .font(.subheadline)
+                                                    .fixedSize(horizontal: false, vertical: true)
                                             }
                                             HStack {
                                                 Image(systemName: "location.fill")
@@ -59,6 +60,7 @@ struct AllInProgressView: View {
                                     }
                                     ProgressBar(value: 0.4)
                                         .padding(.top, 5)
+                                    Spacer()
                                 }
                                 .padding()
                                 .background(Color("cardBackgroundColor"))

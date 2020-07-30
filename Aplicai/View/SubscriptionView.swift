@@ -20,11 +20,12 @@ struct SubscriptionView: View {
         Container {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    HStack(alignment: .top) {
+                    HStack(alignment: .center) {
                         Image(self.demand.image)
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                        .cornerRadius(20)
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .cornerRadius(20)
+                            .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
                         VStack(alignment: .leading, spacing: 5) {
                             Text(self.demand.title)
                                 .font(.headline)
@@ -59,25 +60,25 @@ struct SubscriptionView: View {
                     RoundedRectangle(cornerRadius: 15).strokeBorder(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                         .overlay(
                             VStack {
-                                MultilineTextField("Escreva um pequeno texto dizendo suas motivações para participar deste projeto.", text: self.$motivationText, onCommit: { print(self.motivationText) })
+                                MultilineTextField(placeholder: "Escreva um pequeno texto dizendo suas motivações para participar deste projeto.", text: self.$motivationText, onCommit: { print(self.motivationText) })
                                     .multilineTextAlignment(.leading)
                                     .padding()
                                 Spacer()
                             }
-                        )
-                        .frame(minHeight: 250)
+                    )
+                        .frame(height: 250)
                     
                     NavigationLink(destination: ValidationView(demand: self.demand)) {
                         HStack {
                             Text("Enviar")
-                            .font(.title)
+                                .font(.title)
                         }
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .padding()
                         .foregroundColor(.white)
                         .background(Color.blue)
                         .cornerRadius(15)
-                            
+                        
                     }
                     .isDetailLink(true)
                     .padding(.top)

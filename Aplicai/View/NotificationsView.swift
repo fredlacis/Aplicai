@@ -21,29 +21,28 @@ struct NotificationsView: View {
                             .font(.title)
                         Divider()
                         VStack {
-//                            if(false){
-                                HStack {
-                                    Image(testData[0].image)
+                            HStack {
+                                Image(testData[0].image)
                                     .resizable()
                                     .frame(width: 70, height: 70)
-                                    .cornerRadius(20)
-                                    VStack {
-                                        HStack {
-                                            Image(systemName: "briefcase.fill")
-                                                .scaleEffect(0.7)
-                                            Text(testData[0].businessName)
-                                                .font(.subheadline)
-                                            Spacer()
-                                        }
-                                        HStack {
-                                            Image(systemName: "bell.fill")
-                                                .scaleEffect(0.7)
-                                            Text("Você foi aceito no projeto!")
-                                                .font(.subheadline)
-                                            Spacer()
-                                        }
+                                    .cornerRadius(10)
+                                    .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
+                                VStack {
+                                    HStack {
+                                        Image(systemName: "briefcase.fill")
+                                            .scaleEffect(0.7)
+                                        Text(testData[0].businessName)
+                                            .font(.subheadline)
+                                        Spacer()
                                     }
-//                                }
+                                    HStack {
+                                        Image(systemName: "bell.fill")
+                                            .scaleEffect(0.7)
+                                        Text("Você foi aceito no projeto!")
+                                            .font(.subheadline)
+                                        Spacer()
+                                    }
+                                }
                             }
                             Divider()
                         }
@@ -53,9 +52,9 @@ struct NotificationsView: View {
                         VStack {
                             HStack {
                                 Image(testData[0].image)
-                                .resizable()
-                                .frame(width: 70, height: 70)
-                                .cornerRadius(20)
+                                    .resizable()
+                                    .frame(width: 70, height: 70)
+                                    .cornerRadius(10)
                                 VStack {
                                     HStack {
                                         Image(systemName: "briefcase.fill")
@@ -81,7 +80,7 @@ struct NotificationsView: View {
                     .padding()
                 }
             }
-        .navigationBarTitle("Notificações")
+            .navigationBarTitle("Notificações")
         }
     }
 }
