@@ -22,77 +22,74 @@ struct ExploreView: View {
     var body: some View {
         NavigationView {
             Container {
-                VStack(spacing: 0) {
-                        ScrollView {
-                            ForEach(self.demands, id: \.id){ demand in
-                                NavigationLink(destination:
-                                    DemandView(demand: demand)
-                                ) {
-                                    HStack(alignment: .center) {
-                                        Image(demand.image)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 120)
-                                            .cornerRadius(20)
-                                        VStack(alignment: .leading, spacing: 5) {
-                                            Text(demand.title)
-                                                .font(.headline)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                            Divider()
-                                            HStack {
-                                                Image(systemName: "briefcase.fill")
-                                                    .scaleEffect(0.7)
-                                                    .foregroundColor(Color.gray)
-                                                Text(demand.businessName)
-                                                    .font(.subheadline)
-                                            }
-                                            HStack {
-                                                Image(systemName: "folder.fill")
-                                                    .scaleEffect(0.7)
-                                                    .foregroundColor(Color.gray)
-                                                Text(demand.categorys.joined(separator: ", "))
-                                                    .font(.subheadline)
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                            }
-                                            HStack {
-                                                Image(systemName: "location.fill")
-                                                    .scaleEffect(0.7)
-                                                    .foregroundColor(Color.gray)
-                                                Text(demand.location)
-                                                    .font(.subheadline)
-                                            }
-                                        }
-                                        Spacer()
-                                    }
-                                    .padding()
-                                    .background(Color("cardBackgroundColor"))
+                ScrollView {
+                    ForEach(self.demands, id: \.id){ demand in
+                        NavigationLink(destination:
+                            DemandView(demand: demand)
+                        ) {
+                            HStack(alignment: .center) {
+                                Image(demand.image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 120)
                                     .cornerRadius(20)
-                                    .shadow(radius: 6, y: 6)
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(demand.title)
+                                        .font(.headline)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                    Divider()
+                                    HStack {
+                                        Image(systemName: "briefcase.fill")
+                                            .scaleEffect(0.7)
+                                            .foregroundColor(Color.gray)
+                                        Text(demand.businessName)
+                                            .font(.subheadline)
+                                    }
+                                    HStack {
+                                        Image(systemName: "folder.fill")
+                                            .scaleEffect(0.7)
+                                            .foregroundColor(Color.gray)
+                                        Text(demand.categorys.joined(separator: ", "))
+                                            .font(.subheadline)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                    HStack {
+                                        Image(systemName: "location.fill")
+                                            .scaleEffect(0.7)
+                                            .foregroundColor(Color.gray)
+                                        Text(demand.location)
+                                            .font(.subheadline)
+                                    }
                                 }
-                                .padding(.trailing)
-                                .padding(.leading)
-                                .buttonStyle(PlainButtonStyle())
+                                Spacer()
                             }
-                            .padding(.top)
+                            .padding()
+                            .background(Color("cardBackgroundColor"))
+                            .cornerRadius(20)
+                            .shadow(radius: 6, y: 6)
                         }
-                        Spacer()
+                        .padding(.trailing)
+                        .padding(.leading)
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .padding(.top)
                 }
             }
             .navigationBarTitle("Explorar", displayMode: .inline)
             .navigationBarItems(
                 center:
-                    SearchBar(text: $searchText, onCommit: {})
-                        .padding(.trailing)
+                SearchBar(text: $searchText, onCommit: {})
+                    .padding(.trailing)
                 , trailing:
-                    Button(action: {
-                        self.showingFilter.toggle()
-                    }){
-                        Image(systemName: "line.horizontal.3.decrease.circle")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                    }.sheet(isPresented: $showingFilter) {
-                        Text("Filtros")
-                    }
+                Button(action: {
+                    self.showingFilter.toggle()
+                }){
+                    Image(systemName: "line.horizontal.3.decrease.circle")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                }.sheet(isPresented: $showingFilter) {
+                    FilterView()
+                }
             )
         }
     }

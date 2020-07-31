@@ -29,3 +29,6 @@ class ViewRouter: ObservableObject {
     }
     
 }
+
+
+//https://blckbirds.com/post/how-to-navigate-between-views-in-swiftui-by-using-an-bindableobject/#
