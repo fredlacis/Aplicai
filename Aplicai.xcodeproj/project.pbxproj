@@ -3,17 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D4545E4E24CB8E430009489C /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = D4545E4D24CB8E430009489C /* SwiftUIX */; };
 		D4545E5224CF6A8B0009489C /* MultLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E5124CF6A8B0009489C /* MultLineTextField.swift */; };
 		D4545E5524CF761D0009489C /* ValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E5424CF761D0009489C /* ValidationView.swift */; };
 		D4545E8124D1E7670009489C /* AllInProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8024D1E7670009489C /* AllInProgressView.swift */; };
 		D4545E8324D1E94F0009489C /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8224D1E94F0009489C /* ProgressBar.swift */; };
 		D4545E8524D1F5360009489C /* DemandInProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8424D1F5360009489C /* DemandInProgressView.swift */; };
 		D4545E8724D216150009489C /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8624D216150009489C /* NotificationsView.swift */; };
+		D49310CE24D8913D00326BDF /* LongText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49310CD24D8913D00326BDF /* LongText.swift */; };
 		D49E292824D4846400487EBD /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292724D4846400487EBD /* StartScreen.swift */; };
 		D49E292A24D488BB00487EBD /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292924D488BB00487EBD /* MotherView.swift */; };
 		D49E292D24D48B0E00487EBD /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292C24D48B0E00487EBD /* ViewRouter.swift */; };
@@ -43,6 +43,7 @@
 		D4545E8224D1E94F0009489C /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		D4545E8424D1F5360009489C /* DemandInProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemandInProgressView.swift; sourceTree = "<group>"; };
 		D4545E8624D216150009489C /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		D49310CD24D8913D00326BDF /* LongText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongText.swift; sourceTree = "<group>"; };
 		D49E292724D4846400487EBD /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
 		D49E292924D488BB00487EBD /* MotherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotherView.swift; sourceTree = "<group>"; };
 		D49E292C24D48B0E00487EBD /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
@@ -72,7 +73,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4545E4E24CB8E430009489C /* SwiftUIX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +94,7 @@
 				D4545E8224D1E94F0009489C /* ProgressBar.swift */,
 				D4545E5124CF6A8B0009489C /* MultLineTextField.swift */,
 				D4A337A224D3534600434DB1 /* ExploreNavBar.swift */,
+				D49310CD24D8913D00326BDF /* LongText.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -186,7 +187,6 @@
 			);
 			name = Aplicai;
 			packageProductDependencies = (
-				D4545E4D24CB8E430009489C /* SwiftUIX */,
 			);
 			productName = Aplicai;
 			productReference = D4EA02C124CB569D0063C625 /* Aplicai.app */;
@@ -217,7 +217,6 @@
 			);
 			mainGroup = D4EA02B824CB569D0063C625;
 			packageReferences = (
-				D4545E4C24CB8E430009489C /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 			);
 			productRefGroup = D4EA02C224CB569D0063C625 /* Products */;
 			projectDirPath = "";
@@ -252,6 +251,7 @@
 				D4EA02C524CB569D0063C625 /* AppDelegate.swift in Sources */,
 				D4EA02DE24CB5CA40063C625 /* ExploreView.swift in Sources */,
 				D4EA02E224CB65C30063C625 /* DemandView.swift in Sources */,
+				D49310CE24D8913D00326BDF /* LongText.swift in Sources */,
 				D49E293324D4B6ED00487EBD /* FilterView.swift in Sources */,
 				D4EA02CC24CB569D0063C625 /* ContentView.swift in Sources */,
 				D4A3379E24D328F400434DB1 /* Container.swift in Sources */,
@@ -464,25 +464,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		D4545E4C24CB8E430009489C /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D4545E4D24CB8E430009489C /* SwiftUIX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D4545E4C24CB8E430009489C /* XCRemoteSwiftPackageReference "SwiftUIX" */;
-			productName = SwiftUIX;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		D4EA02C824CB569D0063C625 /* Aplicai.xcdatamodeld */ = {

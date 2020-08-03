@@ -18,61 +18,59 @@ struct AllInProgressView: View {
         NavigationView{
             Container {
                 ScrollView {
-                    VStack(spacing: 16) {
-                        ForEach(self.demandsInProgress, id: \.id){ demand in
-                            NavigationLink(destination: DemandInProgressView(demand: demand)){
-                                VStack {
-                                    HStack(alignment: .center) {
-                                        Image(demand.image)
-                                            .resizable()
-                                            .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
-                                            .frame(width: 120)
-                                                .cornerRadius(20)
-                                        VStack(alignment: .leading, spacing: 5) {
-                                            Text(demand.title)
-                                                .font(.headline)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                            Divider()
-                                            HStack {
-                                                Image(systemName: "briefcase.fill")
-                                                    .scaleEffect(0.7)
-                                                    .foregroundColor(Color.gray)
-                                                Text(demand.businessName)
-                                                    .font(.subheadline)
-                                            }
-                                            HStack {
-                                                Image(systemName: "folder.fill")
-                                                    .scaleEffect(0.7)
-                                                    .foregroundColor(Color.gray)
-                                                Text(demand.categorys.joined(separator: ", "))
-                                                    .font(.subheadline)
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                            }
-                                            HStack {
-                                                Image(systemName: "location.fill")
-                                                    .scaleEffect(0.7)
-                                                    .foregroundColor(Color.gray)
-                                                Text(demand.location)
-                                                    .font(.subheadline)
-                                            }
+                    ForEach(self.demandsInProgress, id: \.id){ demand in
+                        NavigationLink(destination: DemandInProgressView(demand: demand)){
+                            VStack {
+                                HStack(alignment: .center) {
+                                    Image(demand.image)
+                                        .resizable()
+                                        .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
+                                        .frame(width: 120)
+                                        .cornerRadius(20)
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text(demand.title)
+                                            .font(.headline)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                        Divider()
+                                        HStack {
+                                            Image(systemName: "briefcase.fill")
+                                                .scaleEffect(0.7)
+                                                .foregroundColor(Color.gray)
+                                            Text(demand.businessName)
+                                                .font(.subheadline)
                                         }
-                                        Spacer()
+                                        HStack {
+                                            Image(systemName: "folder.fill")
+                                                .scaleEffect(0.7)
+                                                .foregroundColor(Color.gray)
+                                            Text(demand.categorys.joined(separator: ", "))
+                                                .font(.subheadline)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                        }
+                                        HStack {
+                                            Image(systemName: "location.fill")
+                                                .scaleEffect(0.7)
+                                                .foregroundColor(Color.gray)
+                                            Text(demand.location)
+                                                .font(.subheadline)
+                                        }
                                     }
-                                    ProgressBar(value: 0.4)
-                                        .padding(.top, 5)
-                                    Spacer()
+//                                    Spacer()
                                 }
-                                .padding()
-                                .background(Color("cardBackgroundColor"))
-                                .cornerRadius(20)
-                                .shadow(radius: 6, y: 6)
+                                ProgressBar(value: 0.4)
+                                    .padding(.top, 5)
+                                Spacer()
                             }
-                            .isDetailLink(true)
-                            .buttonStyle(PlainButtonStyle())
+                            .padding()
+                            .background(Color("cardBackgroundColor"))
+                            .cornerRadius(20)
+                            .shadow(radius: 6, y: 6)
                         }
-                        Spacer()
+                        .padding(.horizontal)
+                        .padding(.bottom)
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .padding()
+                    .padding(.vertical)
                 }
                 .navigationBarTitle("Em andamento")
             }

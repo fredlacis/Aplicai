@@ -15,9 +15,9 @@ fileprivate struct UITextViewWrapper: UIViewRepresentable {
 
     @Binding var text: String
     @Binding var calculatedHeight: CGFloat
-    var onDone: (() -> Void)?
+    @Binding var textCount: Int
     
-//    var textCount: Int = 0
+    var onDone: (() -> Void)?
 
     func makeUIView(context: UIViewRepresentableContext<UITextViewWrapper>) -> UITextView {
         let textField = UITextView()
@@ -41,9 +41,6 @@ fileprivate struct UITextViewWrapper: UIViewRepresentable {
         if uiView.text != self.text {
             uiView.text = self.text
         }
-//        if uiView.window != nil, !uiView.isFirstResponder {
-//            uiView.becomeFirstResponder()
-//        }
         UITextViewWrapper.recalculateHeight(view: uiView, result: $calculatedHeight)
     }
 
@@ -57,21 +54,21 @@ fileprivate struct UITextViewWrapper: UIViewRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        return Coordinator(text: $text, height: $calculatedHeight, onDone: onDone)
+        return Coordinator(text: $text, height: $calculatedHeight, textCount: $textCount ,onDone: onDone)
     }
 
     final class Coordinator: NSObject, UITextViewDelegate {
         var text: Binding<String>
         var calculatedHeight: Binding<CGFloat>
-        var onDone: (() -> Void)?
+        var textCount: Binding<Int>
         
-//        var textCount: Int = 0
+        var onDone: (() -> Void)?
 
-        init(text: Binding<String>, height: Binding<CGFloat>, onDone: (() -> Void)? = nil) {
+        init(text: Binding<String>, height: Binding<CGFloat>, textCount: Binding<Int> ,onDone: (() -> Void)? = nil) {
             self.text = text
             self.calculatedHeight = height
             self.onDone = onDone
-//            self.textCount = textCount
+            self.textCount = textCount
         }
 
         func textViewDidChange(_ uiView: UITextView) {
@@ -98,7 +95,7 @@ fileprivate struct UITextViewWrapper: UIViewRepresentable {
             // add their new text to the existing text
             let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
 
-//            textCount = updatedText.count
+            self.textCount.wrappedValue = updatedText.count
             
             // make sure the result is under 400 characters
             return updatedText.count <= 400
@@ -112,36 +109,36 @@ struct MultilineTextField: View {
 
     private var placeholder: String
     private var onCommit: (() -> Void)?
-    
-//    private var TextViewWrapper: UITextViewWrapper {
-//        return  UITextViewWrapper(text: internalText, calculatedHeight: $dynamicHeight, onDone: onCommit)
-//    }
-    
+
     @Binding private var text: String
     
     private var internalText: Binding<String> {
         Binding<String>(get: { self.text } ) {
             self.text = $0
             self.showingPlaceholder = $0.isEmpty
+            self.$textCounter.wrappedValue = self.characterCounter
         }
     }
 
     @State private var dynamicHeight: CGFloat = 100
     @State private var showingPlaceholder = false
+    @State private var characterCounter: Int = 0
+    
+    @Binding private var textCounter: Int
 
-    init (placeholder: String = "", text: Binding<String>, onCommit: (() -> Void)? = nil) {
+    init (placeholder: String = "", text: Binding<String>, textCounter: Binding<Int> ,onCommit: (() -> Void)? = nil) {
         self.placeholder = placeholder
         self.onCommit = onCommit
+        self._textCounter = textCounter
         self._text = text
         self._showingPlaceholder = State<Bool>(initialValue: self.text.isEmpty)
     }
 
     var body: some View {
         VStack(alignment: .trailing){
-            UITextViewWrapper(text: self.internalText, calculatedHeight: $dynamicHeight, onDone: onCommit)
+            UITextViewWrapper(text: self.internalText, calculatedHeight: $dynamicHeight, textCount: $characterCounter, onDone: onCommit)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: dynamicHeight, maxHeight: dynamicHeight)
                 .background(placeholderView, alignment: .topLeading)
-//            Text(String(TextViewWrapper.textCount) + "/400")
         }
     }
 
@@ -160,6 +157,6 @@ struct MultilineTextField: View {
 
 struct MultLineTextField_Previews: PreviewProvider {
     static var previews: some View {
-        MultilineTextField(placeholder: "Placeholder", text: .constant(""), onCommit: {})
+        MultilineTextField(placeholder: "Placeholder", text: .constant(""), textCounter: .constant(0) ,onCommit: {})
     }
 }

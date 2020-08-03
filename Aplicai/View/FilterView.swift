@@ -36,7 +36,7 @@ struct FilterView: View {
                         }
                     }
                 }
-                Section(header: Text("")) {
+                Section(header: Text("Tempo")) {
                     Picker(selection: $selectedDurationIndex, label: Text("Duração")) {
                         ForEach(0 ..< durations.count) { i in
                             VStack(alignment: .center) {

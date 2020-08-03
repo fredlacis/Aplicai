@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import SwiftUIX
 
 struct ExploreView: View {
     
@@ -61,36 +60,32 @@ struct ExploreView: View {
                                             .font(.subheadline)
                                     }
                                 }
-                                Spacer()
                             }
                             .padding()
                             .background(Color("cardBackgroundColor"))
                             .cornerRadius(20)
                             .shadow(radius: 6, y: 6)
                         }
-                        .padding(.trailing)
-                        .padding(.leading)
+                        .padding(.horizontal)
+                        .padding(.bottom)
                         .buttonStyle(PlainButtonStyle())
                     }
-                    .padding(.top)
+                    .padding(.vertical)
                 }
             }
-            .navigationBarTitle("Explorar", displayMode: .inline)
-            .navigationBarItems(
-                center:
-                SearchBar(text: $searchText, onCommit: {})
-                    .padding(.trailing)
-                , trailing:
-                Button(action: {
-                    self.showingFilter.toggle()
-                }){
-                    Image(systemName: "line.horizontal.3.decrease.circle")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                }.sheet(isPresented: $showingFilter) {
-                    FilterView()
-                }
-            )
+            .navigationBarTitle("Explorar", displayMode: .large)
+            .navigationBarItems( trailing:
+                HStack {
+                    Button(action: {
+                        self.showingFilter.toggle()
+                    }){
+                        Image(systemName: "line.horizontal.3.decrease.circle")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }.sheet(isPresented: $showingFilter) {
+                        FilterView()
+                    }
+                })
         }
     }
 }

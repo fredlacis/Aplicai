@@ -16,6 +16,8 @@ struct SubscriptionView: View {
     
     @State private var motivationText: String = ""
     
+    @State private var characterCounter: Int = 0
+    
     var body: some View {
         Container {
             ScrollView {
@@ -57,16 +59,21 @@ struct SubscriptionView: View {
                     Text("Conte um pouco sobre suas ambições para seu parceiro!")
                         .font(.subheadline)
                     
-                    RoundedRectangle(cornerRadius: 15).strokeBorder(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
-                        .overlay(
-                            VStack {
-                                MultilineTextField(placeholder: "Escreva um pequeno texto dizendo suas motivações para participar deste projeto.", text: self.$motivationText, onCommit: { print(self.motivationText) })
-                                    .multilineTextAlignment(.leading)
-                                    .padding()
-                                Spacer()
-                            }
+
+                    VStack(alignment: .trailing) {
+                        MultilineTextField(placeholder: "Escreva um pequeno texto dizendo suas motivações para participar deste projeto.", text: self.$motivationText, textCounter: self.$characterCounter, onCommit: { print(self.motivationText) })
+                            .multilineTextAlignment(.leading)
+                            .padding()
+                        Spacer()
+                        Text("\(self.characterCounter)/400")
+                            .padding()
+                    }
+                    .frame(minHeight: 200)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                     )
-                        .frame(height: 250)
+
                     
                     NavigationLink(destination: ValidationView(demand: self.demand)) {
                         HStack {

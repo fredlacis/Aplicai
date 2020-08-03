@@ -59,8 +59,8 @@ struct SignUpView: View {
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .padding()
                 }
+                .background(Color.blue)
                 .buttonStyle(PlainButtonStyle())
-                .backgroundColor(Color.blue)
                 .cornerRadius(15)
                 .padding()
             }

@@ -22,12 +22,14 @@ struct UserTypeView: View {
                     .font(.body)
                 Spacer()
                 Button(action:{
-                    UserDefaults.standard.set("student", forKey: "Type")
+//                    UserDefaults.standard.set("student", forKey: "Type")
                     self.viewRouter.currentPage = Page.SignUpView
                 }) {
                     VStack {
-                        Image(systemName: "pencil")
-                            .font(.system(size: 120))
+                        Image("lapis")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxHeight: 150)
                         Text("Aluno")
                             .font(.largeTitle)
                         Text("procurando mais prática na sua formação.")
@@ -43,12 +45,14 @@ struct UserTypeView: View {
                 Divider()
                     .padding()
                 Button(action: {
-                    UserDefaults.standard.set("business", forKey: "Type")
+//                    UserDefaults.standard.set("business", forKey: "Type")
                     self.viewRouter.currentPage = Page.SignUpView
                 }) {
                     VStack {
-                        Image(systemName: "briefcase")
-                            .font(.system(size: 120, weight: .ultraLight))
+                        Image("maleta")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxHeight: 150)
                         Text("Empreendimento")
                             .font(.largeTitle)
                         Text("Projetos Sociais,\nMicroempreendimentos,\nEmpresas\netc.")
