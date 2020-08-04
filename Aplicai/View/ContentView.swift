@@ -7,33 +7,57 @@
 //
 
 import SwiftUI
+import Combine
+
+class SharedNavigation: ObservableObject {
+ 
+    let objectWillChange = PassthroughSubject<SharedNavigation,Never>()
+    
+    var title: String = "" {
+        didSet {
+            objectWillChange.send(self)
+        }
+    }
+    
+}
 
 struct ContentView: View {
-    
+        
     @State private var isNavigationBarHidden = true
     
+    @EnvironmentObject var sharedNavigation: SharedNavigation
+    
+    @State var tabIndex: Int = 0
+    
     var body: some View {
-        TabView {
-            ExploreView(demands: testData)
-                .tabItem {
-                    Image(systemName: "magnifyingglass")
-                    Text("Explorar")
-                }
-            AllInProgressView(demandsInProgress: testData)
-                .tabItem {
-                    Image(systemName: "square.and.pencil")
-                    Text("Em andamento")
-                }
-            NotificationsView()
-                .tabItem {
-                    Image(systemName: "bell")
-                    Text("Notificações")
-                }
-            ProfileView()
-                .tabItem {
-                    Image(systemName: "person.crop.square")
-                    Text("Perfil")
-                }
+        NavigationView {
+            TabView(selection: $tabIndex) {
+                ExploreView(demands: testData)
+                    .tabItem {
+                        Image(systemName: "magnifyingglass")
+                        Text("Explorar")
+                    }
+                    .tag(0)
+                AllInProgressView(demandsInProgress: testData)
+                    .tabItem {
+                        Image(systemName: "square.and.pencil")
+                        Text("Em andamento")
+                    }
+                .tag(1)
+                NotificationsView()
+                    .tabItem {
+                        Image(systemName: "bell")
+                        Text("Notificações")
+                    }
+                .tag(2)
+                ProfileView()
+                    .tabItem {
+                        Image(systemName: "person.crop.square")
+                        Text("Perfil")
+                    }
+                    .tag(3)
+            }
+            .navigationBarTitle(sharedNavigation.title)
         }
     }
 }

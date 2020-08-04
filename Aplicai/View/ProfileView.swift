@@ -9,10 +9,16 @@
 import SwiftUI
 
 struct ProfileView: View {
+    
+    @EnvironmentObject var sharedNavigation: SharedNavigation
+    
     var body: some View {
         Container {
             Text("Tela do perfil do usuário")
         }
+        .onAppear(perform: {
+            self.sharedNavigation.title = "Perfil"
+        })
     }
 }
 

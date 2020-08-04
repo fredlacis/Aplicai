@@ -14,6 +14,7 @@
 		D4545E8524D1F5360009489C /* DemandInProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8424D1F5360009489C /* DemandInProgressView.swift */; };
 		D4545E8724D216150009489C /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8624D216150009489C /* NotificationsView.swift */; };
 		D49310CE24D8913D00326BDF /* LongText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49310CD24D8913D00326BDF /* LongText.swift */; };
+		D49310D024D8C49200326BDF /* ExploreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49310CF24D8C49200326BDF /* ExploreCard.swift */; };
 		D49E292824D4846400487EBD /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292724D4846400487EBD /* StartScreen.swift */; };
 		D49E292A24D488BB00487EBD /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292924D488BB00487EBD /* MotherView.swift */; };
 		D49E292D24D48B0E00487EBD /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292C24D48B0E00487EBD /* ViewRouter.swift */; };
@@ -44,6 +45,7 @@
 		D4545E8424D1F5360009489C /* DemandInProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemandInProgressView.swift; sourceTree = "<group>"; };
 		D4545E8624D216150009489C /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		D49310CD24D8913D00326BDF /* LongText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongText.swift; sourceTree = "<group>"; };
+		D49310CF24D8C49200326BDF /* ExploreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCard.swift; sourceTree = "<group>"; };
 		D49E292724D4846400487EBD /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
 		D49E292924D488BB00487EBD /* MotherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotherView.swift; sourceTree = "<group>"; };
 		D49E292C24D48B0E00487EBD /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				D4545E5124CF6A8B0009489C /* MultLineTextField.swift */,
 				D4A337A224D3534600434DB1 /* ExploreNavBar.swift */,
 				D49310CD24D8913D00326BDF /* LongText.swift */,
+				D49310CF24D8C49200326BDF /* ExploreCard.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -149,11 +152,11 @@
 				D49E293024D49BDD00487EBD /* SignUpView.swift */,
 				D4EA02CB24CB569D0063C625 /* ContentView.swift */,
 				D4EA02DD24CB5CA40063C625 /* ExploreView.swift */,
-				D49E292724D4846400487EBD /* StartScreen.swift */,
 				D4EA02E124CB65C30063C625 /* DemandView.swift */,
-				D49E293224D4B6ED00487EBD /* FilterView.swift */,
 				D4EA02E324CB7C5C0063C625 /* SubscriptionView.swift */,
 				D4545E5424CF761D0009489C /* ValidationView.swift */,
+				D49E292724D4846400487EBD /* StartScreen.swift */,
+				D49E293224D4B6ED00487EBD /* FilterView.swift */,
 				D4545E8024D1E7670009489C /* AllInProgressView.swift */,
 				D4545E8424D1F5360009489C /* DemandInProgressView.swift */,
 				D4545E8624D216150009489C /* NotificationsView.swift */,
@@ -246,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4545E5224CF6A8B0009489C /* MultLineTextField.swift in Sources */,
+				D49310D024D8C49200326BDF /* ExploreCard.swift in Sources */,
 				D4EA02CA24CB569D0063C625 /* Aplicai.xcdatamodeld in Sources */,
 				D4EA02E424CB7C5C0063C625 /* SubscriptionView.swift in Sources */,
 				D4EA02C524CB569D0063C625 /* AppDelegate.swift in Sources */,

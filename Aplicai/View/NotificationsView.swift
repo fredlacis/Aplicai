@@ -10,10 +10,10 @@ import SwiftUI
 
 struct NotificationsView: View {
     
-    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var sharedNavigation: SharedNavigation
     
     var body: some View {
-        NavigationView {
+//        NavigationView {
             Container {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 10) {
@@ -80,8 +80,11 @@ struct NotificationsView: View {
                     .padding()
                 }
             }
-            .navigationBarTitle("Notificações")
-        }
+            .onAppear(perform: {
+                self.sharedNavigation.title = "Notificações"
+            })
+//            .navigationBarTitle("Notificações")
+//        }
     }
 }
 

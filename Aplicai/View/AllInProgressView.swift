@@ -12,10 +12,10 @@ struct AllInProgressView: View {
     
     var demandsInProgress: [Demand]
     
-    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var sharedNavigation: SharedNavigation
     
     var body: some View {
-        NavigationView{
+//        NavigationView{
             Container {
                 ScrollView {
                     ForEach(self.demandsInProgress, id: \.id){ demand in
@@ -72,9 +72,12 @@ struct AllInProgressView: View {
                     }
                     .padding(.vertical)
                 }
-                .navigationBarTitle("Em andamento")
             }
-        }
+            .onAppear(perform: {
+                self.sharedNavigation.title = "Em andamento"
+            })
+//            .navigationBarTitle("Em andamento")
+//        }
     }
 }
 

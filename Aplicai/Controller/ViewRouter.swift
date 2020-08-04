@@ -14,6 +14,7 @@ enum Page {
     case UserTypeView
     case SignUpView
     case ContentView
+    case DemandView
 }
 
 class ViewRouter: ObservableObject {
@@ -27,6 +28,8 @@ class ViewRouter: ObservableObject {
             }
         }
     }
+    
+    var selectedDemand: Demand = testData[0]
     
 }
 

@@ -21,8 +21,11 @@ struct MotherView: View {
                 SignUpView()
                     .transition(.opacity)
             } else if self.viewRouter.currentPage == Page.ContentView {
-                ContentView()
+                ContentView().environmentObject(SharedNavigation())
                     .transition(.opacity)
+            } else if self.viewRouter.currentPage == Page.DemandView {
+                DemandView(demand: viewRouter.selectedDemand)
+                    .transition(.move(edge: .trailing))
             }
         }
     }

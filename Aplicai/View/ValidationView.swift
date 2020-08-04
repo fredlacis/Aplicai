@@ -12,7 +12,7 @@ struct ValidationView: View {
     
     var demand: Demand
     
-    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var viewRouter: ViewRouter
     
     var body: some View {
         Container {
@@ -44,19 +44,18 @@ struct ValidationView: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-//                NavigationLink(destination: ExploreView(demands: testData)) {
-//                    HStack {
-//                        Text("Voltar a navegação!")
-//                        .font(.title)
-//                    }
-//                    .frame(minWidth: 0, maxWidth: .infinity)
-//                    .padding()
-//                    .foregroundColor(.white)
-//                    .background(Color.blue)
-//                    .cornerRadius(15)
-//
-//                }
-//                .isDetailLink(false)
+                Button(action: { self.viewRouter.currentPage = Page.ContentView }){
+                    HStack {
+                        Text("Voltar a navegação!")
+                        .font(.title)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(15)
+
+                }
                 
             }
             .padding()
