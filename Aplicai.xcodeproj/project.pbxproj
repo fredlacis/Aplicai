@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A5BDA7524D9CF09003F8F96 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7424D9CF09003F8F96 /* PageViewController.swift */; };
+		7A5BDA7524D9CF09003F8F96 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7424D9CF09003F8F96 /* OnBoardingViewController.swift */; };
 		7A5BDA7724D9D1D1003F8F96 /* OnBoardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7624D9D1D1003F8F96 /* OnBoardingPage.swift */; };
 		7A5BDA7924D9D256003F8F96 /* OnBoardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7824D9D256003F8F96 /* OnBoardingPageView.swift */; };
-		7A5BDA7B24D9D38E003F8F96 /* OnBoardingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7A24D9D38E003F8F96 /* OnBoardingController.swift */; };
+		7A5BDA7B24D9D38E003F8F96 /* OnBoardingSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7A24D9D38E003F8F96 /* OnBoardingSlider.swift */; };
 		7A5BDA7D24D9D45C003F8F96 /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7C24D9D45C003F8F96 /* PageIndicator.swift */; };
 		7A5BDA7F24D9D4A7003F8F96 /* LCButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7E24D9D4A7003F8F96 /* LCButton.swift */; };
 		7A5BDA8424D9D73B003F8F96 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA8324D9D73B003F8F96 /* OnBoardingView.swift */; };
@@ -45,10 +45,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7A5BDA7424D9CF09003F8F96 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		7A5BDA7424D9CF09003F8F96 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		7A5BDA7624D9D1D1003F8F96 /* OnBoardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPage.swift; sourceTree = "<group>"; };
 		7A5BDA7824D9D256003F8F96 /* OnBoardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingPageView.swift; sourceTree = "<group>"; };
-		7A5BDA7A24D9D38E003F8F96 /* OnBoardingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingController.swift; sourceTree = "<group>"; };
+		7A5BDA7A24D9D38E003F8F96 /* OnBoardingSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingSlider.swift; sourceTree = "<group>"; };
 		7A5BDA7C24D9D45C003F8F96 /* PageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
 		7A5BDA7E24D9D4A7003F8F96 /* LCButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCButton.swift; sourceTree = "<group>"; };
 		7A5BDA8324D9D73B003F8F96 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 				7A5BDA7E24D9D4A7003F8F96 /* LCButton.swift */,
 				7A5BDA7C24D9D45C003F8F96 /* PageIndicator.swift */,
 				7A5BDA7824D9D256003F8F96 /* OnBoardingPageView.swift */,
-				7A5BDA7A24D9D38E003F8F96 /* OnBoardingController.swift */,
+				7A5BDA7A24D9D38E003F8F96 /* OnBoardingSlider.swift */,
 			);
 			name = OnBoarding;
 			sourceTree = "<group>";
@@ -109,7 +109,7 @@
 		D49E292B24D48B0000487EBD /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				7A5BDA7424D9CF09003F8F96 /* PageViewController.swift */,
+				7A5BDA7424D9CF09003F8F96 /* OnBoardingViewController.swift */,
 				D49E292C24D48B0E00487EBD /* ViewRouter.swift */,
 			);
 			path = Controller;
@@ -118,8 +118,8 @@
 		D4A3379F24D32A7F00434DB1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				D4A3379D24D328F400434DB1 /* Container.swift */,
 				7A5BDA8024D9D59D003F8F96 /* OnBoarding */,
+				D4A3379D24D328F400434DB1 /* Container.swift */,
 				D4545E8224D1E94F0009489C /* ProgressBar.swift */,
 				D4545E5124CF6A8B0009489C /* MultLineTextField.swift */,
 				D4A337A224D3534600434DB1 /* ExploreNavBar.swift */,
@@ -289,7 +289,7 @@
 				7A5BDA7924D9D256003F8F96 /* OnBoardingPageView.swift in Sources */,
 				D49E293324D4B6ED00487EBD /* FilterView.swift in Sources */,
 				D4EA02CC24CB569D0063C625 /* ContentView.swift in Sources */,
-				7A5BDA7B24D9D38E003F8F96 /* OnBoardingController.swift in Sources */,
+				7A5BDA7B24D9D38E003F8F96 /* OnBoardingSlider.swift in Sources */,
 				7A5BDA8424D9D73B003F8F96 /* OnBoardingView.swift in Sources */,
 				D4A3379E24D328F400434DB1 /* Container.swift in Sources */,
 				D4A337A124D32C1F00434DB1 /* ProfileView.swift in Sources */,
@@ -305,7 +305,7 @@
 				D49E292D24D48B0E00487EBD /* ViewRouter.swift in Sources */,
 				D4545E8324D1E94F0009489C /* ProgressBar.swift in Sources */,
 				D4EA02C724CB569D0063C625 /* SceneDelegate.swift in Sources */,
-				7A5BDA7524D9CF09003F8F96 /* PageViewController.swift in Sources */,
+				7A5BDA7524D9CF09003F8F96 /* OnBoardingViewController.swift in Sources */,
 				D49E292A24D488BB00487EBD /* MotherView.swift in Sources */,
 				7A5BDA7D24D9D45C003F8F96 /* PageIndicator.swift in Sources */,
 				D4545E8724D216150009489C /* NotificationsView.swift in Sources */,

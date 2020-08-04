@@ -11,8 +11,10 @@ import Foundation
 import SwiftUI
 
 struct LCButton: View {
+    
     var text = "Next"
-    var action: (()->()) = {}
+    
+    var action: () -> ()
     
     var body: some View {
       Button(action: {
@@ -24,8 +26,8 @@ struct LCButton: View {
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .padding(.vertical)
                 .accentColor(Color.white)
-                .background(Color("accentColor"))
-                .cornerRadius(30)
+                .background(Color.blue)
+                .cornerRadius(15)
             }
         }
     }
@@ -33,6 +35,6 @@ struct LCButton: View {
 
 struct LCButton_Previews: PreviewProvider {
     static var previews: some View {
-        LCButton()
+        LCButton(){}
     }
 }

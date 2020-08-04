@@ -22,8 +22,8 @@ struct UserTypeView: View {
                     .font(.body)
                 Spacer()
                 Button(action:{
-//                    UserDefaults.standard.set("student", forKey: "Type")
-                    self.viewRouter.currentPage = Page.SignUpView
+                    UserDefaults.standard.set("student", forKey: "Type")
+                    self.viewRouter.currentPage = Page.OnBoardingView
                 }) {
                     VStack {
                         Image("lapis")
@@ -45,8 +45,8 @@ struct UserTypeView: View {
                 Divider()
                     .padding()
                 Button(action: {
-//                    UserDefaults.standard.set("business", forKey: "Type")
-                    self.viewRouter.currentPage = Page.SignUpView
+                    UserDefaults.standard.set("business", forKey: "Type")
+                    self.viewRouter.currentPage = Page.OnBoardingView
                 }) {
                     VStack {
                         Image("maleta")

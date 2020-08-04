@@ -9,10 +9,15 @@
 import SwiftUI
 
 struct OnBoardingView: View {
+    
+    @EnvironmentObject var viewRouter: ViewRouter
+    
     var body: some View {
-            VStack {
-                OnBoardingController( viewControllers: OnBoardingPage.getStudentOnBoarding.map({  UIHostingController(rootView: OnBoardingPageView(page: $0) ) }))
-            }.frame(maxHeight: .infinity).background(Color.green).edgesIgnoringSafeArea(.all)
+        Container {
+            OnBoardingSlider( viewControllers: OnBoardingPage.getStudentOnBoarding.map({  UIHostingController(rootView: OnBoardingPageView(page: $0) ) })){
+                self.viewRouter.currentPage = Page.SignUpView
+            }
+        }
     }
 }
 

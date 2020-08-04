@@ -11,30 +11,34 @@ import UIKit
 import SwiftUI
 
 
-struct PageViewController: UIViewControllerRepresentable {
+struct OnBoardingViewController: UIViewControllerRepresentable {
+    
     var controllers: [UIViewController]
+    
     @Binding var currentPage: Int
+    
     func makeUIViewController(context: Context) -> UIPageViewController {
         let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         pageViewController.dataSource = context.coordinator
         pageViewController.delegate = context.coordinator
-         controllers.forEach({$0.view.backgroundColor = UIColor(named: "bgColor") })
+        controllers.forEach({$0.view.backgroundColor = UIColor(named: "bgColor") })
         pageViewController.view.backgroundColor = UIColor(named: "bgColor")
         return pageViewController
     }
-    func updateUIViewController(_ pageViewController: UIPageViewController, context: UIViewControllerRepresentableContext<PageViewController>){
+    
+    func updateUIViewController(_ pageViewController: UIPageViewController, context: UIViewControllerRepresentableContext<OnBoardingViewController>){
         pageViewController.setViewControllers([controllers[currentPage]], direction: .forward, animated: true)
     }
-
-    func makeCoordinator() -> PageViewController.Coordinator {
+    
+    func makeCoordinator() -> OnBoardingViewController.Coordinator {
         Coordinator(self)
     }
     
     class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
         
-        var parent: PageViewController
+        var parent: OnBoardingViewController
         
-        init(_ controller: PageViewController) {
+        init(_ controller: OnBoardingViewController) {
             self.parent = controller
         }
         
@@ -57,7 +61,7 @@ struct PageViewController: UIViewControllerRepresentable {
             if index == parent.controllers.count - 1{
                 return nil
             }
-                      
+            
             return parent.controllers[index + 1]
         }
         

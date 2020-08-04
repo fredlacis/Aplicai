@@ -13,21 +13,23 @@ struct OnBoardingPageView: View {
     
     var body: some View {
         VStack{
-            
             Image(page.image)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxWidth:200)
+                .frame(maxWidth: 250)
             VStack{
-                Text(page.heading).font(.title).bold().layoutPriority(1).multilineTextAlignment(.center)
+                Text(page.heading)
+                    .font(.title)
+                    .bold()
+                    .layoutPriority(1)
+                    .multilineTextAlignment(.center)
                 Text(page.subSubheading)
                     .multilineTextAlignment(.center)
             }.padding()
         }
-        
     }
-    
 }
+
 struct OnBoardingPageView_Previews: PreviewProvider {
     static var previews: some View {
         OnBoardingPageView()

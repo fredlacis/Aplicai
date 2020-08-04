@@ -17,6 +17,7 @@ struct MotherView: View {
         VStack {
             if self.viewRouter.currentPage == Page.UserTypeView {
                 UserTypeView()
+                    .transition(.opacity)
             } else if self.viewRouter.currentPage == Page.SignUpView {
                 SignUpView()
                     .transition(.opacity)
@@ -26,6 +27,9 @@ struct MotherView: View {
             } else if self.viewRouter.currentPage == Page.DemandView {
                 DemandView(demand: viewRouter.selectedDemand)
                     .transition(.move(edge: .trailing))
+            } else if self.viewRouter.currentPage == Page.OnBoardingView {
+                OnBoardingView()
+                    .transition(.opacity)
             }
         }
     }

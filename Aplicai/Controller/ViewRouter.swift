@@ -15,6 +15,7 @@ enum Page {
     case SignUpView
     case ContentView
     case DemandView
+    case OnBoardingView
 }
 
 class ViewRouter: ObservableObject {

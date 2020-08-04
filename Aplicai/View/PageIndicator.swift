@@ -13,7 +13,7 @@ struct PageIndicator: View {
     
     var currentIndex: Int = 0
     var pagesCount: Int = 3
-    var onColor: Color = Color.accentColor
+    var onColor: Color = Color.blue
     var offColor: Color = Color.yellow
     var diameter: CGFloat = 10
     
