@@ -10,11 +10,22 @@ import SwiftUI
 
 struct Container<Content: View>: View {
     
+    var background: Color?
+
     let content: () -> Content
     
+    internal init(background: Color? = nil, content: @escaping () -> Content){
+        self.content = content
+        if let background = background {
+            self.background = background
+        } else {
+            self.background = Color("backgroundColor")
+        }
+    }
+
     var body: some View {
          ZStack {
-            Color("backgroundColor").edgesIgnoringSafeArea(.all)
+            self.background.edgesIgnoringSafeArea(.all)
             content()
         }
     }
