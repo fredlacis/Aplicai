@@ -12,12 +12,26 @@ struct OnBoardingView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     
+    var userType = UserDefaults.standard.string(forKey: "Type")
+    
     var body: some View {
         Container {
-            OnBoardingSlider( viewControllers: OnBoardingPage.getStudentOnBoarding.map({  UIHostingController(rootView: OnBoardingPageView(page: $0) ) })){
-                self.viewRouter.currentPage = Page.SignUpView
+            VStack {
+                if self.userType == "student" {
+                    OnBoardingSlider( viewControllers: OnBoardingPage.getStudentOnBoarding.map({  UIHostingController(rootView: OnBoardingPageView(page: $0) ) })){
+                        self.goToSignUp()
+                    }
+                } else if self.userType == "business" {
+                    OnBoardingSlider( viewControllers: OnBoardingPage.getBusinessOnBoarding.map({  UIHostingController(rootView: OnBoardingPageView(page: $0) ) })){
+                        self.goToSignUp()
+                    }
+                }
             }
         }
+    }
+    
+    func goToSignUp() {
+        self.viewRouter.currentPage = Page.SignUpView
     }
 }
 

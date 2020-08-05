@@ -27,9 +27,9 @@ struct OnBoardingPage: Identifiable {
 
     static var getBusinessOnBoarding: [OnBoardingPage] {
            [
-               OnBoardingPage(id: UUID(), image: "crie", heading: "Form new habits", subSubheading: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."),
-               OnBoardingPage(id: UUID(), image: "ache", heading: "Keep track of your progress", subSubheading: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."),
-               OnBoardingPage(id: UUID(), image: "aplique", heading: "Setup your goals", subSubheading: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."),
+               OnBoardingPage(id: UUID(), image: "maleta", heading: "BUSINESS 1", subSubheading: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."),
+               OnBoardingPage(id: UUID(), image: "image1", heading: "BUSINESS 2", subSubheading: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."),
+               OnBoardingPage(id: UUID(), image: "image2", heading: "BUSINESS 3", subSubheading: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."),
                
            ]
        }

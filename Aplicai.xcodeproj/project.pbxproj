@@ -22,6 +22,7 @@
 		D4545E8724D216150009489C /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8624D216150009489C /* NotificationsView.swift */; };
 		D49310CE24D8913D00326BDF /* LongText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49310CD24D8913D00326BDF /* LongText.swift */; };
 		D49310D024D8C49200326BDF /* ExploreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49310CF24D8C49200326BDF /* ExploreCard.swift */; };
+		D49310D424DA082600326BDF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49310D324DA082600326BDF /* CloudKit.framework */; };
 		D49E292824D4846400487EBD /* StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292724D4846400487EBD /* StartScreen.swift */; };
 		D49E292A24D488BB00487EBD /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292924D488BB00487EBD /* MotherView.swift */; };
 		D49E292D24D48B0E00487EBD /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E292C24D48B0E00487EBD /* ViewRouter.swift */; };
@@ -60,6 +61,8 @@
 		D4545E8624D216150009489C /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		D49310CD24D8913D00326BDF /* LongText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongText.swift; sourceTree = "<group>"; };
 		D49310CF24D8C49200326BDF /* ExploreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCard.swift; sourceTree = "<group>"; };
+		D49310D124DA079C00326BDF /* Aplicai.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Aplicai.entitlements; sourceTree = "<group>"; };
+		D49310D324DA082600326BDF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		D49E292724D4846400487EBD /* StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreen.swift; sourceTree = "<group>"; };
 		D49E292924D488BB00487EBD /* MotherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotherView.swift; sourceTree = "<group>"; };
 		D49E292C24D48B0E00487EBD /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D49310D424DA082600326BDF /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,9 +110,19 @@
 			name = OnBoarding;
 			sourceTree = "<group>";
 		};
+		D49310D224DA082600326BDF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D49310D324DA082600326BDF /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D49E292B24D48B0000487EBD /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D4EA02C424CB569D0063C625 /* AppDelegate.swift */,
+				D4EA02C624CB569D0063C625 /* SceneDelegate.swift */,
 				7A5BDA7424D9CF09003F8F96 /* OnBoardingViewController.swift */,
 				D49E292C24D48B0E00487EBD /* ViewRouter.swift */,
 			);
@@ -134,6 +148,7 @@
 			children = (
 				D4EA02C324CB569D0063C625 /* Aplicai */,
 				D4EA02C224CB569D0063C625 /* Products */,
+				D49310D224DA082600326BDF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,11 +163,10 @@
 		D4EA02C324CB569D0063C625 /* Aplicai */ = {
 			isa = PBXGroup;
 			children = (
-				D4EA02C424CB569D0063C625 /* AppDelegate.swift */,
-				D4EA02C624CB569D0063C625 /* SceneDelegate.swift */,
+				D49310D124DA079C00326BDF /* Aplicai.entitlements */,
+				D49E292B24D48B0000487EBD /* Controller */,
 				D4EA02DC24CB5C5A0063C625 /* Model */,
 				D4EA02DB24CB5C490063C625 /* View */,
-				D49E292B24D48B0000487EBD /* Controller */,
 				D4EA02CD24CB569F0063C625 /* Assets.xcassets */,
 				D4EA02D224CB569F0063C625 /* LaunchScreen.storyboard */,
 				D4EA02D524CB569F0063C625 /* Info.plist */,
@@ -444,6 +458,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Aplicai/Aplicai.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Aplicai/Preview Content\"";
 				DEVELOPMENT_TEAM = F8Q8C944BU;
@@ -454,7 +469,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fredlacis.test.Aplicai;
+				PRODUCT_BUNDLE_IDENTIFIER = com.timeGorgona.Aplicai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -465,6 +480,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Aplicai/Aplicai.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Aplicai/Preview Content\"";
 				DEVELOPMENT_TEAM = F8Q8C944BU;
@@ -475,7 +491,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fredlacis.test.Aplicai;
+				PRODUCT_BUNDLE_IDENTIFIER = com.timeGorgona.Aplicai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
