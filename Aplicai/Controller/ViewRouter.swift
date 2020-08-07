@@ -11,6 +11,7 @@ import Combine
 import SwiftUI
 
 enum Page {
+    case LoadingView
     case UserTypeView
     case SignUpView
     case ContentView
@@ -22,15 +23,19 @@ class ViewRouter: ObservableObject {
  
     let objectWillChange = PassthroughSubject<ViewRouter,Never>()
     
-    var currentPage: Page = Page.UserTypeView {
+    var currentPage: Page = Page.LoadingView {
         didSet {
-            withAnimation() {
-                objectWillChange.send(self)
+            DispatchQueue.main.async {
+                withAnimation() {
+                    self.objectWillChange.send(self)
+                }
             }
         }
     }
     
     var selectedDemand: Demand = testData[0]
+    
+    var loggedUser: User?
     
 }
 

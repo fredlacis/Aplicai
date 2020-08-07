@@ -22,7 +22,7 @@ struct UserTypeView: View {
                     .font(.body)
                 Spacer()
                 Button(action:{
-                    UserDefaults.standard.set("student", forKey: "Type")
+                    self.viewRouter.loggedUser = User.emptyStudent
                     self.viewRouter.currentPage = Page.OnBoardingView
                 }) {
                     VStack {
@@ -45,7 +45,7 @@ struct UserTypeView: View {
                 Divider()
                     .padding()
                 Button(action: {
-                    UserDefaults.standard.set("business", forKey: "Type")
+                    self.viewRouter.loggedUser = User.emptyBusiness
                     self.viewRouter.currentPage = Page.OnBoardingView
                 }) {
                     VStack {

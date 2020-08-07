@@ -25,10 +25,8 @@ struct OnBoardingSlider<T: View>  : View {
             
             LCButton(text: currentPage == viewControllers.count - 1 ? "Começar" : "Próximo") {
                 if self.currentPage < self.viewControllers.count - 1 {
-                    print("LCButton", self.currentPage, "<" ,self.viewControllers.count - 1)
                     self.currentPage += 1
                 } else {
-                    print("LCButton", self.currentPage, ">=" ,self.viewControllers.count - 1)
                     self.action()
                 }
             }.padding()
