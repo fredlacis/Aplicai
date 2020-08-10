@@ -23,6 +23,7 @@
 		D430BFA624DDFF1500C5425C /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BFA024DDFF1500C5425C /* Asset.swift */; };
 		D430BFA724DDFF1500C5425C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BFA124DDFF1500C5425C /* Enums.swift */; };
 		D430BFA924DE00ED00C5425C /* ExtensionsRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BFA824DE00ED00C5425C /* ExtensionsRegex.swift */; };
+		D444777D24E0E12900CC4856 /* NewDemandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D444777C24E0E12900CC4856 /* NewDemandView.swift */; };
 		D4545E5224CF6A8B0009489C /* MultLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E5124CF6A8B0009489C /* MultLineTextField.swift */; };
 		D4545E5524CF761D0009489C /* ValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E5424CF761D0009489C /* ValidationView.swift */; };
 		D4545E8124D1E7670009489C /* AllInProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8024D1E7670009489C /* AllInProgressView.swift */; };
@@ -71,6 +72,7 @@
 		D430BFA024DDFF1500C5425C /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		D430BFA124DDFF1500C5425C /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		D430BFA824DE00ED00C5425C /* ExtensionsRegex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsRegex.swift; sourceTree = "<group>"; };
+		D444777C24E0E12900CC4856 /* NewDemandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDemandView.swift; sourceTree = "<group>"; };
 		D4545E5124CF6A8B0009489C /* MultLineTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultLineTextField.swift; sourceTree = "<group>"; };
 		D4545E5424CF761D0009489C /* ValidationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationView.swift; sourceTree = "<group>"; };
 		D4545E8024D1E7670009489C /* AllInProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllInProgressView.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				D49E292724D4846400487EBD /* StartScreen.swift */,
 				D49E293224D4B6ED00487EBD /* FilterView.swift */,
 				D4545E8024D1E7670009489C /* AllInProgressView.swift */,
+				D444777C24E0E12900CC4856 /* NewDemandView.swift */,
 				D4545E8424D1F5360009489C /* DemandInProgressView.swift */,
 				D4545E8624D216150009489C /* NotificationsView.swift */,
 				D4A337A024D32C1F00434DB1 /* ProfileView.swift */,
@@ -366,6 +369,7 @@
 				7A5BDA7524D9CF09003F8F96 /* OnBoardingViewController.swift in Sources */,
 				D49E292A24D488BB00487EBD /* MotherView.swift in Sources */,
 				7A5BDA7D24D9D45C003F8F96 /* PageIndicator.swift in Sources */,
+				D444777D24E0E12900CC4856 /* NewDemandView.swift in Sources */,
 				D4545E8724D216150009489C /* NotificationsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -21,6 +21,10 @@ struct Demand: Identifiable {
     var groupSize: Int
     var description: String
     
+    static var empty : Demand{
+        return Demand(title: "", businessName: "", categorys: [""], location: "", image: "", estimatedDuration: "Média", deadline: Date(), groupSize: 0, description: "")
+    }
+    
 }
 
 let testData: [Demand] = [

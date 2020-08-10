@@ -19,14 +19,18 @@ struct LoadingView: View {
     
     var body: some View {
         Container {
-            VStack {
+            VStack(spacing: 32) {
+                Image("aplicaiLogo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 150)
                 Image(systemName: "rays")
                     .font(.system(size: 35))
                     .rotationEffect(.degrees(self.isAnimating ? 360 : 0))
                     .animation(self.isAnimating ? self.foreverAnimation : .default)
                     .onAppear { self.isAnimating = true }
                     .onDisappear { self.isAnimating = false }
-            }
+            }.frame(minHeight: 0, maxHeight: .infinity)
         }
     }
 }

@@ -12,278 +12,181 @@ struct ProfileView: View {
     
     @EnvironmentObject var sharedNavigation: SharedNavigation
     
-    @State var index = 0
+    @EnvironmentObject var viewRouter: ViewRouter
+    
+//    @State private var avatarImage: Image?
+    
+    @State var courseSemester: String = "X"
     
     var body: some View {
         Container {
             ScrollView {
-                VStack{
-                    HStack(){
-                        Image("Perfil")
+                VStack() {
+                    HStack(alignment: .center) {
+                        Image("avatarPlaceholder")
                             .resizable()
-                            .frame(width: 150, height: 150)
-                            .padding(.top,6)
-                            .padding(.bottom,4)
-                            .padding(.horizontal,4)
-                            .background(Color("cardBackgroundColor"))
-                            .cornerRadius(10)
+                            .frame(width: 100, height: 100)
+                            .cornerRadius(20)
                             .shadow(radius: 6, y: 6)
-//                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                            .shadow(color: Color.white.opacity(0.5), radius: 5, x: -8, y: -8)
-                    VStack(alignment: .leading, spacing: 12){
-                            Text("Nome")
-                                .font(.title)
-                                //.foregroundColor(Color.black.opacity(0.8))
-                            Text("Curso de Graduação | PUC-Rio")
-                                //.foregroundColor(Color.black.opacity(0.7))
-                                .padding(.top,4)
-                            Text("Período")
-                                //.foregroundColor(Color.black.opacity(0.7))
-                            Text("Email para contato")
-                                //.foregroundColor(Color.black.opacity(0.7))
-                            Text("Telefone para contato")
-                                //.foregroundColor(Color.black.opacity(0.7))
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(self.viewRouter.loggedUser!.name)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(.headline)
+                            Divider()
+                            if(self.viewRouter.loggedUser!.accountType == "student"){
+                                HStack {
+                                    Image(systemName: "studentdesk")
+                                        .scaleEffect(0.7)
+                                    Text(self.viewRouter.loggedUser!.course)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .font(.subheadline)
+                                }
+                                HStack {
+                                    Image(systemName: "number")
+                                        .scaleEffect(0.7)
+                                    Text(self.courseSemester + "º Período")
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .font(.subheadline)
+                                }
+                            }
+                            HStack {
+                                Image(systemName: "envelope.fill")
+                                    .scaleEffect(0.7)
+                                Text(self.viewRouter.loggedUser!.email)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(.subheadline)
+                            }
                         }
-                        .padding(.leading,20)
-                        Spacer(minLength: 0)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
+                    .padding(.bottom)
                     HStack(spacing: 0){
-                        VStack(spacing: 12){
-                            Text("Linkedin: xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-                                //.foregroundColor(Color.black.opacity(0.7))
-                            Text("Portfólio: xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-                                //.foregroundColor(Color.black.opacity(0.7))
+                        VStack(alignment: .leading){
+                            
+                            HStack {
+                                Button(action: {
+                                    if self.viewRouter.loggedUser!.linkedin != ""{
+                                        UIApplication.shared.open(URL(string: self.viewRouter.loggedUser!.linkedin)!)
+                                    }
+                                }){
+                                    Text("Acessar Linkedin")
+                                        .foregroundColor(Color.white)
+                                        .frame(minWidth: 0, maxWidth: .infinity)
+                                        .padding(5)
+                                }
+                                .background(Color.blue)
+                                .buttonStyle(PlainButtonStyle())
+                                .cornerRadius(15)
+                                .padding(.trailing)
+                                
+                                Button(action: {
+                                    if self.viewRouter.loggedUser!.website != ""{
+                                        UIApplication.shared.open(URL(string: self.viewRouter.loggedUser!.website)!)
+                                    }
+                                }){
+                                    if(self.viewRouter.loggedUser!.accountType == "student"){
+                                        Text("Acessar Portfólio")
+                                            .foregroundColor(Color.white)
+                                            .frame(minWidth: 0, maxWidth: .infinity)
+                                            .padding(5)
+
+                                    } else {
+                                        Text("Acessar Site")
+                                            .foregroundColor(Color.white)
+                                            .frame(minWidth: 0, maxWidth: .infinity)
+                                            .padding(5)
+
+                                    }
+                                }
+                                .background(Color.blue)
+                                .buttonStyle(PlainButtonStyle())
+                                .cornerRadius(15)
+                            }
+                            
+                            if(self.viewRouter.loggedUser!.accountType == "business"){
+                                Text("Descrição:")
+                                .font(.headline)
+                                    .padding(.top)
+                                LongText(self.viewRouter.loggedUser!.functionDescription)
+                            }
+                            Divider()
                         }
                         Spacer(minLength: 0)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
-                    HStack{
-                        Button(action: {
-                            withAnimation(){
-                                self.index = 0
+                        Text("Demandas concluídas")
+                            .font(.title)
+                        ForEach(0..<testData.count/2, id: \.self){ i in
+                            ExploreCard(demand: testData[i])
+                                .padding(.bottom, 8)
+                                .onTapGesture {
+                                    self.viewRouter.selectedDemand = testData[i]
+                                    self.viewRouter.currentPage = Page.DemandView
                             }
-                        }) {
-                            Text("Habilidades")
-                                //.foregroundColor(self.index == 0 ? Color.white : .gray)
-                                .padding(.vertical,10)
-                                .padding(.horizontal)
-                                .background(self.index == 0 ? Color("backgroundColor") : Color.clear)
-                                .cornerRadius(10)
-                        }.buttonStyle(PlainButtonStyle())
-                        Button(action: {
-                            withAnimation(){
-                                self.index = 1
-                            }
-                        }) {
-                            Text("Demandas Concluídas")
-                                //.foregroundColor(self.index == 1 ? Color.white : .gray)
-                                .padding(.vertical,10)
-                                .padding(.horizontal)
-                                .background(self.index == 1 ? Color("backgroundColor") : Color.clear)
-                                .cornerRadius(10)
-                        }.buttonStyle(PlainButtonStyle())
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 5)
-                    .background(Color("cardBackgroundColor"))
-                    .cornerRadius(8)
-                        .shadow(radius: 6, y: 6)
-//                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                    .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                    .padding(.horizontal)
-                    .padding(.top,20)
-                    if self.index == 0 {
-                        VStack {
-                            HStack(spacing: 20){
-                                VStack(spacing: 12) {
-                                    Image("excel")
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                    Text("Excel")
-                                        .font(.headline)
-                                        .padding(.top,10)
-                                    Text("Hashtag Treinamentos")
-                                        //.foregroundColor(Color(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)))
-                                    Text("40 Horas")
-                                        .font(.caption)
-                                        //.foregroundColor(.gray)
-                                }
-                                .padding(.vertical)
-                                .frame(width: (UIScreen.main.bounds.width - 60) / 2)
-                                .background(Color("cardBackgroundColor"))
-                                .cornerRadius(15)
-                                .shadow(radius: 6, y: 6)
-//                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                                .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                                VStack(spacing: 12) {
-                                    Image("python")
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                    Text("Python")
-                                        .font(.headline)
-                                        .padding(.top,10)
-                                    Text("Prog 1 e 2 - PUC-Rio")
-                                        //.foregroundColor(Color(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)))
-                                    Text("2 Períodos")
-                                        .font(.caption)
-                                        //.foregroundColor(.gray)
-                                }
-                                .padding(.vertical)
-                                .frame(width: (UIScreen.main.bounds.width - 60) / 2)
-                                .background(Color("cardBackgroundColor"))
-                                .cornerRadius(15)
-                                .shadow(radius: 6, y: 6)
-//                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                                .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                            }
-                            .padding(.top,20)
-                            HStack(spacing: 20){
-                            VStack(spacing: 12) {
-                                Image("figma")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                Text("Figma")
-                                    .font(.headline)
-                                    .padding(.top,10)
-                                Text("Apple Developer Academy PUC-Rio")
-                                    //.foregroundColor(Color(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)))
-                                Text("6 Meses")
-                                    .font(.caption)
-                                    //.foregroundColor(.gray)
-                            }
-                            .padding(.vertical)
-                            .frame(width: (UIScreen.main.bounds.width - 60) / 2)
-                            .background(Color("cardBackgroundColor"))
-                            .cornerRadius(15)
-                                .shadow(radius: 6, y: 6)
-//                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                            .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                            VStack(spacing: 12) {
-                                Image("power bi")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                Text("Power Bi")
-                                    .font(.headline)
-                                    .padding(.top,10)
-                                Text("Hashtag Treinamentos")
-                                    //.foregroundColor(Color(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)))
-                                Text("40 Horas")
-                                    .font(.caption)
-                                    //.foregroundColor(.gray)
-                            }
-                            .padding(.vertical)
-                            .frame(width: (UIScreen.main.bounds.width - 60) / 2)
-                            .background(Color("cardBackgroundColor"))
-                            .cornerRadius(15)
-                                .shadow(radius: 6, y: 6)
-//                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                            .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                        }
-                        }.transition(.opacity)
-                    } else {
-                        VStack {
-                            HStack(spacing: 20){
-                                VStack(spacing: 12) {
-                                    Image("livros")
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                    Text("Organização da Biblioteca Comunitária")
-                                        .font(.headline)
-                                        .padding(.top,10)
-                                    Text("Ler+")
-                                        //.foregroundColor(Color(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)))
-                                    Text("1 Mês")
-                                        .font(.caption)
-                                        //.foregroundColor(.gray)
-                                }
-                                .padding(.vertical)
-                                .frame(width: (UIScreen.main.bounds.width - 60) / 2)
-                                .background(Color("cardBackgroundColor"))
-                                .cornerRadius(15)
-                                .shadow(radius: 6, y: 6)
-//                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                                .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                                VStack(spacing: 12) {
-                                    Image("padaria2")
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                    Text("Controle de fluxo de caixa")
-                                        .font(.headline)
-                                        .padding(.top,10)
-                                    Text("Confeitaria Maria")
-                                        //.foregroundColor(Color(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)))
-                                    Text("2 Meses")
-                                        .font(.caption)
-                                        //.foregroundColor(.gray)
-                                }
-                                .padding(.vertical)
-                                .frame(width: (UIScreen.main.bounds.width - 60) / 2)
-                                .background(Color("cardBackgroundColor"))
-                                .cornerRadius(15)
-                                .shadow(radius: 6, y: 6)
-//                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                                .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                            }
-                            .padding(.top,20)
-                            HStack(spacing: 20){
-                                VStack(spacing: 12) {
-                                    Image("tarefa")
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                    Text("Revisão de Livro")
-                                        .font(.headline)
-                                        .padding(.top,10)
-                                    Text("Editora Zahar")
-                                        //.foregroundColor(Color(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)))
-                                    Text("1 Mês")
-                                        .font(.caption)
-                                        //.foregroundColor(.gray)
-                                }
-                                .padding(.vertical)
-                                .frame(width: (UIScreen.main.bounds.width - 60) / 2)
-                                .background(Color("cardBackgroundColor"))
-                                .cornerRadius(15)
-                                .shadow(radius: 6, y: 6)
-//                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                                .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                                VStack(spacing: 12) {
-                                    Image("site")
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                    Text("Desenvolvimento de site")
-                                        .font(.headline)
-                                        .padding(.top,10)
-                                    Text("Chocotose")
-//                                        //.foregroundColor(Color(#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)))
-                                    Text("2 Semanas")
-                                        .font(.caption)
-//                                        //.foregroundColor(.gray)
-                                }
-                                .padding(.vertical)
-                                .frame(width: (UIScreen.main.bounds.width - 60) / 2)
-                                .background(Color("cardBackgroundColor"))
-                                .cornerRadius(15)
-                                .shadow(radius: 6, y: 6)
-//                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 8, y: 8)
-//                                .shadow(color: Color.white.opacity(0.2), radius: 5, x: -8, y: -8)
-                            }
-                        }.transition(.opacity)
+
                     }
                     Spacer(minLength: 0)
                 }
+                    .padding()
             }
         }
         .onAppear(perform: {
-            self.sharedNavigation.title = "Perfil"
+//            self.loadImage()
+            self.sharedNavigation.type = .inline
+            if self.viewRouter.loggedUser?.accountType == "student" {
+                self.calculateCourseSemester()
+                self.sharedNavigation.title = "Perfil do Estudante"
+            } else {
+                self.sharedNavigation.title = "Perfil do Empreendimento"
+            }
         })
     }
+
+//    func loadImage() {
+//        guard let inputImage = UIImage(data: self.viewRouter.loggedUser!.avatarImage!) else { return }
+//        self.avatarImage = Image(uiImage: inputImage)
+//    }
+    
+    func calculateCourseSemester() {
+        
+        let regNum = self.viewRouter.loggedUser!.registrationNumber
+        
+        let index = regNum.index(regNum.startIndex, offsetBy: 2)
+        
+        let regYear = Int(regNum[..<index])
+        
+        let endIndex = regNum.index(regNum.startIndex, offsetBy: 3)
+        
+        let regSemester = Int(regNum[index..<endIndex])
+        
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yy"
+        let year = Int(formatter.string(from: Date()))
+        
+        formatter.dateFormat = "MM"
+        let month = Int(formatter.string(from: Date()))
+        
+        if month! > 6 && regSemester == 1{
+            let semester = (year!+1 - regYear!) * 2
+            self.courseSemester = String(semester == 0 ? 1 : semester)
+        } else if month! > 6 {
+            let semester = ((year!+1 - regYear!) * 2) - 1
+            self.courseSemester = String(semester == 0 ? 1 : semester)
+        } else if month! < 6 && regSemester == 1 {
+            let semester = (year! - regYear!) * 2 + 1
+            self.courseSemester = String(semester == 0 ? 1 : semester)
+        } else {
+            let semester = (year! - regYear!) * 2
+            self.courseSemester = String(semester == 0 ? 1 : semester)
+        }
+        
+    }
+    
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
+            .environmentObject(ViewRouter())
+            .environmentObject(SharedNavigation())
     }
 }

@@ -20,6 +20,9 @@ struct User: CloudRecord {
     //Global
     var name: String
     var email: String
+    var linkedin: String
+    var website: String
+    var avatarImage: Data?
     
     //For student
     var course: String = ""
@@ -32,11 +35,11 @@ struct User: CloudRecord {
     var functionDescription: String = ""
     
     static var emptyStudent: User {
-        return User(accountType: "student", name: "", email: "", course: "", cpf: "", registrationNumber: "")
+        return User(accountType: "student", name: "", email: "", linkedin: "", website: "", course: "", cpf: "", registrationNumber: "")
     }
     
     static var emptyBusiness: User {
-        return User(accountType: "business", name: "", email: "", cnpj: "", companyName: "", functionDescription: "")
+        return User(accountType: "business", name: "", email: "",  linkedin: "", website: "", cnpj: "", companyName: "", functionDescription: "")
     }
         
     static func ckLoadByUserID(then completion:@escaping (Result<Any, Error>)->Void) {

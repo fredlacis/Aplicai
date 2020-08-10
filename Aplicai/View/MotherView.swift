@@ -10,8 +10,6 @@ import SwiftUI
 
 struct MotherView: View {
     
-    @State var user: User?
-    
 //    @ObservedObject var viewRouter: ViewRouter
     @EnvironmentObject var viewRouter: ViewRouter
     
@@ -46,7 +44,7 @@ struct MotherView: View {
                         let userRecords = records as? [User] ?? []
                         if userRecords.count == 1 {
                             print("Usuário com este userID existe:", userRecords[0])
-                            self.user = userRecords[0]
+                            self.viewRouter.loggedUser = userRecords[0]
                             self.viewRouter.currentPage = Page.ContentView
                         } else if userRecords.count > 1 {
                             print("Mais de um usuário com o mesmo userID.")

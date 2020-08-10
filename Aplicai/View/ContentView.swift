@@ -13,11 +13,19 @@ class SharedNavigation: ObservableObject {
  
     let objectWillChange = PassthroughSubject<SharedNavigation,Never>()
     
-    var title: String = "" {
+    var title: String = ""
+    {
         didSet {
             objectWillChange.send(self)
         }
     }
+    
+    var type: NavigationBarItem.TitleDisplayMode = .large
+//    {
+//        didSet {
+//            objectWillChange.send(self)
+//        }
+//    }
     
 }
 
@@ -57,7 +65,7 @@ struct ContentView: View {
                     }
                     .tag(3)
             }
-            .navigationBarTitle(sharedNavigation.title)
+            .navigationBarTitle(Text(self.sharedNavigation.title), displayMode: self.sharedNavigation.type)
         }
     }
 }

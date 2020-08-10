@@ -30,16 +30,16 @@ struct ExploreView: View {
                         .padding(.horizontal)
                         .padding(.bottom, 8)
                         .onTapGesture {
-                            print("tapped")
                             self.viewRouter.selectedDemand = self.demands[i]
                             self.viewRouter.currentPage = Page.DemandView
-                        }
+                    }
                     
                 }
                 .padding(.vertical)
             }
         }
         .onAppear(perform: {
+            self.sharedNavigation.type = .large
             self.sharedNavigation.title = "Explorar"
         })
     }
@@ -47,6 +47,6 @@ struct ExploreView: View {
 
 struct ExploreView_Previews: PreviewProvider {
     static var previews: some View {
-        ExploreView(demands: testData)
+        ExploreView(demands: testData).environmentObject(SharedNavigation())
     }
 }

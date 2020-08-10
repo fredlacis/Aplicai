@@ -81,6 +81,7 @@ struct NotificationsView: View {
                 }
             }
             .onAppear(perform: {
+                self.sharedNavigation.type = .large
                 self.sharedNavigation.title = "Notificações"
             })
 //            .navigationBarTitle("Notificações")

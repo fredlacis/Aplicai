@@ -24,9 +24,15 @@ struct Container<Content: View>: View {
     }
 
     var body: some View {
-         ZStack {
+        ZStack(alignment: .top) {
             self.background.edgesIgnoringSafeArea(.all)
             content()
+            HStack {
+                Color("backgroundColor")
+                    .opacity(0.5)
+                    .blur(radius: 15, opaque: false)
+                    .edgesIgnoringSafeArea(.top)
+            }.frame(height: 0)
         }
     }
 }

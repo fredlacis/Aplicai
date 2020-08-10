@@ -12,21 +12,19 @@ struct OnBoardingView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     
-    var userType = UserDefaults.standard.string(forKey: "Type")
-    
     var body: some View {
         Container {
             VStack {
-                if self.userType == "student" {
+                if self.viewRouter.loggedUser!.accountType == "student" {
                     OnBoardingSlider( viewControllers: OnBoardingPage.getStudentOnBoarding.map({  UIHostingController(rootView: OnBoardingPageView(page: $0) ) })){
                         self.goToSignUp()
                     }
-                } else if self.userType == "business" {
+                } else if self.viewRouter.loggedUser!.accountType == "business" {
                     OnBoardingSlider( viewControllers: OnBoardingPage.getBusinessOnBoarding.map({  UIHostingController(rootView: OnBoardingPageView(page: $0) ) })){
                         self.goToSignUp()
                     }
                 }
-            }
+            }.frame(minHeight: 0, maxHeight: .infinity)
         }
     }
     

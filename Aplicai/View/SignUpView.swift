@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct SignUpView: View {
     
@@ -161,19 +162,19 @@ struct SignUpView: View {
                                 .border(Color(self.emailInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                             if self.viewRouter.loggedUser?.accountType == "student" {
                                 TextField("CPF", text: self.cpf, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-                                    .keyboardType(.numberPad)
+//                                    .keyboardType(.numberPad)
                                     .padding()
                                     .border(Color(self.cpfInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                 TextField("Curso", text: self.course, onEditingChanged: {_ in self.formValid = self.formIsValid()})
                                     .padding()
                                     .border(Color(self.courseInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                 TextField("Matrícula", text: self.registrationNumber, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-                                    .keyboardType(.numberPad)
+//                                    .keyboardType(.numberPad)
                                     .padding()
                                     .border(Color(self.registrationNumberInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                             } else if self.viewRouter.loggedUser?.accountType == "business" {
                                 TextField("CNPJ", text: self.cnpj, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-                                    .keyboardType(.numberPad)
+//                                    .keyboardType(.numberPad)
                                     .padding()
                                     .border(Color(self.cnpjInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                 TextField("Razão Social", text: self.companyName, onEditingChanged: {_ in self.formValid = self.formIsValid()})
@@ -187,6 +188,7 @@ struct SignUpView: View {
                 }
                 .onAppear(perform: {
                     UITableView.appearance().backgroundColor = .clear
+                    print("SignUpView")
                 })
                 Button(action: {
                     self.registerUser()
@@ -231,12 +233,17 @@ struct SignUpView: View {
                 
                 self.viewRouter.loggedUser?.userID = record.recordName
                 
+                
+                // testing image
+                self.viewRouter.loggedUser?.avatarImage = UIImage(named: "aplicaiLogo")!.jpegData(compressionQuality: 0.5)
+                
                 print("=========> CRIANDO NOVO USER")
                 self.viewRouter.loggedUser?.ckSave(then: { (result)->Void in
                     switch result {
                     case .success(let user):
                         if let user = user as? User {
                             print("USER SAVED WITH RECORD NAME: ", user.recordName!)
+                            self.viewRouter.loggedUser = user
                         }
                     case .failure(let error):
                         print("error on saving")
