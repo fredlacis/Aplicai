@@ -21,8 +21,8 @@ struct OnBoardingViewController: UIViewControllerRepresentable {
         let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         pageViewController.dataSource = context.coordinator
         pageViewController.delegate = context.coordinator
-        controllers.forEach({$0.view.backgroundColor = UIColor(named: "bgColor") })
-        pageViewController.view.backgroundColor = UIColor(named: "bgColor")
+        controllers.forEach({$0.view.backgroundColor = UIColor(named: "azul base") })
+        pageViewController.view.backgroundColor = UIColor(named: "azul base")
         return pageViewController
     }
     
@@ -72,5 +72,11 @@ struct OnBoardingViewController: UIViewControllerRepresentable {
                 parent.currentPage = index
             }
         }
+    }
+}
+
+struct OnBoardingViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

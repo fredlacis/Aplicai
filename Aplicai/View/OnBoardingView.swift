@@ -13,7 +13,7 @@ struct OnBoardingView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     
     var body: some View {
-        Container {
+        Container(background: Color("azul base")) {
             VStack {
                 if self.viewRouter.loggedUser!.accountType == "student" {
                     OnBoardingSlider( viewControllers: OnBoardingPage.getStudentOnBoarding.map({  UIHostingController(rootView: OnBoardingPageView(page: $0) ) })){
@@ -38,3 +38,4 @@ struct OnBoardingView_Previews: PreviewProvider {
         OnBoardingView()
     }
 }
+
