@@ -23,7 +23,7 @@ struct SubscriptionView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack(alignment: .center) {
-                        Image(self.demand.image)
+                        Image(uiImage: (UIImage(data: self.demand.image  ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                             .resizable()
                             .frame(width: 100, height: 100)
                             .cornerRadius(20)

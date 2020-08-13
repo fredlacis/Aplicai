@@ -10,14 +10,13 @@ import Foundation
 
 
 enum CRUDError:Int, Error {
-	case invalidRecord
-	case invalidRecordID
-	case cannnotMapAllRecords
-	case cannotDeleteRecord
-	case cannotMapRecordToObject
-	case noSurchRecord
-	case needToSaveRefferencedRecord
-	case invalidFieldType_Dictionary
-	
+    case invalidRecord
+    case invalidRecordID
+    case cannnotMapAllRecords
+    case cannotDeleteRecord
+    case cannotMapRecordToObject
+    case noSurchRecord
+    case needToSaveRefferencedRecord
+    case invalidFieldType_Dictionary
+    
 }
-

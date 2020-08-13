@@ -10,7 +10,6 @@ import SwiftUI
 
 struct MotherView: View {
     
-//    @ObservedObject var viewRouter: ViewRouter
     @EnvironmentObject var viewRouter: ViewRouter
     
     var body: some View {
@@ -37,27 +36,78 @@ struct MotherView: View {
                 Text("")
             }
         }.onAppear(perform: {
-            DispatchQueue.main.async {
-                User.ckLoadByUserID(then: { (result) -> Void in
-                    switch result {
-                    case .success(let records):
-                        let userRecords = records as? [User] ?? []
-                        if userRecords.count == 1 {
-                            print("Usuário com este userID existe:", userRecords[0])
-                            self.viewRouter.loggedUser = userRecords[0]
-                            self.viewRouter.currentPage = Page.ContentView
-                        } else if userRecords.count > 1 {
-                            print("Mais de um usuário com o mesmo userID.")
-                        } else {
-                            print("Nenhum usuário com o userID, criaremos um.")
-                            self.viewRouter.currentPage = Page.UserTypeView
-                        }
-                    case .failure(let error):
-                        debugPrint("Erro ao buscar usuário pelo userID.", error)
-                    }
-                    })
+            self.loadCurrentUser()
+        })
+    }
+    
+    func publishTestDemand(){
+        var testDemand = Demand.empty
+        
+        testDemand.ownerUser = self.viewRouter.loggedUser!
+        
+        //testing image
+        testDemand.image = UIImage(named: "aplicaiLogo")!.jpegData(compressionQuality: 0.5)
+        
+        print("Saving a demand")
+        testDemand.ckSave(then: { (result)->Void in
+            switch result {
+            case .success(let demand):
+                testDemand = demand
+                print("Sucesso ao salvar demanda")
+            case .failure(let error):
+                print(error)
+                if let errorType = error as? CRUDError,
+                    errorType == .invalidRecord {
+                    print("Campos inválidos")
+                }
             }
         })
+    }
+    
+    func getAllDemands() {
+        
+        var allDemands: [Demand] = []
+        
+        Demand.ckLoadAllDemands(then: { (result)->Void in
+            switch result {
+                case .success(let records):
+                    allDemands = records
+                    print("Sucesso ao pegar demandas--------")
+                    dump(allDemands)
+                    testData.append(contentsOf: allDemands)
+//                    self.bottomMessage = "\(self.demands.count) registros"
+                case .failure(let error):
+                    debugPrint(error)
+//                    self.bottomMessage = "Erro ao atualizar"
+                
+            }
+        })
+        
+    }
+    
+    func loadCurrentUser() {
+        DispatchQueue.main.async {
+            User.ckLoadByCurrentUserID(then: { (result) -> Void in
+                switch result {
+                case .success(let records):
+                    let userRecords = records as? [User] ?? []
+                    if userRecords.count == 1 {
+                        print("Usuário com este userID existe:", userRecords[0])
+                        self.viewRouter.loggedUser = userRecords[0]
+//                        self.publishTestDemand()
+                        self.getAllDemands()
+                        self.viewRouter.currentPage = Page.ContentView
+                    } else if userRecords.count > 1 {
+                        print("Mais de um usuário com o mesmo userID.")
+                    } else {
+                        print("Nenhum usuário com o userID, criaremos um.")
+                        self.viewRouter.currentPage = Page.UserTypeView
+                    }
+                case .failure(let error):
+                    debugPrint("Erro ao buscar usuário pelo userID.", error)
+                }
+            })
+        }
     }
 }
 

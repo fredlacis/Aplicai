@@ -42,7 +42,7 @@ struct User: CloudRecord {
         return User(accountType: "business", name: "", email: "",  linkedin: "", website: "", cnpj: "", companyName: "", functionDescription: "")
     }
         
-    static func ckLoadByUserID(then completion:@escaping (Result<Any, Error>)->Void) {
+    static func ckLoadByCurrentUserID(then completion:@escaping (Result<Any, Error>)->Void) {
         //Fetching userID
         var currentUserID: String?
         CKDefault.container.fetchUserRecordID(completionHandler: { (record, error)->Void in
@@ -67,7 +67,7 @@ struct User: CloudRecord {
                     // else
                     if let records = records {
                         let result:[Self] = records.compactMap{try? Self.load(from: $0.asDictionary)}
-                        
+
                         guard records.count == result.count else {
                             completion(.failure(CRUDError.cannnotMapAllRecords))
                             return
@@ -84,6 +84,29 @@ struct User: CloudRecord {
                 return
             }
         })
+        
+    }
+    
+    static func ckLoadByUserID(userID: CKRecord.ID, then completion:@escaping (Result<User, Error>)->Void) {
+      
+        CKDefault.database.fetch(withRecordID: userID, completionHandler: { (record, error) -> Void in
+            
+            // Got error
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            // else
+            if let record = record {
+                let result: User = try! Self.load(from: record.asDictionary)
+
+                CKDefault.addToCache(record)
+                completion(.success(result))
+            }
+            
+        })
+        
         
     }
     

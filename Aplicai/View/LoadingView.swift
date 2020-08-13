@@ -10,6 +10,8 @@ import SwiftUI
 
 struct LoadingView: View {
     
+    var showLogo = true
+    
     @State private var isAnimating = false
     @State private var showProgress = false
     var foreverAnimation: Animation {
@@ -20,10 +22,12 @@ struct LoadingView: View {
     var body: some View {
         Container {
             VStack(spacing: 32) {
-                Image("aplicaiLogo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxHeight: 150)
+                if self.showLogo {
+                    Image("aplicaiLogo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight: 150)
+                }
                 Image(systemName: "rays")
                     .font(.system(size: 35))
                     .rotationEffect(.degrees(self.isAnimating ? 360 : 0))

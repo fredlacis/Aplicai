@@ -23,7 +23,7 @@ struct ValidationView: View {
                 
                 Spacer()
                 
-                Image(self.demand.image)
+                Image(uiImage: (UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                     .resizable()
                     .frame(width: 170, height: 170)
                     .cornerRadius(20)

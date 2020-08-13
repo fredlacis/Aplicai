@@ -158,6 +158,7 @@ struct SignUpView: View {
                                 .border(Color(self.nameInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                             TextField("E-mail", text: self.email, onEditingChanged: {_ in self.formValid = self.formIsValid()})
                                 .keyboardType(.emailAddress)
+                                .autocapitalization(.none)
                                 .padding()
                                 .border(Color(self.emailInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                             if self.viewRouter.loggedUser?.accountType == "student" {
@@ -235,7 +236,7 @@ struct SignUpView: View {
                 
                 
                 // testing image
-                self.viewRouter.loggedUser?.avatarImage = UIImage(named: "aplicaiLogo")!.jpegData(compressionQuality: 0.5)
+//                self.viewRouter.loggedUser?.avatarImage = UIImage(named: "aplicaiLogo")!.jpegData(compressionQuality: 0.5)
                 
                 print("=========> CRIANDO NOVO USER")
                 self.viewRouter.loggedUser?.ckSave(then: { (result)->Void in
@@ -244,6 +245,7 @@ struct SignUpView: View {
                         if let user = user as? User {
                             print("USER SAVED WITH RECORD NAME: ", user.recordName!)
                             self.viewRouter.loggedUser = user
+//                            dump(self.viewRouter.loggedUser)
                         }
                     case .failure(let error):
                         print("error on saving")

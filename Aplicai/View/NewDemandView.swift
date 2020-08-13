@@ -10,9 +10,11 @@ import SwiftUI
 
 struct NewDemandView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     @State var demand:Demand = Demand.empty
     
-    @State private var showPicker: Bool = false
+    @State private var showDatePicker: Bool = false
     @State private var selectedDateText: String = "Date"
     private var selectedDate: Binding<Date> {
         Binding<Date>(get: { self.demand.deadline }, set : {
@@ -63,58 +65,123 @@ struct NewDemandView: View {
         )
     }
     
+    @State private var image: Image?
+    @State private var showingImagePicker = false
+    @State private var inputImage: UIImage?
+    
+    @State private var isLoading = false
+    
     var body: some View {
         Container {
-            Form {
-                Text("Nova demanda")
-                    .font(.title)
-                TextField("Nome", text: self.$demand.title)
-                TextField("Descricao", text: self.$demand.description)
-                TextField("Categorias (separadas por vírgula)", text: self.categorysProxy)
-                TextField("Quantidade de participantes", text: self.groupSizeProxy)
-                    .keyboardType(.numberPad)
-                VStack {
-                    HStack {
-                        Text("Data do fim das inscrições")
-                            .fixedSize(horizontal: true, vertical: true)
-                            .frame(alignment: .leading)
-                        
-                        TextField("", text: self.$selectedDateText)
-                            .opacity(0.6)
-                            .onAppear() {
-                                self.setDateString()
+            VStack {
+                if !self.isLoading {
+                    NavigationView {
+                        Form {
+                            TextField("Nome", text: self.$demand.title)
+                            TextField("Descricao", text: self.$demand.description)
+                            TextField("Categorias (separadas por vírgula)", text: self.categorysProxy)
+                            TextField("Quantidade de participantes", text: self.groupSizeProxy)
+                                .keyboardType(.numberPad)
+                            VStack {
+                                HStack {
+                                    Text("Data do fim das inscrições")
+                                        .fixedSize(horizontal: true, vertical: true)
+                                        .frame(alignment: .leading)
+                                    
+                                    TextField("", text: self.$selectedDateText)
+                                        .opacity(0.6)
+                                        .onAppear() {
+                                            self.setDateString()
+                                    }
+                                    .disabled(true)
+                                    .multilineTextAlignment(.trailing)
+                                }
+                                .onTapGesture {
+                                    self.showDatePicker.toggle()
+                                }
+                                if self.showDatePicker {
+                                    DatePicker("", selection: self.selectedDate, displayedComponents: .date)
+                                        .datePickerStyle(WheelDatePickerStyle())
+                                        .labelsHidden()
+                                }
+                            }
+                            Picker(selection: self.estimateDurationProxy, label: Text("Duração estimada")) {
+                                ForEach(0 ..< self.durations.count, id: \.self) { i in
+                                    VStack(alignment: .center) {
+                                        Text(self.durations[i])
+                                        Text(self.durationsDescriptions[i])
+                                            .opacity(0.7)
+                                    }
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                }
+                            }
+                            HStack {
+                                if self.image != nil {
+                                    Text("Alterar imagem")
+                                        .foregroundColor(Color(UIColor.placeholderText))
+                                    Spacer()
+                                    self.image?
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 100, height: 100)
+                                } else {
+                                    Text("Selecionar imagem")
+                                        .foregroundColor(Color(UIColor.placeholderText))
+                                    Spacer()
+                                    Image(systemName: "photo.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 100, height: 100)
+                                        .foregroundColor(Color(UIColor.placeholderText))
+                                }
+                            }
+                            .onTapGesture {
+                                    self.showingImagePicker = true
+                            }
                         }
-                        .disabled(true)
-                        .multilineTextAlignment(.trailing)
-                    }
-                    .onTapGesture {
-                        self.showPicker.toggle()
-                    }
-                    if self.showPicker {
-                        DatePicker("", selection: self.selectedDate, displayedComponents: .date)
-                            .datePickerStyle(WheelDatePickerStyle())
-                            .labelsHidden()
-                    }
-                }
-                Picker(selection: self.estimateDurationProxy, label: Text("Duração estimada")) {
-                    ForEach(0 ..< self.durations.count, id: \.self) { i in
-                        VStack(alignment: .center) {
-                                Text(self.durations[i])
-                                Text(self.durationsDescriptions[i])
-                                    .opacity(0.7)
+                        .sheet(isPresented: self.$showingImagePicker, onDismiss: self.loadImage){
+                            ImagePicker(image: self.$inputImage)
                         }
-                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .navigationBarTitle("Nova demanda", displayMode: .inline)
+                        .navigationBarItems(leading:
+                            Button(action: {self.presentationMode.wrappedValue.dismiss()}) {
+                                Text("Cancelar")
+                                    .foregroundColor(.red)
+                            }.padding()
+                        , trailing:
+                            Button(action: self.saveDemand) {
+                            Text("Salvar")
+                                .foregroundColor(.blue)
+                            }.padding()
+                        )
                     }
+                } else {
+                    LoadingView(showLogo: false)
                 }
-                
-                Button(action: {
-//                    self.save()
-                    
-                }) {
-                    Text("Salvar")
-                }.padding()
             }
         }
+    }
+    
+    func saveDemand(){
+        self.isLoading = true
+        
+        demand.image = inputImage?.jpegData(compressionQuality: 0.1)
+        
+        demand.ckSave(then: { (result)->Void in
+            switch result {
+                case .success(_):
+                    self.isLoading = false
+                    self.presentationMode.wrappedValue.dismiss()
+                case .failure(_):
+                    self.isLoading = false
+                    self.presentationMode.wrappedValue.dismiss()
+            }
+        })
+    }
+    
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
     }
 }
 

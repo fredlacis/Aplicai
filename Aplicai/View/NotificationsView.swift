@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct NotificationsView: View {
     
@@ -22,7 +23,7 @@ struct NotificationsView: View {
                         Divider()
                         VStack {
                             HStack {
-                                Image(testData[0].image)
+                                Image(uiImage: (UIImage(data: testData[0].image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                                     .resizable()
                                     .frame(width: 70, height: 70)
                                     .cornerRadius(10)
@@ -46,35 +47,35 @@ struct NotificationsView: View {
                             }
                             Divider()
                         }
-                        Text("Antigas")
-                            .font(.title)
-                        Divider()
-                        VStack {
-                            HStack {
-                                Image(testData[0].image)
-                                    .resizable()
-                                    .frame(width: 70, height: 70)
-                                    .cornerRadius(10)
-                                VStack {
-                                    HStack {
-                                        Image(systemName: "briefcase.fill")
-                                            .scaleEffect(0.7)
-                                        Text(testData[0].businessName)
-                                            .font(.subheadline)
-                                        Spacer()
-                                    }
-                                    HStack {
-                                        Image(systemName: "bell.fill")
-                                            .scaleEffect(0.7)
-                                        Text("Você foi aceito no projeto!")
-                                            .font(.subheadline)
-                                        Spacer()
-                                    }
-                                }
-                            }
-                            .opacity(0.6)
-                            Divider()
-                        }
+//                        Text("Antigas")
+//                            .font(.title)
+//                        Divider()
+//                        VStack {
+//                            HStack {
+//                                Image(testData[0].image)
+//                                    .resizable()
+//                                    .frame(width: 70, height: 70)
+//                                    .cornerRadius(10)
+//                                VStack {
+//                                    HStack {
+//                                        Image(systemName: "briefcase.fill")
+//                                            .scaleEffect(0.7)
+//                                        Text(testData[0].businessName)
+//                                            .font(.subheadline)
+//                                        Spacer()
+//                                    }
+//                                    HStack {
+//                                        Image(systemName: "bell.fill")
+//                                            .scaleEffect(0.7)
+//                                        Text("Você foi aceito no projeto!")
+//                                            .font(.subheadline)
+//                                        Spacer()
+//                                    }
+//                                }
+//                            }
+//                            .opacity(0.6)
+//                            Divider()
+//                        }
                         
                     }
                     .padding()

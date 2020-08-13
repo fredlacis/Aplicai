@@ -14,10 +14,10 @@ struct ExploreCard: View {
     
     var body: some View {
             HStack(alignment: .center) {
-                Image(self.demand.image)
+                Image(uiImage: UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder")!)
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 120)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 120, height: 120)
                     .cornerRadius(20)
                 VStack(alignment: .leading, spacing: 5) {
                     Text(self.demand.title)

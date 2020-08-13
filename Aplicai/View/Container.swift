@@ -11,15 +11,24 @@ import SwiftUI
 struct Container<Content: View>: View {
     
     var background: Color?
+    
+    var hasNavGradient: Bool?
 
     let content: () -> Content
     
-    internal init(background: Color? = nil, content: @escaping () -> Content){
+    internal init(background: Color? = nil, hasNavGradient: Bool? = nil,content: @escaping () -> Content){
         self.content = content
+        
         if let background = background {
             self.background = background
         } else {
             self.background = Color("backgroundColor")
+        }
+        
+        if let hasNavGradient = hasNavGradient {
+            self.hasNavGradient = hasNavGradient
+        } else {
+            self.hasNavGradient = true
         }
     }
 
@@ -27,12 +36,14 @@ struct Container<Content: View>: View {
         ZStack(alignment: .top) {
             self.background.edgesIgnoringSafeArea(.all)
             content()
-            HStack {
-                Color("backgroundColor")
-                    .opacity(0.5)
-                    .blur(radius: 15, opaque: false)
-                    .edgesIgnoringSafeArea(.top)
-            }.frame(height: 0)
+            if self.hasNavGradient! {
+                HStack {
+                    Color("backgroundColor")
+                        .opacity(0.5)
+                        .blur(radius: 15, opaque: false)
+                        .edgesIgnoringSafeArea(.top)
+                }.frame(height: 1)
+            }
         }
     }
 }

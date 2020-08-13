@@ -12,6 +12,8 @@ struct AllInProgressView: View {
     
     var demandsInProgress: [Demand]
     
+     @State var showingNewDemand = false
+    
     @EnvironmentObject var sharedNavigation: SharedNavigation
     
     @EnvironmentObject var viewRouter: ViewRouter
@@ -21,64 +23,17 @@ struct AllInProgressView: View {
         Container {
             ZStack {
                 ScrollView {
-                    ForEach(self.demandsInProgress, id: \.id){ demand in
-                        NavigationLink(destination: DemandInProgressView(demand: demand)){
-                            VStack {
-                                HStack(alignment: .center) {
-                                    Image(demand.image)
-                                        .resizable()
-                                        .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
-                                        .frame(width: 120)
-                                        .cornerRadius(20)
-                                    VStack(alignment: .leading, spacing: 5) {
-                                        Text(demand.title)
-                                            .font(.headline)
-                                            .fixedSize(horizontal: false, vertical: true)
-                                        Divider()
-                                        HStack {
-                                            Image(systemName: "briefcase.fill")
-                                                .scaleEffect(0.7)
-                                                .foregroundColor(Color.gray)
-                                            Text(demand.businessName)
-                                                .font(.subheadline)
-                                        }
-                                        HStack {
-                                            Image(systemName: "folder.fill")
-                                                .scaleEffect(0.7)
-                                                .foregroundColor(Color.gray)
-                                            Text(demand.categorys.joined(separator: ", "))
-                                                .font(.subheadline)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                        }
-                                        HStack {
-                                            Image(systemName: "location.fill")
-                                                .scaleEffect(0.7)
-                                                .foregroundColor(Color.gray)
-                                            Text(demand.location)
-                                                .font(.subheadline)
-                                        }
-                                    }
-                                    //                                    Spacer()
-                                }
-                                ProgressBar(value: 0.4)
-                                    .padding(.top, 5)
-                                Spacer()
-                            }
-                            .padding()
-                            .background(Color("cardBackgroundColor"))
-                            .cornerRadius(20)
-                            .shadow(radius: 6, y: 6)
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom)
-                        .buttonStyle(PlainButtonStyle())
+                    ForEach((0..<self.demandsInProgress.count), id: \.self){ i in
+                        self.generateCard(demand: self.demandsInProgress[i])
                     }
                     .padding(.vertical)
                 }
                 if self.viewRouter.loggedUser!.accountType == "business" {
                     VStack() {
                         Spacer()
-                        NavigationLink(destination: NewDemandView()){
+                        Button(action: {
+                            self.showingNewDemand.toggle()
+                        }) {
                             HStack {
                                 Image(systemName: "plus")
                                     .scaleEffect(0.9)
@@ -96,6 +51,8 @@ struct AllInProgressView: View {
                             .cornerRadius(15)
                             .padding()
                             .shadow(radius: 6, y: 6)
+                        }.sheet(isPresented: self.$showingNewDemand) {
+                            NewDemandView()
                         }
                     }.frame(minHeight: 0, maxHeight: .infinity)
                 }
@@ -107,6 +64,59 @@ struct AllInProgressView: View {
         })
         //            .navigationBarTitle("Em andamento")
         //        }
+    }
+    
+    func generateCard(demand: Demand) -> some View {
+        return NavigationLink(destination: DemandInProgressView(demand: demand)){
+            VStack {
+                HStack(alignment: .center) {
+                    Image(uiImage: (UIImage(data: demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 120, height: 120)
+                        .cornerRadius(20)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(demand.title)
+                            .font(.headline)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Divider()
+                        HStack {
+                            Image(systemName: "briefcase.fill")
+                                .scaleEffect(0.7)
+                                .foregroundColor(Color.gray)
+                            Text(demand.businessName)
+                                .font(.subheadline)
+                        }
+                        HStack {
+                            Image(systemName: "folder.fill")
+                                .scaleEffect(0.7)
+                                .foregroundColor(Color.gray)
+                            Text(demand.categorys.joined(separator: ", "))
+                                .font(.subheadline)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        HStack {
+                            Image(systemName: "location.fill")
+                                .scaleEffect(0.7)
+                                .foregroundColor(Color.gray)
+                            Text(demand.location)
+                                .font(.subheadline)
+                        }
+                    }
+                    //                                    Spacer()
+                }
+                ProgressBar(value: 0.4)
+                    .padding(.top, 5)
+                Spacer()
+            }
+            .padding()
+            .background(Color("cardBackgroundColor"))
+            .cornerRadius(20)
+            .shadow(radius: 6, y: 6)
+        }
+        .padding(.horizontal)
+        .padding(.bottom)
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

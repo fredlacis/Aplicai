@@ -16,12 +16,40 @@ struct DemandInProgressView: View {
 
     @Environment(\.colorScheme) var colorScheme
     
+    @EnvironmentObject var viewRouter: ViewRouter
+    
+    @State var showingSolicitations = false
+    
     var body: some View {
         Container {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
+                    if self.viewRouter.loggedUser!.accountType == "business" {
+                        HStack {
+                            Button(action: {self.showingSolicitations.toggle()}){
+                                Text("Ver solicitações")
+                                    .foregroundColor(Color.white)
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .padding(5)
+                            }.sheet(isPresented: self.$showingSolicitations) {
+                                AllSolicitationsView()
+                            }
+                            .background(Color.blue)
+                            .buttonStyle(PlainButtonStyle())
+                            .cornerRadius(15)
+                            Button(action: {}){
+                                Text("Editar demanda")
+                                    .foregroundColor(Color.white)
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .padding(5)
+                            }
+                            .background(Color.blue)
+                            .buttonStyle(PlainButtonStyle())
+                            .cornerRadius(15)
+                        }
+                    }
                     HStack(alignment: .center) {
-                        Image(self.demand.image)
+                        Image(uiImage: (UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                             .resizable()
                             .frame(width: 100, height: 100)
                             .cornerRadius(20)

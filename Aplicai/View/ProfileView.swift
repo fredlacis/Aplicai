@@ -25,6 +25,7 @@ struct ProfileView: View {
                     HStack(alignment: .center) {
                         Image("avatarPlaceholder")
                             .resizable()
+                            .aspectRatio(contentMode: .fill)
                             .frame(width: 100, height: 100)
                             .cornerRadius(20)
                             .shadow(radius: 6, y: 6)
@@ -114,7 +115,7 @@ struct ProfileView: View {
                     }
                         Text("Demandas concluídas")
                             .font(.title)
-                        ForEach(0..<testData.count/2, id: \.self){ i in
+                    ForEach(0..<testData.count, id: \.self){ i in
                             ExploreCard(demand: testData[i])
                                 .padding(.bottom, 8)
                                 .onTapGesture {

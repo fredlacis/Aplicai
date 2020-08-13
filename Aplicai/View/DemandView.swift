@@ -20,7 +20,7 @@ struct DemandView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 10) {
                         HStack(alignment: .center) {
-                            Image(self.demand.image)
+                            Image(uiImage: (UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                                 .resizable()
                                 .frame(width: 100, height: 100)
                                 .cornerRadius(20)
@@ -66,7 +66,7 @@ struct DemandView: View {
                                 Text("Fim das inscrições")
                                     .font(.subheadline)
                                     .fontWeight(.thin)
-                                Text("99/99/9999")
+                                Text("10/09/2020")
                             }
                         }
                         HStack {
@@ -79,7 +79,7 @@ struct DemandView: View {
                                 Text("Duração")
                                     .font(.subheadline)
                                     .fontWeight(.thin)
-                                Text("99 semanas")
+                                Text("Média, até 1 mês")
                             }
                         }
                         HStack {
@@ -92,7 +92,7 @@ struct DemandView: View {
                                 Text("Grupo")
                                     .font(.subheadline)
                                     .fontWeight(.thin)
-                                Text("99 participantes")
+                                Text("2 participantes")
                             }
                         }
                         HStack {
