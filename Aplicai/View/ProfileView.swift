@@ -23,7 +23,7 @@ struct ProfileView: View {
             ScrollView {
                 VStack() {
                     HStack(alignment: .center) {
-                        Image("avatarPlaceholder")
+                        Image(uiImage: UIImage(data: self.viewRouter.loggedUser!.avatarImage ?? Data()) ?? UIImage(named: "avatarPlaceholder")!)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 100, height: 100)

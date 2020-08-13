@@ -36,7 +36,7 @@ struct MotherView: View {
                 Text("")
             }
         }.onAppear(perform: {
-            self.loadCurrentUser()
+            self.checkCKConnect()
         })
     }
     
@@ -85,6 +85,32 @@ struct MotherView: View {
         
     }
     
+    func checkCKConnect() {
+        CKDefault.container.accountStatus { status, error in
+            if let error = error {
+              // some error occurred (probably a failed connection, try again)
+                print("Connection error: ", error)
+            } else {
+                switch status {
+                    case .available:
+                      // the user is logged in
+                        self.loadCurrentUser()
+                    case .noAccount:
+                      // the user is NOT logged in
+                        print("User not logged in iCloud")
+                    case .couldNotDetermine:
+                      // for some reason, the status could not be determined (try again)
+                        print("Failed on checking user status")
+                    case .restricted:
+                      // iCloud settings are restricted by parental controls or a configuration profile
+                        print("User configs block icloud access")
+                @unknown default:
+                    print("Unknown error on checking user status")
+                }
+            }
+        }
+    }
+    
     func loadCurrentUser() {
         DispatchQueue.main.async {
             User.ckLoadByCurrentUserID(then: { (result) -> Void in
@@ -94,8 +120,6 @@ struct MotherView: View {
                     if userRecords.count == 1 {
                         print("Usuário com este userID existe:", userRecords[0])
                         self.viewRouter.loggedUser = userRecords[0]
-//                        self.publishTestDemand()
-                        self.getAllDemands()
                         self.viewRouter.currentPage = Page.ContentView
                     } else if userRecords.count > 1 {
                         print("Mais de um usuário com o mesmo userID.")

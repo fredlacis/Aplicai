@@ -147,67 +147,105 @@ struct SignUpView: View {
     
     @State var formValid: Bool = false
     
+    @State private var image: Image?
+    @State private var showingImagePicker = false
+    @State private var inputImage: UIImage?
+    
+    @State private var isLoading = false
+    
     var body: some View {
         Container {
             VStack(alignment: .leading, spacing: 0) {
-                Form {
-                    Section(header: Text(self.viewRouter.loggedUser?.accountType == "student" ? "Aluno" : "Empreendimento")
-                        .font(.largeTitle)) {
-                            TextField(self.viewRouter.loggedUser?.accountType == "student" ? "Nome Completo" : "Nome da Empresa", text: self.name, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-                                .padding()
-                                .border(Color(self.nameInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                            TextField("E-mail", text: self.email, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-                                .keyboardType(.emailAddress)
-                                .autocapitalization(.none)
-                                .padding()
-                                .border(Color(self.emailInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                            if self.viewRouter.loggedUser?.accountType == "student" {
-                                TextField("CPF", text: self.cpf, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-//                                    .keyboardType(.numberPad)
+                if !self.isLoading {
+                    Form {
+                        Section(header: Text(self.viewRouter.loggedUser?.accountType == "student" ? "Aluno" : "Empreendimento")
+                            .font(.largeTitle)) {
+                                TextField(self.viewRouter.loggedUser?.accountType == "student" ? "Nome Completo" : "Nome da Empresa", text: self.name, onEditingChanged: {_ in self.formValid = self.formIsValid()})
                                     .padding()
-                                    .border(Color(self.cpfInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                                TextField("Curso", text: self.course, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                    .border(Color(self.nameInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
+                                TextField("E-mail", text: self.email, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                    .keyboardType(.emailAddress)
+                                    .autocapitalization(.none)
                                     .padding()
-                                    .border(Color(self.courseInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                                TextField("Matrícula", text: self.registrationNumber, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-//                                    .keyboardType(.numberPad)
-                                    .padding()
-                                    .border(Color(self.registrationNumberInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                            } else if self.viewRouter.loggedUser?.accountType == "business" {
-                                TextField("CNPJ", text: self.cnpj, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-//                                    .keyboardType(.numberPad)
-                                    .padding()
-                                    .border(Color(self.cnpjInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                                TextField("Razão Social", text: self.companyName, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-                                    .padding()
-                                    .border(Color(self.companyNameInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                                TextField("Classificação", text: self.functionDescription, onEditingChanged: {_ in self.formValid = self.formIsValid()})
-                                    .padding()
-                                    .border(Color(self.functionDescriptionInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                            }
+                                    .border(Color(self.emailInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
+                                if self.viewRouter.loggedUser?.accountType == "student" {
+                                    TextField("CPF", text: self.cpf, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .padding()
+                                        .border(Color(self.cpfInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
+                                    TextField("Curso", text: self.course, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .padding()
+                                        .border(Color(self.courseInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
+                                    TextField("Matrícula", text: self.registrationNumber, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .padding()
+                                        .border(Color(self.registrationNumberInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
+                                } else if self.viewRouter.loggedUser?.accountType == "business" {
+                                    TextField("CNPJ", text: self.cnpj, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .padding()
+                                        .border(Color(self.cnpjInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
+                                    TextField("Razão Social", text: self.companyName, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .padding()
+                                        .border(Color(self.companyNameInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
+                                    TextField("Classificação", text: self.functionDescription, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .padding()
+                                        .border(Color(self.functionDescriptionInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
+                                }
+                                HStack {
+                                    if self.image != nil {
+                                        Text("Alterar imagem de perfil")
+                                            .foregroundColor(Color(UIColor.placeholderText))
+                                        Spacer()
+                                        self.image?
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 100, height: 100)
+                                    } else {
+                                        Text("Selecionar imagem de perfil")
+                                            .foregroundColor(Color(UIColor.placeholderText))
+                                        Spacer()
+                                        Image(systemName: "photo.fill")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 100, height: 100)
+                                            .foregroundColor(Color(UIColor.placeholderText))
+                                    }
+                                }
+                                .onTapGesture {
+                                    self.showingImagePicker = true
+                                }
+                        }
+                        .sheet(isPresented: self.$showingImagePicker, onDismiss: self.loadImage){
+                            ImagePicker(image: self.$inputImage)
+                        }
                     }
-                }
-                .onAppear(perform: {
-                    UITableView.appearance().backgroundColor = .clear
-                    print("SignUpView")
-                })
-                Button(action: {
-                    self.registerUser()
-                    self.viewRouter.currentPage = Page.ContentView
-                }){
-                    Text("Criar conta")
-                        .font(.system(size: 25))
-                        .foregroundColor(Color.white)
-                        .frame(minWidth: 0, maxWidth: .infinity)
+                    .onAppear(perform: {
+                        UITableView.appearance().backgroundColor = .clear
+                        print("SignUpView")
+                    })
+                    Button(action: {
+                        self.registerUser()
+                    }){
+                        Text("Criar conta")
+                            .font(.system(size: 25))
+                            .foregroundColor(Color.white)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .padding()
+                    }.disabled(!self.formValid)
+                        .background(Color.blue)
+                        .buttonStyle(PlainButtonStyle())
+                        .cornerRadius(15)
                         .padding()
-                }.disabled(!self.formValid)
-                .background(Color.blue)
-                .buttonStyle(PlainButtonStyle())
-                .cornerRadius(15)
-                .padding()
+                } else {
+                    LoadingView(showLogo: false)
+                }
             }
             .padding(.top)
         }
+    }
+    
+    func loadImage() {
+        self.formValid = self.formIsValid()
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
     }
     
     func formIsValid() -> Bool {
@@ -227,6 +265,10 @@ struct SignUpView: View {
     }
     
     func registerUser() {
+        self.isLoading = true
+        
+        self.viewRouter.loggedUser!.avatarImage = inputImage?.jpegData(compressionQuality: 0.1)
+        
         CKDefault.container.fetchUserRecordID(completionHandler: { (record, error)->Void in
             if let record = record {
                 print("SUCCESS | UserID: ", record.recordName)
@@ -234,19 +276,14 @@ struct SignUpView: View {
                 
                 self.viewRouter.loggedUser?.userID = record.recordName
                 
-                
-                // testing image
-//                self.viewRouter.loggedUser?.avatarImage = UIImage(named: "aplicaiLogo")!.jpegData(compressionQuality: 0.5)
-                
                 print("=========> CRIANDO NOVO USER")
                 self.viewRouter.loggedUser?.ckSave(then: { (result)->Void in
                     switch result {
                     case .success(let user):
-                        if let user = user as? User {
-                            print("USER SAVED WITH RECORD NAME: ", user.recordName!)
-                            self.viewRouter.loggedUser = user
-//                            dump(self.viewRouter.loggedUser)
-                        }
+                        self.isLoading = false
+                        print("USER SAVED WITH RECORD NAME: ", user.recordName!)
+                        self.viewRouter.loggedUser = user
+                        self.viewRouter.currentPage = Page.ContentView
                     case .failure(let error):
                         print("error on saving")
                         debugPrint(error)
