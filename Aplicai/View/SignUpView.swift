@@ -267,7 +267,9 @@ struct SignUpView: View {
     func registerUser() {
         self.isLoading = true
         
-        self.viewRouter.loggedUser!.avatarImage = inputImage?.jpegData(compressionQuality: 0.1)
+        if inputImage != nil {
+            self.viewRouter.loggedUser!.avatarImage = UIImage.resizeImage(image: inputImage!).jpegData(compressionQuality: 1)
+        }
         
         CKDefault.container.fetchUserRecordID(completionHandler: { (record, error)->Void in
             if let record = record {

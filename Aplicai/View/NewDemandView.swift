@@ -165,7 +165,9 @@ struct NewDemandView: View {
     func saveDemand(){
         self.isLoading = true
         
-        demand.image = inputImage?.jpegData(compressionQuality: 0.1)
+        if inputImage != nil {
+            demand.image = UIImage.resizeImage(image: inputImage!).jpegData(compressionQuality: 1)
+        }
         
         demand.ckSave(then: { (result)->Void in
             switch result {

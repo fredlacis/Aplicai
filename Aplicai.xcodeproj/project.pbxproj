@@ -21,7 +21,7 @@
 		D430BFA424DDFF1500C5425C /* CKDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BF9E24DDFF1400C5425C /* CKDefaults.swift */; };
 		D430BFA524DDFF1500C5425C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BF9F24DDFF1500C5425C /* Extensions.swift */; };
 		D430BFA724DDFF1500C5425C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BFA124DDFF1500C5425C /* Enums.swift */; };
-		D430BFA924DE00ED00C5425C /* ExtensionsRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BFA824DE00ED00C5425C /* ExtensionsRegex.swift */; };
+		D430BFA924DE00ED00C5425C /* GaneralExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BFA824DE00ED00C5425C /* GaneralExtensions.swift */; };
 		D444777D24E0E12900CC4856 /* NewDemandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D444777C24E0E12900CC4856 /* NewDemandView.swift */; };
 		D444777F24E18BA600CC4856 /* AllSolicitationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D444777E24E18BA600CC4856 /* AllSolicitationsView.swift */; };
 		D444778124E18EE500CC4856 /* SolicitationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D444778024E18EE500CC4856 /* SolicitationView.swift */; };
@@ -72,7 +72,7 @@
 		D430BF9E24DDFF1400C5425C /* CKDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKDefaults.swift; sourceTree = "<group>"; };
 		D430BF9F24DDFF1500C5425C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D430BFA124DDFF1500C5425C /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
-		D430BFA824DE00ED00C5425C /* ExtensionsRegex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsRegex.swift; sourceTree = "<group>"; };
+		D430BFA824DE00ED00C5425C /* GaneralExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaneralExtensions.swift; sourceTree = "<group>"; };
 		D444777C24E0E12900CC4856 /* NewDemandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDemandView.swift; sourceTree = "<group>"; };
 		D444777E24E18BA600CC4856 /* AllSolicitationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSolicitationsView.swift; sourceTree = "<group>"; };
 		D444778024E18EE500CC4856 /* SolicitationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolicitationView.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 				D4EA02C624CB569D0063C625 /* SceneDelegate.swift */,
 				7A5BDA7424D9CF09003F8F96 /* OnBoardingViewController.swift */,
 				D49E292C24D48B0E00487EBD /* ViewRouter.swift */,
-				D430BFA824DE00ED00C5425C /* ExtensionsRegex.swift */,
+				D430BFA824DE00ED00C5425C /* GaneralExtensions.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -359,7 +359,7 @@
 				D49E292F24D4908100487EBD /* UserTypeView.swift in Sources */,
 				D430BFA724DDFF1500C5425C /* Enums.swift in Sources */,
 				7A5BDA7F24D9D4A7003F8F96 /* LCButton.swift in Sources */,
-				D430BFA924DE00ED00C5425C /* ExtensionsRegex.swift in Sources */,
+				D430BFA924DE00ED00C5425C /* GaneralExtensions.swift in Sources */,
 				D4A337A324D3534600434DB1 /* ExploreNavBar.swift in Sources */,
 				D4545E8524D1F5360009489C /* DemandInProgressView.swift in Sources */,
 				D4EA02E024CB5D2C0063C625 /* Demand.swift in Sources */,
