@@ -20,8 +20,10 @@ struct User: CloudRecord {
     //Global
     var name: String
     var email: String
+    
     var linkedin: String
     var website: String
+    
     var avatarImage: Data?
     
     //For student
@@ -46,6 +48,12 @@ struct User: CloudRecord {
         return User(accountType: "", name: "", email: "",  linkedin: "", website: "", cnpj: "", companyName: "", functionDescription: "")
     }
     
+}
+
+
+// CloudKit methods
+extension User {
+    
     func ckSave(then completion:@escaping (Result<User, Error>)->Void) {
         var record:CKRecord
         
@@ -62,8 +70,8 @@ struct User: CloudRecord {
                 completion(.failure(error))
                 return
             } else if let record = record {
-                    let object = Self.parseUser(record: record)
-                    completion(.success(object))
+                let object = Self.parseUser(record: record)
+                completion(.success(object))
             }
         })
     }
@@ -97,7 +105,7 @@ struct User: CloudRecord {
                         for record in records {
                             result.append(User.parseUser(record: record))
                         }
-
+                        
                         guard records.count == result.count else {
                             completion(.failure(CRUDError.cannnotMapAllRecords))
                             return
@@ -118,7 +126,7 @@ struct User: CloudRecord {
     }
     
     static func ckLoadByUserID(userID: CKRecord.ID, then completion:@escaping (Result<User, Error>)->Void) {
-      
+        
         CKDefault.database.fetch(withRecordID: userID, completionHandler: { (record, error) -> Void in
             
             // Got error
@@ -130,7 +138,7 @@ struct User: CloudRecord {
             // else
             if let record = record {
                 let result: User = User.parseUser(record: record)
-
+                
                 CKDefault.addToCache(record)
                 completion(.success(result))
             }
@@ -141,7 +149,7 @@ struct User: CloudRecord {
     }
     
     static func parseUser(record: CKRecord) -> User {
-
+        
         var newUser = User.empty
         
         newUser.recordName = record.recordID.recordName
@@ -149,7 +157,7 @@ struct User: CloudRecord {
         newUser.userID = record["userID"] as! String?
         newUser.accountType = record["accountType"] as! String
         newUser.name = record["name"] as! String
-        newUser.email = record["name"] as! String
+        newUser.email = record["email"] as! String
         newUser.linkedin = record["linkedin"] as! String
         newUser.website = record["website"] as! String
         
@@ -168,7 +176,7 @@ struct User: CloudRecord {
         }
         
         return newUser
-    
+        
     }
     
 }

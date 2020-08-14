@@ -12,6 +12,11 @@ struct MotherView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     
+    // Screens data
+    @State var exploreDemands: [Demand] = []
+    @State var userSolicitations: [Solicitation] = []
+    @State var ownedDemands: [Demand] = []
+    
     var body: some View {
         VStack {
             if self.viewRouter.currentPage == Page.LoadingView {
@@ -24,7 +29,7 @@ struct MotherView: View {
                 SignUpView()
                     .transition(.opacity)
             } else if self.viewRouter.currentPage == Page.ContentView {
-                ContentView().environmentObject(SharedNavigation())
+                ContentView(exploreDemands: self.$exploreDemands, userSolicitations: self.$userSolicitations, ownedDemands: self.$ownedDemands).environmentObject(SharedNavigation())
                     .transition(.opacity)
             } else if self.viewRouter.currentPage == Page.DemandView {
                 DemandView(demand: viewRouter.selectedDemand)
@@ -62,27 +67,6 @@ struct MotherView: View {
                 }
             }
         })
-    }
-    
-    func getAllDemands() {
-        
-        var allDemands: [Demand] = []
-        
-        Demand.ckLoadAllDemands(then: { (result)->Void in
-            switch result {
-                case .success(let records):
-                    allDemands = records
-                    print("Sucesso ao pegar demandas--------")
-                    dump(allDemands)
-                    testData.append(contentsOf: allDemands)
-//                    self.bottomMessage = "\(self.demands.count) registros"
-                case .failure(let error):
-                    debugPrint(error)
-//                    self.bottomMessage = "Erro ao atualizar"
-                
-            }
-        })
-        
     }
     
     func checkCKConnect() {

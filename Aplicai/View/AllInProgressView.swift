@@ -10,71 +10,129 @@ import SwiftUI
 
 struct AllInProgressView: View {
     
-    var demandsInProgress: [Demand]
-    
-     @State var showingNewDemand = false
+//    var demandsInProgress: [Demand]
     
     @EnvironmentObject var sharedNavigation: SharedNavigation
-    
     @EnvironmentObject var viewRouter: ViewRouter
     
+    // Demand creation
+    @State var showingNewDemand = false
+    
+    // Demands to be displayed
+    @Binding var userSolicitations: [Solicitation]
+    @Binding var ownedDemands: [Demand]
+    
+    // Loading states
+    @State var isReloading = false
+    var isReloadingProxy: Binding<Bool> {
+        Binding<Bool>(
+            get: { self.isReloading },
+            set: {
+                if $0 == true {
+                    if self.viewRouter.loggedUser!.accountType == "student" {
+                        self.loadSudentData()
+                    } else {
+                        self.loadBusinessData()
+                    }
+                }
+                self.isReloading = $0
+        }
+        )
+    }
+    
     var body: some View {
-        //        NavigationView{
         Container {
             ZStack {
-                ScrollView {
-                    ForEach((0..<self.demandsInProgress.count), id: \.self){ i in
-                        self.generateCard(demand: self.demandsInProgress[i])
+                RefreshableScrollView(refreshing: self.isReloadingProxy) {
+//                    ForEach((0..<self.demandsInProgress.count), id: \.self){ i in
+//                        self.generateCard(demand: self.demandsInProgress[i])
+//                    }
+                    if self.viewRouter.loggedUser!.accountType == "student" {
+                        ForEach((0..<self.userSolicitations.count), id: \.self){ i in
+                            self.generateStudentCard(solicitation: self.userSolicitations[i])
+                        }
+                        .padding(.vertical)
+                    } else {
+                        ForEach((0..<self.ownedDemands.count), id: \.self){ i in
+                            self.generateBusinessCard(demand: self.ownedDemands[i])
+                        }
+                        .padding(.vertical)
                     }
-                    .padding(.vertical)
                 }
                 if self.viewRouter.loggedUser!.accountType == "business" {
-                    VStack() {
-                        Spacer()
-                        Button(action: {
-                            self.showingNewDemand.toggle()
-                        }) {
-                            HStack {
-                                Image(systemName: "plus")
-                                    .scaleEffect(0.9)
-                                    .foregroundColor(Color.white)
-                                    .padding(.vertical)
-                                    .padding(.leading)
-                                Text("Nova demanda")
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .font(.subheadline)
-                                    .foregroundColor(Color.white)
-                                    .padding(.vertical)
-                                    .padding(.trailing)
-                            }
-                            .background(Color.blue)
-                            .cornerRadius(15)
-                            .padding()
-                            .shadow(radius: 6, y: 6)
-                        }.sheet(isPresented: self.$showingNewDemand) {
-                            NewDemandView()
-                        }
-                    }.frame(minHeight: 0, maxHeight: .infinity)
+                    self.generateNewDemandButton()
                 }
             }
         }
         .onAppear(perform: {
+            if self.viewRouter.loggedUser!.accountType == "student" {
+                if self.userSolicitations.isEmpty {
+                    self.loadSudentData()
+                }
+            } else {
+                if self.ownedDemands.isEmpty {
+                    self.loadBusinessData()
+                }
+            }
             self.sharedNavigation.type = .large
             self.sharedNavigation.title = "Em andamento"
         })
-        //            .navigationBarTitle("Em andamento")
-        //        }
     }
     
-    func generateCard(demand: Demand) -> some View {
+    func loadSudentData(){
+        print("=========> Loading student's in progress")
+        self.isReloading = true
+        let user = self.viewRouter.loggedUser!
+        Solicitation.ckLoadByUser(userRecordName: user.recordName!, then: { (result) -> Void in
+            switch result {
+            case .success(let solicitations):
+                print("=========> Finished loading student's in progress")
+                self.userSolicitations = []
+                for solicitation in solicitations {
+                    if solicitation.demand.isFinished == Demand.IsFinished.no.rawValue{
+                        self.userSolicitations.append(solicitation)
+                    }
+                }
+                self.isReloading = false
+            case .failure(let error):
+                debugPrint("Erro on getting student`s in progress: ", error)
+            }
+        })
+    }
+    
+    func loadBusinessData() {
+        print("=========> Loading business's in progress")
+        self.isReloading = true
+        let user = self.viewRouter.loggedUser!
+        Demand.ckLoadByOwner(ownerRecordName: user.recordName!, then: { (result) -> Void in
+            switch result {
+            case .success(let demands):
+                print("=========> Finished loading business's in progress")
+                self.ownedDemands = []
+                for demand in demands {
+                    if demand.isFinished == Demand.IsFinished.no.rawValue{
+                        self.ownedDemands.append(demand)
+                    }
+                }
+                self.isReloading = false
+            case .failure(let error):
+                debugPrint("Erro on getting bueiness`s in progress: ", error)
+            }
+        })
+    }
+    
+    func generateStudentCard(solicitation: Solicitation) -> some View {
+        
+        let demand = solicitation.demand
+        
         return NavigationLink(destination: DemandInProgressView(demand: demand)){
             VStack {
-                HStack(alignment: .center) {
+                HStack(alignment: .top) {
                     Image(uiImage: (UIImage(data: demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 120, height: 120)
-                        .cornerRadius(20)
+                        .cornerRadius(15)
                     VStack(alignment: .leading, spacing: 5) {
                         Text(demand.title)
                             .font(.headline)
@@ -84,7 +142,7 @@ struct AllInProgressView: View {
                             Image(systemName: "briefcase.fill")
                                 .scaleEffect(0.7)
                                 .foregroundColor(Color.gray)
-                            Text(demand.businessName)
+                            Text(demand.ownerUser.name)
                                 .font(.subheadline)
                         }
                         HStack {
@@ -103,13 +161,80 @@ struct AllInProgressView: View {
                                 .font(.subheadline)
                         }
                     }
-                    //                                    Spacer()
+                }
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .padding(8)
+                if solicitation.status == Solicitation.Status.waiting.rawValue{
+                    Text("Status: Aguardando avaliação")
+                        .foregroundColor(.gray)
+                        .font(.subheadline)
+                        .padding(.horizontal, 8)
+                        .padding(.bottom, 8)
+                } else if solicitation.status == Solicitation.Status.accepted.rawValue{
+                    ProgressBar(value: 0.4)
+                        .padding(.horizontal, 8)
+                        .padding(.bottom, 8)
+                } else {
+                    Text("Status: Recusado")
+                        .foregroundColor(.red)
+                        .font(.subheadline)
+                        .padding(.horizontal, 8)
+                        .padding(.bottom, 8)
+                }
+            }
+            .background(Color("cardBackgroundColor"))
+            .cornerRadius(20)
+            .shadow(radius: 6, y: 6)
+        }
+        .disabled(solicitation.status != Solicitation.Status.accepted.rawValue)
+        .padding(.horizontal)
+        .padding(.bottom)
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    func generateBusinessCard(demand: Demand) -> some View {
+        return NavigationLink(destination: DemandInProgressView(demand: demand)){
+            VStack {
+                HStack(alignment: .top) {
+                    Image(uiImage: (UIImage(data: demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 120, height: 120)
+                        .cornerRadius(15)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(demand.title)
+                            .font(.headline)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Divider()
+                        HStack {
+                            Image(systemName: "briefcase.fill")
+                                .scaleEffect(0.7)
+                                .foregroundColor(Color.gray)
+                            Text(demand.ownerUser.name)
+                                .font(.subheadline)
+                        }
+                        HStack {
+                            Image(systemName: "folder.fill")
+                                .scaleEffect(0.7)
+                                .foregroundColor(Color.gray)
+                            Text(demand.categorys.joined(separator: ", "))
+                                .font(.subheadline)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        HStack {
+                            Image(systemName: "location.fill")
+                                .scaleEffect(0.7)
+                                .foregroundColor(Color.gray)
+                            Text(demand.location)
+                                .font(.subheadline)
+                        }
+                    }
                 }
                 ProgressBar(value: 0.4)
-                    .padding(.top, 5)
+                    .padding(.vertical, 5)
                 Spacer()
             }
-            .padding()
+            .padding(8)
             .background(Color("cardBackgroundColor"))
             .cornerRadius(20)
             .shadow(radius: 6, y: 6)
@@ -118,10 +243,39 @@ struct AllInProgressView: View {
         .padding(.bottom)
         .buttonStyle(PlainButtonStyle())
     }
+    
+    func generateNewDemandButton() -> some View {
+        return VStack() {
+            Spacer()
+            Button(action: {
+                self.showingNewDemand.toggle()
+            }) {
+                HStack {
+                    Image(systemName: "plus")
+                        .scaleEffect(0.9)
+                        .foregroundColor(Color.white)
+                        .padding(.vertical)
+                        .padding(.leading)
+                    Text("Nova demanda")
+                        .fixedSize(horizontal: false, vertical: true)
+                        .font(.subheadline)
+                        .foregroundColor(Color.white)
+                        .padding(.vertical)
+                        .padding(.trailing)
+                }
+                .background(Color.blue)
+                .cornerRadius(15)
+                .padding()
+                .shadow(radius: 6, y: 6)
+            }.sheet(isPresented: self.$showingNewDemand) {
+                NewDemandView().environmentObject(self.viewRouter)
+            }
+        }.frame(minHeight: 0, maxHeight: .infinity)
+    }
 }
 
 struct InProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        AllInProgressView(demandsInProgress: testData)
+        AllInProgressView(userSolicitations: .constant([]), ownedDemands: .constant([]))
     }
 }

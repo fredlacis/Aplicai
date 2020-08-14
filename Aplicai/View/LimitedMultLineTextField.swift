@@ -105,7 +105,7 @@ fileprivate struct UITextViewWrapper: UIViewRepresentable {
 
 }
 
-struct MultilineTextField: View {
+struct LimitedMultilineTextField: View {
 
     private var placeholder: String
     private var onCommit: (() -> Void)?
@@ -155,8 +155,8 @@ struct MultilineTextField: View {
 }
 //Link:https://stackoverflow.com/questions/56471973/how-do-i-create-a-multiline-textfield-in-swiftui
 
-struct MultLineTextField_Previews: PreviewProvider {
+struct LimitedMultLineTextField_Previews: PreviewProvider {
     static var previews: some View {
-        MultilineTextField(placeholder: "Placeholder", text: .constant(""), textCounter: .constant(0) ,onCommit: {})
+        LimitedMultilineTextField(placeholder: "Placeholder", text: .constant(""), textCounter: .constant(0) ,onCommit: {})
     }
 }

@@ -33,7 +33,7 @@ class ViewRouter: ObservableObject {
         }
     }
     
-    var selectedDemand: Demand = testData[0]
+    var selectedDemand: Demand = Demand.empty
     
     var loggedUser: User?
     

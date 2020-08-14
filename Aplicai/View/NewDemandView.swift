@@ -14,6 +14,8 @@ struct NewDemandView: View {
     
     @State var demand:Demand = Demand.empty
     
+    @EnvironmentObject var viewRouter: ViewRouter
+    
     @State private var showDatePicker: Bool = false
     @State private var selectedDateText: String = "Date"
     private var selectedDate: Binding<Date> {
@@ -61,7 +63,14 @@ struct NewDemandView: View {
                 if $0 != "" {
                     self.demand.groupSize = Int($0)!
                 }
-        }
+            }
+        )
+    }
+    
+    var locationProxy: Binding<String> {
+        Binding<String>(
+            get: { self.demand.location },
+            set: { self.demand.location = $0 }
         )
     }
     
@@ -78,10 +87,11 @@ struct NewDemandView: View {
                     NavigationView {
                         Form {
                             TextField("Nome", text: self.$demand.title)
-                            TextField("Descricao", text: self.$demand.description)
+                            MultilineTextField(placeholder: "Descrição", text: self.$demand.description)
                             TextField("Categorias (separadas por vírgula)", text: self.categorysProxy)
                             TextField("Quantidade de participantes", text: self.groupSizeProxy)
                                 .keyboardType(.numberPad)
+                            TextField("Localização", text: self.locationProxy)
                             VStack {
                                 HStack {
                                     Text("Data do fim das inscrições")
@@ -100,7 +110,7 @@ struct NewDemandView: View {
                                     self.showDatePicker.toggle()
                                 }
                                 if self.showDatePicker {
-                                    DatePicker("", selection: self.selectedDate, displayedComponents: .date)
+                                    DatePicker("", selection: self.selectedDate, in: Date()... ,displayedComponents: .date)
                                         .datePickerStyle(WheelDatePickerStyle())
                                         .labelsHidden()
                                 }
@@ -166,17 +176,19 @@ struct NewDemandView: View {
         self.isLoading = true
         
         if inputImage != nil {
-            demand.image = UIImage.resizeImage(image: inputImage!).jpegData(compressionQuality: 1)
+            demand.image = UIImage.resizeImage(image: inputImage!).jpegData(compressionQuality: 0.2)
         }
+        
+        demand.ownerUser = self.viewRouter.loggedUser!
         
         demand.ckSave(then: { (result)->Void in
             switch result {
                 case .success(_):
-                    self.isLoading = false
                     self.presentationMode.wrappedValue.dismiss()
+                    self.isLoading = false
                 case .failure(_):
-                    self.isLoading = false
                     self.presentationMode.wrappedValue.dismiss()
+                    self.isLoading = false
             }
         })
     }

@@ -33,7 +33,7 @@ struct ValidationView: View {
                 HStack {
                    Image(systemName: "briefcase.fill")
                        .scaleEffect(0.7)
-                    Text(self.demand.businessName)
+                    Text(self.demand.ownerUser.name)
                        .font(.subheadline)
                 }
                

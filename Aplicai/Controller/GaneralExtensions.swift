@@ -38,8 +38,8 @@ extension UIImage {
     static func resizeImage(image: UIImage) -> UIImage {
         var actualHeight: Float = Float(image.size.height)
         var actualWidth: Float = Float(image.size.width)
-        let maxHeight: Float = 400.0
-        let maxWidth: Float = 400.0
+        let maxHeight: Float = 1000.0
+        let maxWidth: Float = 1000.0
         var imgRatio: Float = actualWidth / actualHeight
         let maxRatio: Float = maxWidth / maxHeight
         let compressionQuality: Float = 0.5
@@ -71,5 +71,30 @@ extension UIImage {
         let imageData = img!.jpegData(compressionQuality: CGFloat(compressionQuality))
         UIGraphicsEndImageContext()
         return UIImage(data: imageData!)!
+    }
+}
+
+extension Date {
+    
+    func daysTo(date: Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: self, to: date).day!
+    }
+    
+    func sumDays(amount: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: amount, to: self)!
+    }
+    
+    func formatDateString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyy"
+        return formatter.string(from: self)
+    }
+    
+}
+
+extension CGFloat {
+    func map(from: ClosedRange<CGFloat>, to: ClosedRange<CGFloat>) -> CGFloat {
+        let result = ((self - from.lowerBound) / (from.upperBound - from.lowerBound)) * (to.upperBound - to.lowerBound) + to.lowerBound
+        return result
     }
 }

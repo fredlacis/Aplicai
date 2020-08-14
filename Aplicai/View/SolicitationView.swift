@@ -9,21 +9,24 @@
 import SwiftUI
 
 struct SolicitationView: View {
+    
+    @State var solicitation: Solicitation
+    
     var body: some View {
         Container {
             VStack {
                 HStack(alignment: .center) {
-                    Image("cassandra")
+                    Image(uiImage: UIImage(data: self.solicitation.student.avatarImage ?? Data()) ?? UIImage(named: "avatarPlaceholder")!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 100, height: 100)
                         .cornerRadius(15)
                         .shadow(radius: 6, y: 6)
                     VStack(alignment: .leading, spacing: 5) {
-                        Text("Cassandra Jones")
+                        Text(self.solicitation.student.name)
                             .fixedSize(horizontal: false, vertical: true)
                             .font(.headline)
-                        Button(action: {}){
+                        NavigationLink(destination: ProfileView(user: self.solicitation.student).environmentObject(SharedNavigation())){
                             Text("Ver perfil")
                                 .foregroundColor(Color.white)
                                 .padding(5)
@@ -36,12 +39,12 @@ struct SolicitationView: View {
                     Spacer()
                 }
                 .padding(.bottom)
-                Text("Estou no terceiro período de computação na PUC-Rio e me interesso muito por criação de sites. Eu mesma já criei um site para vender alguns colares que faço como hobby. Seria uma enorme oportunidade trabalhar com o senhor e aprimorar meu conhecimento.")
+                Text(self.solicitation.motivationText)
                     .multilineTextAlignment(.leading)
                     .padding(.bottom)
                 HStack {
-                    Button(action: {}){
-                        Text("Aceitar")
+                    Button(action: { self.updateSolicitationStatus(Solicitation.Status.accepted) }){
+                        Text(self.solicitation.status == Solicitation.Status.accepted.rawValue ? "Aceito" : "Aceitar")
                             .foregroundColor(Color.white)
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .padding(10)
@@ -49,9 +52,11 @@ struct SolicitationView: View {
                     .background(Color.green)
                     .buttonStyle(PlainButtonStyle())
                     .cornerRadius(15)
+                    .disabled(self.solicitation.status == Solicitation.Status.accepted.rawValue)
+                    .opacity(self.solicitation.status == Solicitation.Status.accepted.rawValue ? 0.4 : 1.0)
                     
-                    Button(action: {}){
-                        Text("Recusar")
+                    Button(action: { self.updateSolicitationStatus(Solicitation.Status.rejected) }){
+                        Text(self.solicitation.status == Solicitation.Status.rejected.rawValue ? "Recusado" : "Recusar")
                             .foregroundColor(Color.white)
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .padding(10)
@@ -59,15 +64,35 @@ struct SolicitationView: View {
                     .background(Color.red)
                     .buttonStyle(PlainButtonStyle())
                     .cornerRadius(15)
+                    .disabled(self.solicitation.status == Solicitation.Status.rejected.rawValue)
+                    .opacity(self.solicitation.status == Solicitation.Status.rejected.rawValue ? 0.4 : 1.0)
                 }
             }
         .padding()
         }
     }
+    
+    func updateSolicitationStatus(_ newStatus: Solicitation.Status) {
+        
+        self.solicitation.status = newStatus.rawValue
+        
+        self.solicitation.ckSave(then: { (result)->Void in
+            switch result {
+            case .success(let solicitation):
+                print("Solicitation created with: ", solicitation.recordName!)
+                self.solicitation = solicitation
+                dump(solicitation)
+//                self.isLoading = false
+            case .failure(let error):
+                print("error on creating solicitation")
+                debugPrint(error)
+            }
+        })
+    }
 }
 
 struct SolicitationView_Previews: PreviewProvider {
     static var previews: some View {
-        SolicitationView()
+        SolicitationView(solicitation: Solicitation(demand: Demand.empty, student: User.emptyStudent, motivationText: ""))
     }
 }

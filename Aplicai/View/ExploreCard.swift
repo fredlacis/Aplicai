@@ -13,12 +13,12 @@ struct ExploreCard: View {
     var demand: Demand
     
     var body: some View {
-            HStack(alignment: .center) {
+            HStack(alignment: .top) {
                 Image(uiImage: UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 120, height: 120)
-                    .cornerRadius(20)
+                    .cornerRadius(15)
                 VStack(alignment: .leading, spacing: 5) {
                     Text(self.demand.title)
                         .font(.headline)
@@ -28,7 +28,7 @@ struct ExploreCard: View {
                         Image(systemName: "briefcase.fill")
                             .scaleEffect(0.7)
                             .foregroundColor(Color.gray)
-                        Text(self.demand.businessName)
+                        Text(self.demand.ownerUser.name)
                             .font(.subheadline)
                     }
                     HStack {
@@ -48,7 +48,7 @@ struct ExploreCard: View {
                     }
                 }
             }
-            .padding()
+            .padding(8)
             .background(Color("cardBackgroundColor"))
             .cornerRadius(20)
             .shadow(radius: 6, y: 6)

@@ -25,8 +25,8 @@ struct LCButton: View {
                 .bold()
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .padding(.vertical)
-                .accentColor(Color.white)
-                .background(Color.blue)
+                .accentColor(Color.blue)
+                .background(Color.white)
                 .cornerRadius(15)
             }
         }

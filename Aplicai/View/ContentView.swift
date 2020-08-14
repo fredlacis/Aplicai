@@ -21,11 +21,6 @@ class SharedNavigation: ObservableObject {
     }
     
     var type: NavigationBarItem.TitleDisplayMode = .large
-//    {
-//        didSet {
-//            objectWillChange.send(self)
-//        }
-//    }
     
 }
 
@@ -37,16 +32,21 @@ struct ContentView: View {
     
     @State var tabIndex: Int = 0
     
+    // Screens data
+    @Binding var exploreDemands: [Demand]
+    @Binding var userSolicitations: [Solicitation]
+    @Binding var ownedDemands: [Demand]
+    
     var body: some View {
         NavigationView {
             TabView(selection: $tabIndex) {
-                ExploreView(demands: testData)
+                ExploreView(exploreDemands: self.$exploreDemands)
                     .tabItem {
                         Image(systemName: "magnifyingglass")
                         Text("Explorar")
                     }
                     .tag(0)
-                AllInProgressView(demandsInProgress: testData)
+                AllInProgressView(userSolicitations: self.$userSolicitations, ownedDemands: self.$ownedDemands)
                     .tabItem {
                         Image(systemName: "square.and.pencil")
                         Text("Em andamento")
@@ -72,6 +72,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(exploreDemands: .constant([]), userSolicitations: .constant([]), ownedDemands: .constant([]))
     }
 }

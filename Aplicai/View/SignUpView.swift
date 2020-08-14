@@ -144,6 +144,20 @@ struct SignUpView: View {
         )
     }
     
+    var linkedin: Binding<String> {
+        Binding<String>(
+            get: { self.viewRouter.loggedUser!.linkedin },
+            set: { self.viewRouter.loggedUser!.linkedin = $0 }
+        )
+    }
+    
+    var website: Binding<String> {
+        Binding<String>(
+            get: { self.viewRouter.loggedUser!.website },
+            set: { self.viewRouter.loggedUser!.website = $0 }
+        )
+    }
+    
     
     @State var formValid: Bool = false
     
@@ -185,7 +199,7 @@ struct SignUpView: View {
                                     TextField("Razão Social", text: self.companyName, onEditingChanged: {_ in self.formValid = self.formIsValid()})
                                         .padding()
                                         .border(Color(self.companyNameInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
-                                    TextField("Classificação", text: self.functionDescription, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                    MultilineTextField(placeholder: "Descrição do empreendimento", text: self.functionDescription)
                                         .padding()
                                         .border(Color(self.functionDescriptionInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                 }
@@ -213,9 +227,18 @@ struct SignUpView: View {
                                     self.showingImagePicker = true
                                 }
                         }
-                        .sheet(isPresented: self.$showingImagePicker, onDismiss: self.loadImage){
-                            ImagePicker(image: self.$inputImage)
+                        Section(header: Text("Links").font(.headline)){
+                            TextField("URL Linkedin", text: self.linkedin)
+                            if self.viewRouter.loggedUser!.accountType == "student" {
+                                TextField("URL Portfólio", text: self.website)
+                            } else {
+                                TextField("URL Site", text: self.website)
+                            }
                         }
+                        
+                    }
+                    .sheet(isPresented: self.$showingImagePicker, onDismiss: self.loadImage){
+                        ImagePicker(image: self.$inputImage)
                     }
                     .onAppear(perform: {
                         UITableView.appearance().backgroundColor = .clear
@@ -268,7 +291,7 @@ struct SignUpView: View {
         self.isLoading = true
         
         if inputImage != nil {
-            self.viewRouter.loggedUser!.avatarImage = UIImage.resizeImage(image: inputImage!).jpegData(compressionQuality: 1)
+            self.viewRouter.loggedUser!.avatarImage = UIImage.resizeImage(image: inputImage!).jpegData(compressionQuality: 0.2)
         }
         
         CKDefault.container.fetchUserRecordID(completionHandler: { (record, error)->Void in
@@ -282,10 +305,10 @@ struct SignUpView: View {
                 self.viewRouter.loggedUser?.ckSave(then: { (result)->Void in
                     switch result {
                     case .success(let user):
-                        self.isLoading = false
                         print("USER SAVED WITH RECORD NAME: ", user.recordName!)
                         self.viewRouter.loggedUser = user
                         self.viewRouter.currentPage = Page.ContentView
+                        self.isLoading = false
                     case .failure(let error):
                         print("error on saving")
                         debugPrint(error)

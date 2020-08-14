@@ -14,6 +14,9 @@
 		7A5BDA7D24D9D45C003F8F96 /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7C24D9D45C003F8F96 /* PageIndicator.swift */; };
 		7A5BDA7F24D9D4A7003F8F96 /* LCButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA7E24D9D4A7003F8F96 /* LCButton.swift */; };
 		7A5BDA8424D9D73B003F8F96 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BDA8324D9D73B003F8F96 /* OnBoardingView.swift */; };
+		D419579024E58CBB000B062F /* RefreshableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D419578F24E58CBB000B062F /* RefreshableScrollView.swift */; };
+		D419579224E59CAD000B062F /* Solicitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D419579124E59CAD000B062F /* Solicitation.swift */; };
+		D419579424E5BA6C000B062F /* MultiLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D419579324E5BA6C000B062F /* MultiLineTextField.swift */; };
 		D430BF9724DDD9D500C5425C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BF9624DDD9D500C5425C /* User.swift */; };
 		D430BF9B24DDE7D100C5425C /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BF9A24DDE7D100C5425C /* LoadingView.swift */; };
 		D430BFA224DDFF1500C5425C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BF9C24DDFF1400C5425C /* Protocols.swift */; };
@@ -25,7 +28,7 @@
 		D444777D24E0E12900CC4856 /* NewDemandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D444777C24E0E12900CC4856 /* NewDemandView.swift */; };
 		D444777F24E18BA600CC4856 /* AllSolicitationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D444777E24E18BA600CC4856 /* AllSolicitationsView.swift */; };
 		D444778124E18EE500CC4856 /* SolicitationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D444778024E18EE500CC4856 /* SolicitationView.swift */; };
-		D4545E5224CF6A8B0009489C /* MultLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E5124CF6A8B0009489C /* MultLineTextField.swift */; };
+		D4545E5224CF6A8B0009489C /* LimitedMultLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E5124CF6A8B0009489C /* LimitedMultLineTextField.swift */; };
 		D4545E5524CF761D0009489C /* ValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E5424CF761D0009489C /* ValidationView.swift */; };
 		D4545E8124D1E7670009489C /* AllInProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8024D1E7670009489C /* AllInProgressView.swift */; };
 		D4545E8324D1E94F0009489C /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4545E8224D1E94F0009489C /* ProgressBar.swift */; };
@@ -65,6 +68,9 @@
 		7A5BDA7C24D9D45C003F8F96 /* PageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
 		7A5BDA7E24D9D4A7003F8F96 /* LCButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCButton.swift; sourceTree = "<group>"; };
 		7A5BDA8324D9D73B003F8F96 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
+		D419578F24E58CBB000B062F /* RefreshableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableScrollView.swift; sourceTree = "<group>"; };
+		D419579124E59CAD000B062F /* Solicitation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solicitation.swift; sourceTree = "<group>"; };
+		D419579324E5BA6C000B062F /* MultiLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineTextField.swift; sourceTree = "<group>"; };
 		D430BF9624DDD9D500C5425C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D430BF9A24DDE7D100C5425C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		D430BF9C24DDFF1400C5425C /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
@@ -76,7 +82,7 @@
 		D444777C24E0E12900CC4856 /* NewDemandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDemandView.swift; sourceTree = "<group>"; };
 		D444777E24E18BA600CC4856 /* AllSolicitationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSolicitationsView.swift; sourceTree = "<group>"; };
 		D444778024E18EE500CC4856 /* SolicitationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolicitationView.swift; sourceTree = "<group>"; };
-		D4545E5124CF6A8B0009489C /* MultLineTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultLineTextField.swift; sourceTree = "<group>"; };
+		D4545E5124CF6A8B0009489C /* LimitedMultLineTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LimitedMultLineTextField.swift; sourceTree = "<group>"; };
 		D4545E5424CF761D0009489C /* ValidationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationView.swift; sourceTree = "<group>"; };
 		D4545E8024D1E7670009489C /* AllInProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllInProgressView.swift; sourceTree = "<group>"; };
 		D4545E8224D1E94F0009489C /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
@@ -172,10 +178,12 @@
 				7A5BDA8024D9D59D003F8F96 /* OnBoarding */,
 				D4A3379D24D328F400434DB1 /* Container.swift */,
 				D4545E8224D1E94F0009489C /* ProgressBar.swift */,
-				D4545E5124CF6A8B0009489C /* MultLineTextField.swift */,
+				D4545E5124CF6A8B0009489C /* LimitedMultLineTextField.swift */,
+				D419579324E5BA6C000B062F /* MultiLineTextField.swift */,
 				D4FA7BA924E4D3C00061B847 /* ImagePicker.swift */,
 				D4A337A224D3534600434DB1 /* ExploreNavBar.swift */,
 				D49310CD24D8913D00326BDF /* LongText.swift */,
+				D419578F24E58CBB000B062F /* RefreshableScrollView.swift */,
 				D49310CF24D8C49200326BDF /* ExploreCard.swift */,
 			);
 			name = Components;
@@ -254,6 +262,7 @@
 			children = (
 				D430BF8B24DDD9A300C5425C /* CKMagicCRUD */,
 				D430BF9624DDD9D500C5425C /* User.swift */,
+				D419579124E59CAD000B062F /* Solicitation.swift */,
 				D4EA02DF24CB5D2C0063C625 /* Demand.swift */,
 				7A5BDA7624D9D1D1003F8F96 /* OnBoardingPage.swift */,
 			);
@@ -335,7 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4545E5224CF6A8B0009489C /* MultLineTextField.swift in Sources */,
+				D4545E5224CF6A8B0009489C /* LimitedMultLineTextField.swift in Sources */,
 				D49310D024D8C49200326BDF /* ExploreCard.swift in Sources */,
 				D430BFA424DDFF1500C5425C /* CKDefaults.swift in Sources */,
 				D4EA02CA24CB569D0063C625 /* Aplicai.xcdatamodeld in Sources */,
@@ -370,8 +379,10 @@
 				D49E293124D49BDD00487EBD /* SignUpView.swift in Sources */,
 				D444777F24E18BA600CC4856 /* AllSolicitationsView.swift in Sources */,
 				D49E292D24D48B0E00487EBD /* ViewRouter.swift in Sources */,
+				D419579424E5BA6C000B062F /* MultiLineTextField.swift in Sources */,
 				D4545E8324D1E94F0009489C /* ProgressBar.swift in Sources */,
 				D4EA02C724CB569D0063C625 /* SceneDelegate.swift in Sources */,
+				D419579224E59CAD000B062F /* Solicitation.swift in Sources */,
 				D430BFA224DDFF1500C5425C /* Protocols.swift in Sources */,
 				7A5BDA7524D9CF09003F8F96 /* OnBoardingViewController.swift in Sources */,
 				D49E292A24D488BB00487EBD /* MotherView.swift in Sources */,
@@ -379,6 +390,7 @@
 				D444777D24E0E12900CC4856 /* NewDemandView.swift in Sources */,
 				D444778124E18EE500CC4856 /* SolicitationView.swift in Sources */,
 				D4545E8724D216150009489C /* NotificationsView.swift in Sources */,
+				D419579024E58CBB000B062F /* RefreshableScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,20 +10,26 @@ import SwiftUI
 
 struct DemandView: View {
     
-    var demand: Demand = testData[0]
-    
     @EnvironmentObject var viewRouter: ViewRouter
+    
+    var demand: Demand = Demand.empty
+    
+    @State var wasSolicited = true
     
     var body: some View {
         NavigationView {
             Container {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 10) {
-                        HStack(alignment: .center) {
-                            Image(uiImage: (UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
-                                .resizable()
-                                .frame(width: 100, height: 100)
-                                .cornerRadius(20)
+                        HStack(alignment: .top) {
+                            VStack {
+                                Image(uiImage: (UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
+                                    .resizable()
+                                    .frame(width: 100, height: 100)
+                                    .cornerRadius(15)
+                                    .aspectRatio(contentMode: .fill)
+                                    .shadow(radius: 6, y: 6)
+                            }
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(self.demand.title)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -32,7 +38,7 @@ struct DemandView: View {
                                 HStack {
                                     Image(systemName: "briefcase.fill")
                                         .scaleEffect(0.7)
-                                    Text(self.demand.businessName)
+                                    Text(self.demand.ownerUser.name)
                                         .fixedSize(horizontal: false, vertical: true)
                                         .font(.subheadline)
                                 }
@@ -52,6 +58,20 @@ struct DemandView: View {
                                 }
                             }
                         }
+                        VStack(alignment: .center) {
+                            NavigationLink(destination:
+                                ProfileView(user: self.demand.ownerUser)
+                                    .navigationBarTitle("Perfil do Empreendimento")
+                                    .environmentObject(SharedNavigation())
+                            ){
+                                Text("Ver perfil do empreendimento")
+                                    .font(.subheadline)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .padding(5)
+                                    .padding(.horizontal)
+                            }
+                            .fixedSize(horizontal: false, vertical: true)
+                        }.frame(minWidth: 0, maxWidth: .infinity)
                         Text("Descrição:")
                             .font(.headline)
                         LongText(self.demand.description)
@@ -109,20 +129,41 @@ struct DemandView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                             }
                         }
-                        NavigationLink(destination: SubscriptionView(demand: self.demand)) {
-                            HStack {
-                                Text("Quero me inscrever!")
-                                    .font(.title)
+                        if self.demand.isFinished == Demand.IsFinished.no.rawValue {
+                            if self.viewRouter.loggedUser!.accountType == "student" {
+                                if self.wasSolicited {
+                                    Text("Você já fez uma solicitação para participar desta demanda, acompanhe o status da solicitação na aba \"Em andamento\".")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                        .multilineTextAlignment(.center)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .padding(.top)
+                                } else {
+                                    NavigationLink(destination: SubscriptionView(demand: self.demand)) {
+                                        HStack {
+                                            Text("Quero me inscrever!")
+                                                .font(.title)
+                                        }
+                                        .frame(minWidth: 0, maxWidth: .infinity)
+                                        .padding()
+                                        .foregroundColor(.white)
+                                        .background(Color.blue)
+                                        .cornerRadius(15)
+                                        
+                                    }
+                                    .isDetailLink(true)
+                                    .padding(.top)
+                                    .disabled(self.wasSolicited)
+                                }
                             }
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.blue)
-                            .cornerRadius(15)
-                            
+                        } else {
+                            Text("Esta demanda já foi concluída pelo seu criador.")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.top)
                         }
-                        .isDetailLink(true)
-                        .padding(.top)
                     }
                     .padding()
                     .padding(.bottom, 300)
@@ -139,12 +180,31 @@ struct DemandView: View {
                         Text("Explorar")
                     }
             })
+                .onAppear(perform: self.checkSolicitation)
         }
+    }
+    
+    func checkSolicitation() {
+        
+        Solicitation.ckLoadByUserAndDemand(userRecordName: self.viewRouter.loggedUser!.recordName!,
+                                           demandRecordName: self.demand.recordName!, then: { (result) -> Void in
+                switch result {
+                    case .success(let solicitation):
+                        if solicitation != nil {
+                            self.wasSolicited = true
+                        } else {
+                            self.wasSolicited = false
+                        }
+                    case .failure(let error):
+                        debugPrint("Erro on verifying if there already is a solicitation: ", error)
+                }
+            })
+        
     }
 }
 
 struct DemandView_Previews: PreviewProvider {
     static var previews: some View {
-        DemandView(demand: testData[0])
+        DemandView(demand: testData[0]).environmentObject(ViewRouter())
     }
 }

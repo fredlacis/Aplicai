@@ -14,141 +14,212 @@ struct ProfileView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     
-//    @State private var avatarImage: Image?
-    
+    @State var finishedDemands: [Demand] = []
+        
     @State var courseSemester: String = "X"
+    
+    @State var user: User?
+    
+    // Loading states
+    @State var isReloading = false
+    var isReloadingProxy: Binding<Bool> {
+        Binding<Bool>(
+            get: { self.isReloading },
+            set: {
+                if $0 == true {
+                    self.loadFinishedDemands()
+                }
+                self.isReloading = $0
+        }
+        )
+    }
     
     var body: some View {
         Container {
-            ScrollView {
-                VStack() {
-                    HStack(alignment: .center) {
-                        Image(uiImage: UIImage(data: self.viewRouter.loggedUser!.avatarImage ?? Data()) ?? UIImage(named: "avatarPlaceholder")!)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 100, height: 100)
-                            .cornerRadius(20)
-                            .shadow(radius: 6, y: 6)
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(self.viewRouter.loggedUser!.name)
-                                .fixedSize(horizontal: false, vertical: true)
+            RefreshableScrollView(refreshing: self.isReloadingProxy) {
+                if !self.isReloading {
+                    VStack() {
+                        self.generateProfileHeader(user: self.user ?? self.viewRouter.loggedUser!)
+                        HStack {
+                            Text("Demandas concluídas")
                                 .font(.headline)
-                            Divider()
-                            if(self.viewRouter.loggedUser!.accountType == "student"){
-                                HStack {
-                                    Image(systemName: "studentdesk")
-                                        .scaleEffect(0.7)
-                                    Text(self.viewRouter.loggedUser!.course)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .font(.subheadline)
-                                }
-                                HStack {
-                                    Image(systemName: "number")
-                                        .scaleEffect(0.7)
-                                    Text(self.courseSemester + "º Período")
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .font(.subheadline)
-                                }
-                            }
-                            HStack {
-                                Image(systemName: "envelope.fill")
-                                    .scaleEffect(0.7)
-                                Text(self.viewRouter.loggedUser!.email)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .font(.subheadline)
-                            }
+                            Spacer()
                         }
-                    }
-                    .padding(.bottom)
-                    HStack(spacing: 0){
-                        VStack(alignment: .leading){
-                            
-                            HStack {
-                                Button(action: {
-                                    if self.viewRouter.loggedUser!.linkedin != ""{
-                                        UIApplication.shared.open(URL(string: self.viewRouter.loggedUser!.linkedin)!)
-                                    }
-                                }){
-                                    Text("Acessar Linkedin")
-                                        .foregroundColor(Color.white)
-                                        .frame(minWidth: 0, maxWidth: .infinity)
-                                        .padding(5)
-                                }
-                                .background(Color.blue)
-                                .buttonStyle(PlainButtonStyle())
-                                .cornerRadius(15)
-                                .padding(.trailing)
-                                
-                                Button(action: {
-                                    if self.viewRouter.loggedUser!.website != ""{
-                                        UIApplication.shared.open(URL(string: self.viewRouter.loggedUser!.website)!)
-                                    }
-                                }){
-                                    if(self.viewRouter.loggedUser!.accountType == "student"){
-                                        Text("Acessar Portfólio")
-                                            .foregroundColor(Color.white)
-                                            .frame(minWidth: 0, maxWidth: .infinity)
-                                            .padding(5)
-
-                                    } else {
-                                        Text("Acessar Site")
-                                            .foregroundColor(Color.white)
-                                            .frame(minWidth: 0, maxWidth: .infinity)
-                                            .padding(5)
-
-                                    }
-                                }
-                                .background(Color.blue)
-                                .buttonStyle(PlainButtonStyle())
-                                .cornerRadius(15)
+                        if self.finishedDemands.isEmpty {
+                            Text("Nenhuma demanda concluída...")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding()
+                        } else {
+                            ForEach(0..<self.finishedDemands.count, id: \.self){ i in
+                                ExploreCard(demand: self.finishedDemands[i])
+                                        .padding(.bottom, 8)
+                                        .onTapGesture {
+                                                self.viewRouter.selectedDemand = self.finishedDemands[i]
+                                                self.viewRouter.currentPage = Page.DemandView
+                                        }
                             }
-                            
-                            if(self.viewRouter.loggedUser!.accountType == "business"){
-                                Text("Descrição:")
-                                .font(.headline)
-                                    .padding(.top)
-                                LongText(self.viewRouter.loggedUser!.functionDescription)
-                            }
-                            Divider()
                         }
                         Spacer(minLength: 0)
                     }
-                        Text("Demandas concluídas")
-                            .font(.title)
-                    ForEach(0..<testData.count, id: \.self){ i in
-                            ExploreCard(demand: testData[i])
-                                .padding(.bottom, 8)
-                                .onTapGesture {
-                                    self.viewRouter.selectedDemand = testData[i]
-                                    self.viewRouter.currentPage = Page.DemandView
-                            }
-
-                    }
-                    Spacer(minLength: 0)
+                        .padding()
                 }
-                    .padding()
             }
         }
         .onAppear(perform: {
-//            self.loadImage()
+            
+            if self.finishedDemands.isEmpty {
+                self.loadFinishedDemands()
+            }
+            
             self.sharedNavigation.type = .inline
-            if self.viewRouter.loggedUser?.accountType == "student" {
-                self.calculateCourseSemester()
+            
+            let currentUser = self.user ?? self.viewRouter.loggedUser!
+            
+            if currentUser.accountType == "student" {
+                self.calculateCourseSemester(user: currentUser)
                 self.sharedNavigation.title = "Perfil do Estudante"
             } else {
                 self.sharedNavigation.title = "Perfil do Empreendimento"
             }
         })
     }
-
-//    func loadImage() {
-//        guard let inputImage = UIImage(data: self.viewRouter.loggedUser!.avatarImage!) else { return }
-//        self.avatarImage = Image(uiImage: inputImage)
-//    }
     
-    func calculateCourseSemester() {
+    func generateProfileHeader(user: User) -> some View {
+        return VStack {
+            HStack(alignment: .center) {
+                Image(uiImage: UIImage(data: user.avatarImage ?? Data()) ?? UIImage(named: "avatarPlaceholder")!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(15)
+                    .shadow(radius: 6, y: 6)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(user.name)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .font(.headline)
+                    Divider()
+                    if(user.accountType == "student"){
+                        HStack {
+                            Image(systemName: "studentdesk")
+                                .scaleEffect(0.7)
+                            Text(user.course)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(.subheadline)
+                        }
+                        HStack {
+                            Image(systemName: "number")
+                                .scaleEffect(0.7)
+                            Text(self.courseSemester + "º Período")
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(.subheadline)
+                        }
+                    }
+                    HStack {
+                        Image(systemName: "envelope.fill")
+                            .scaleEffect(0.7)
+                        Text(user.email)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .font(.subheadline)
+                    }
+                }
+            }
+            .padding(.bottom)
+            HStack(spacing: 0){
+                VStack(alignment: .leading){
+                    
+                    HStack {
+                        if user.linkedin != ""{
+                            Button(action: {
+                                    UIApplication.shared.open(URL(string: user.linkedin)!)
+                            }){
+                                Text("Acessar Linkedin")
+                                    .foregroundColor(Color.white)
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .padding(5)
+                            }
+                            .background(Color.blue)
+                            .buttonStyle(PlainButtonStyle())
+                            .cornerRadius(15)
+                            .padding(.trailing)
+                        }
+                        if user.website != ""{
+                            Button(action: {
+                                UIApplication.shared.open(URL(string: user.website)!)
+                            }){
+                                if(user.accountType == "student"){
+                                    Text("Acessar Portfólio")
+                                        .foregroundColor(Color.white)
+                                        .frame(minWidth: 0, maxWidth: .infinity)
+                                        .padding(5)
+
+                                } else {
+                                    Text("Acessar Site")
+                                        .foregroundColor(Color.white)
+                                        .frame(minWidth: 0, maxWidth: .infinity)
+                                        .padding(5)
+
+                                }
+                            }
+                            .background(Color.blue)
+                            .buttonStyle(PlainButtonStyle())
+                            .cornerRadius(15)
+                        }
+                    }
+                    
+                    if(user.accountType == "business"){
+                        Text("Descrição:")
+                        .font(.headline)
+                            .padding(.top)
+                        LongText(user.functionDescription)
+                    }
+                    Divider()
+                }
+                Spacer(minLength: 0)
+            }
+        }
+    }
+    
+    func loadFinishedDemands() {
+        self.isReloading = true
+        let currentUser = self.user ?? self.viewRouter.loggedUser!
+        if currentUser.accountType == "student" {
+            Solicitation.ckLoadByUser(userRecordName: currentUser.recordName!, then: { (result) -> Void in
+                switch result {
+                case .success(let solicitations):
+                    self.finishedDemands = []
+                    for solicitation in solicitations {
+                        if solicitation.demand.isFinished == Demand.IsFinished.yes.rawValue {
+                            self.finishedDemands.append(solicitation.demand)
+                        }
+                    }
+                    self.isReloading = false
+                case .failure(let error):
+                    debugPrint("Erro on getting student`s in progress: ", error)
+                }
+            })
+        } else {
+            Demand.ckLoadByOwner(ownerRecordName: currentUser.recordName!, then: { (result) -> Void in
+                switch result {
+                case .success(let demands):
+                    self.finishedDemands = []
+                    for demand in demands {
+                        if demand.isFinished == Demand.IsFinished.yes.rawValue {
+                            self.finishedDemands.append(demand)
+                        }
+                    }
+                    self.isReloading = false
+                case .failure(let error):
+                    debugPrint("Erro on getting bueiness`s in progress: ", error)
+                }
+            })
+        }
+    }
+    
+    func calculateCourseSemester(user: User) {
         
-        let regNum = self.viewRouter.loggedUser!.registrationNumber
+        let regNum = user.registrationNumber
         
         let index = regNum.index(regNum.startIndex, offsetBy: 2)
         
