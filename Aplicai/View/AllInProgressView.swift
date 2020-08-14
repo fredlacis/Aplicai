@@ -159,6 +159,7 @@ struct AllInProgressView: View {
                                 .foregroundColor(Color.gray)
                             Text(demand.location)
                                 .font(.subheadline)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                     }
                 }
@@ -230,7 +231,7 @@ struct AllInProgressView: View {
                         }
                     }
                 }
-                ProgressBar(value: 0.4)
+                ProgressBar(value: calculateProgresBarPoint(demand: demand))
                     .padding(.vertical, 5)
                 Spacer()
             }
@@ -240,7 +241,7 @@ struct AllInProgressView: View {
             .shadow(radius: 6, y: 6)
         }
         .padding(.horizontal)
-        .padding(.bottom)
+//        .padding(.bottom)
         .buttonStyle(PlainButtonStyle())
     }
     
@@ -271,6 +272,34 @@ struct AllInProgressView: View {
                 NewDemandView().environmentObject(self.viewRouter)
             }
         }.frame(minHeight: 0, maxHeight: .infinity)
+    }
+    
+    func calculateProgresBarPoint(demand: Demand) -> CGFloat {
+        
+        let deadline = demand.deadline
+        
+        if demand.estimatedDuration == "Curta" {
+            let daysToEnd = Date().daysTo(date: deadline.sumDays(amount: 14))
+            if daysToEnd > 14 {
+                return 0.0
+            } else {
+                return 1.0 - CGFloat(daysToEnd).map(from: 0...14, to: 0...1)
+            }
+        } else if demand.estimatedDuration == "Média" {
+            let daysToEnd = deadline.daysTo(date: deadline.sumDays(amount: 30))
+            if daysToEnd > 30 {
+                return 0.0
+            } else {
+                return 1.0 - CGFloat(daysToEnd).map(from: 0...30, to: 0...1)
+            }
+        } else {
+            let daysToEnd = deadline.daysTo(date: deadline.sumDays(amount: 60))
+            if daysToEnd > 60 {
+                return 0.0
+            } else {
+                return 1.0 - CGFloat(daysToEnd).map(from: 0...60, to: 0...1)
+            }
+        }
     }
 }
 

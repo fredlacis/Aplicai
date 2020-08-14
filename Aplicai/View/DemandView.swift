@@ -14,6 +14,8 @@ struct DemandView: View {
     
     var demand: Demand = Demand.empty
     
+    @State var participants: [Solicitation] = []
+    
     @State var wasSolicited = true
     
     var body: some View {
@@ -129,40 +131,75 @@ struct DemandView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                             }
                         }
-                        if self.demand.isFinished == Demand.IsFinished.no.rawValue {
-                            if self.viewRouter.loggedUser!.accountType == "student" {
-                                if self.wasSolicited {
-                                    Text("Você já fez uma solicitação para participar desta demanda, acompanhe o status da solicitação na aba \"Em andamento\".")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                        .multilineTextAlignment(.center)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .padding(.top)
-                                } else {
-                                    NavigationLink(destination: SubscriptionView(demand: self.demand)) {
-                                        HStack {
-                                            Text("Quero me inscrever!")
-                                                .font(.title)
+                        
+                        VStack {
+                            if !self.participants.isEmpty {
+                                Divider()
+                                Text("Participantes")
+                                    .font(.headline)
+                                HStack(alignment: .top) {
+                                    ForEach((0..<self.participants.count), id: \.self){ i in
+                                        Group {
+                                            Spacer()
+                                            NavigationLink(destination:
+                                                ProfileView(user: self.participants[i].student)
+                                                    .navigationBarTitle("Perfil do Estudante")
+                                                    .environmentObject(SharedNavigation())
+                                            ){
+                                                VStack(alignment: .center){
+                                                    Image(uiImage: (UIImage(data: self.participants[i].student.avatarImage ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fill)
+                                                        .frame(width: 70, height: 70)
+                                                        .cornerRadius(10)
+                                                        .shadow(radius: 6, y: 6)
+                                                    Text(self.participants[i].student.name)
+                                                        .font(.subheadline)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                }
+                                            }.buttonStyle(PlainButtonStyle())
                                         }
-                                        .frame(minWidth: 0, maxWidth: .infinity)
-                                        .padding()
-                                        .foregroundColor(.white)
-                                        .background(Color.blue)
-                                        .cornerRadius(15)
-                                        
                                     }
-                                    .isDetailLink(true)
-                                    .padding(.top)
-                                    .disabled(self.wasSolicited)
+                                    Spacer()
                                 }
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                Divider()
                             }
-                        } else {
-                            Text("Esta demanda já foi concluída pelo seu criador.")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                                .multilineTextAlignment(.center)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(.top)
+                            if self.demand.isFinished == Demand.IsFinished.no.rawValue {
+                                if self.viewRouter.loggedUser!.accountType == "student" {
+                                    if self.wasSolicited {
+                                        Text("Você já fez uma solicitação para participar desta demanda, acompanhe o status da solicitação na aba \"Em andamento\".")
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                            .multilineTextAlignment(.center)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .padding(.top)
+                                    } else {
+                                        NavigationLink(destination: SubscriptionView(demand: self.demand)) {
+                                            HStack {
+                                                Text("Quero me inscrever!")
+                                                    .font(.title)
+                                            }
+                                            .frame(minWidth: 0, maxWidth: .infinity)
+                                            .padding()
+                                            .foregroundColor(.white)
+                                            .background(Color.blue)
+                                            .cornerRadius(15)
+                                            
+                                        }
+                                        .isDetailLink(true)
+                                        .padding(.top)
+                                        .disabled(self.wasSolicited)
+                                    }
+                                }
+                            } else {
+                                Text("Esta demanda já foi concluída pelo seu criador.")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                    .multilineTextAlignment(.center)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .padding(.top)
+                            }
                         }
                     }
                     .padding()
@@ -180,7 +217,10 @@ struct DemandView: View {
                         Text("Explorar")
                     }
             })
-                .onAppear(perform: self.checkSolicitation)
+                .onAppear(perform: {
+                    self.checkSolicitation()
+                    self.loadParticipants()
+                })
         }
     }
     
@@ -201,6 +241,27 @@ struct DemandView: View {
             })
         
     }
+    
+    func loadParticipants() {
+//        self.isReloading = true
+        Solicitation.ckLoadByDemand(demandRecordName: self.demand.recordName!,then: { (result) -> Void in
+            switch result {
+                case .success(let solicitations):
+                    self.participants = self.getAccepted(solicitations: solicitations)
+//                    self.isReloading = false
+                case .failure(let error):
+                    debugPrint("Error on loading solicitations of demand: ", error)
+//                    self.isReloading = false
+            }
+        })
+    }
+    
+    func getAccepted(solicitations: [Solicitation]) -> [Solicitation]{
+        return solicitations.filter { solicitation in
+            return solicitation.status == Solicitation.Status.accepted.rawValue
+        }
+    }
+    
 }
 
 struct DemandView_Previews: PreviewProvider {

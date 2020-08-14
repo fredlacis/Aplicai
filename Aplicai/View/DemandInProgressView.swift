@@ -44,15 +44,15 @@ struct DemandInProgressView: View {
         Container {
             RefreshableScrollView(refreshing: self.isReloadingProxy) {
                 VStack {
-                    if !self.isReloading {
+//                    if !self.isReloading {
                         VStack(alignment: .leading, spacing: 10) {
                             HStack(alignment: .center) {
                                 Image(uiImage: (UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                                     .resizable()
+                                    .aspectRatio(contentMode: .fill)
                                     .frame(width: 100, height: 100)
                                     .cornerRadius(15)
                                     .shadow(radius: 6, y: 6)
-                                    .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text(self.demand.title)
                                         .font(.headline)
@@ -73,13 +73,6 @@ struct DemandInProgressView: View {
                                         Image(systemName: "location.fill")
                                             .scaleEffect(0.7)
                                         Text(self.demand.location)
-                                            .font(.subheadline)
-                                    }
-                                    HStack {
-                                        Image(systemName: "envelope.fill")
-                                            .scaleEffect(0.7)
-                                        Text(self.demand.ownerUser.email)
-                                            .fixedSize(horizontal: false, vertical: true)
                                             .font(.subheadline)
                                     }
                                 }
@@ -163,10 +156,10 @@ struct DemandInProgressView: View {
                                                 VStack(alignment: .center){
                                                     Image(uiImage: (UIImage(data: self.solicitations[i].student.avatarImage ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                                                         .resizable()
+                                                        .aspectRatio(contentMode: .fill)
                                                         .frame(width: 70, height: 70)
                                                         .cornerRadius(10)
                                                         .shadow(radius: 6, y: 6)
-                                                        .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
                                                     Text(self.solicitations[i].student.name)
                                                         .font(.subheadline)
                                                         .fixedSize(horizontal: false, vertical: true)
@@ -177,6 +170,34 @@ struct DemandInProgressView: View {
                                     Spacer()
                                 }
                                 .frame(minWidth: 0, maxWidth: .infinity)
+                                Text("Contatos")
+                                .font(.headline)
+                                VStack {
+                                    HStack {
+                                        Image(systemName: "envelope.fill")
+                                            .scaleEffect(0.8)
+                                        Text("\(self.demand.ownerUser.name): ")
+                                            .fontWeight(.thin)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                        Spacer()
+                                        Text("\(self.demand.ownerUser.email)")
+                                            .fixedSize(horizontal: false, vertical: true)
+//                                            .font(.subheadline)
+                                    }
+                                    ForEach((0..<self.solicitations.count), id: \.self){ i in
+                                        HStack {
+                                            Image(systemName: "envelope.fill")
+                                                .scaleEffect(0.8)
+                                            Text("\(self.solicitations[i].student.name): ")
+                                                .fontWeight(.thin)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                            Spacer()
+                                            Text("\(self.solicitations[i].student.email)")
+                                                .fixedSize(horizontal: false, vertical: true)
+//                                                .font(.subheadline)
+                                        }
+                                    }
+                                }
                             }
                             Divider()
                             ZStack {
@@ -234,7 +255,7 @@ struct DemandInProgressView: View {
                             }
                         }
                         .padding()
-                    }
+//                    }
                 }
             }
         }

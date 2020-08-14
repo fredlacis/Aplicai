@@ -48,7 +48,7 @@ struct ExploreView: View {
                     }
                     
                 }
-                .padding(.vertical)
+//                .padding(.vertical)
             }
         }
         .onAppear(perform: {
@@ -66,7 +66,9 @@ struct ExploreView: View {
         Demand.ckLoadAllDemands(then: { (result)->Void in
             switch result {
                 case .success(let records):
-                    self.exploreDemands = records
+                    self.exploreDemands = records.filter { record in
+                        return record.isFinished == Demand.IsFinished.no.rawValue
+                    }
                     print("------> Finished Loading All Demands")
                     self.isReloading = false
                 case .failure(let error):

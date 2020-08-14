@@ -16,6 +16,8 @@ struct AllSolicitationsView: View {
     @State var acceptedSolicitations: [Solicitation] = []
     @State var rejectedSolicitations: [Solicitation] = []
     
+    @State var limitReached: Bool = false
+    
     // Loading states
     @State var isReloading = false
     var isReloadingProxy: Binding<Bool> {
@@ -112,6 +114,11 @@ struct AllSolicitationsView: View {
         self.solicitations = self.solicitations.filter { solicitation in
             return solicitation.status == Solicitation.Status.waiting.rawValue
         }
+        if self.acceptedSolicitations.count >= demand.groupSize {
+            limitReached = true
+        } else {
+            limitReached = false
+        }
     }
     
     func generateSolicitationCard(solicitation: Solicitation) -> some View {
@@ -133,7 +140,7 @@ struct AllSolicitationsView: View {
                             .font(.subheadline)
                         Spacer()
                     }
-                    NavigationLink(destination: SolicitationView(solicitation: solicitation)){
+                    NavigationLink(destination: SolicitationView(solicitation: solicitation, limitReached: limitReached)){
                         Text("Avaliar solicitação")
                             .foregroundColor(Color.white)
                             .padding(5)

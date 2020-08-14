@@ -12,6 +12,8 @@ struct SolicitationView: View {
     
     @State var solicitation: Solicitation
     
+    var limitReached: Bool
+    
     var body: some View {
         Container {
             VStack {
@@ -44,20 +46,30 @@ struct SolicitationView: View {
                     .padding(.bottom)
                 HStack {
                     Button(action: { self.updateSolicitationStatus(Solicitation.Status.accepted) }){
-                        Text(self.solicitation.status == Solicitation.Status.accepted.rawValue ? "Aceito" : "Aceitar")
-                            .foregroundColor(Color.white)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding(10)
+                        if self.limitReached {
+                            Text("Limite alcançado")
+                                .foregroundColor(Color.white)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .padding(10)
+                        } else {
+                            Text(self.solicitation.status == Solicitation.Status.accepted.rawValue ? "Aceito" : "Aceitar")
+                                .foregroundColor(Color.white)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .padding(10)
+                        }
                     }
                     .background(Color.green)
                     .buttonStyle(PlainButtonStyle())
                     .cornerRadius(15)
-                    .disabled(self.solicitation.status == Solicitation.Status.accepted.rawValue)
+                    .disabled(self.solicitation.status == Solicitation.Status.accepted.rawValue || self.limitReached)
                     .opacity(self.solicitation.status == Solicitation.Status.accepted.rawValue ? 0.4 : 1.0)
                     
                     Button(action: { self.updateSolicitationStatus(Solicitation.Status.rejected) }){
                         Text(self.solicitation.status == Solicitation.Status.rejected.rawValue ? "Recusado" : "Recusar")
                             .foregroundColor(Color.white)
+                            .fixedSize(horizontal: false, vertical: true)
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .padding(10)
                     }
@@ -93,6 +105,6 @@ struct SolicitationView: View {
 
 struct SolicitationView_Previews: PreviewProvider {
     static var previews: some View {
-        SolicitationView(solicitation: Solicitation(demand: Demand.empty, student: User.emptyStudent, motivationText: ""))
+        SolicitationView(solicitation: Solicitation(demand: Demand.empty, student: User.emptyStudent, motivationText: ""), limitReached: false)
     }
 }
