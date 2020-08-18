@@ -273,7 +273,7 @@ struct DemandInProgressView: View {
         
         self.demand.isFinished = Demand.IsFinished.yes.rawValue
         
-        self.demand.ckSave(then: { (result)->Void in
+        self.demand.ckSaveDemand(then: { (result)->Void in
             switch result {
             case .success(let demand):
                 print("Demand updated with: ", demand.recordName!)
@@ -345,6 +345,6 @@ struct DemandInProgressView: View {
 
 struct DemandInProgress_Previews: PreviewProvider {
     static var previews: some View {
-        DemandInProgressView(demand: testData[0])
+        DemandInProgressView(demand: Demand.empty)
     }
 }

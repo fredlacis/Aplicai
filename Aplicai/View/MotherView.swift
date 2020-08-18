@@ -17,28 +17,44 @@ struct MotherView: View {
     @State var userSolicitations: [Solicitation] = []
     @State var ownedDemands: [Demand] = []
     
+    // Error
+    @State var errorMessage: String = ""
+    
     var body: some View {
         VStack {
-            if self.viewRouter.currentPage == Page.LoadingView {
-                LoadingView()
-                    .transition(.opacity)
-            } else if self.viewRouter.currentPage == Page.UserTypeView {
-                UserTypeView()
-                    .transition(.opacity)
-            } else if self.viewRouter.currentPage == Page.SignUpView {
-                SignUpView()
-                    .transition(.opacity)
-            } else if self.viewRouter.currentPage == Page.ContentView {
-                ContentView(exploreDemands: self.$exploreDemands, userSolicitations: self.$userSolicitations, ownedDemands: self.$ownedDemands).environmentObject(SharedNavigation())
-                    .transition(.opacity)
-            } else if self.viewRouter.currentPage == Page.DemandView {
-                DemandView(demand: viewRouter.selectedDemand)
-                    .transition(.move(edge: .trailing))
-            } else if self.viewRouter.currentPage == Page.OnBoardingView {
-                OnBoardingView()
-                    .transition(.opacity)
-            } else {
-                Text("")
+            ZStack {
+                if self.viewRouter.currentPage == Page.LoadingView {
+                    LoadingView()
+                        .transition(.opacity)
+                } else if self.viewRouter.currentPage == Page.UserTypeView {
+                    UserTypeView()
+                        .transition(.opacity)
+                } else if self.viewRouter.currentPage == Page.SignUpView {
+                    SignUpView()
+                        .transition(.opacity)
+                } else if self.viewRouter.currentPage == Page.ContentView {
+                    ContentView(exploreDemands: self.$exploreDemands, userSolicitations: self.$userSolicitations, ownedDemands: self.$ownedDemands).environmentObject(SharedNavigation())
+                        .transition(.opacity)
+                } else if self.viewRouter.currentPage == Page.DemandView {
+                    DemandView(demand: viewRouter.selectedDemand)
+                        .transition(.move(edge: .trailing))
+                } else if self.viewRouter.currentPage == Page.OnBoardingView {
+                    OnBoardingView()
+                        .transition(.opacity)
+                } else {
+                    EmptyView()
+                }
+                
+                if !self.errorMessage.isEmpty {
+                    Text(self.errorMessage)
+                        .background(Color.red)
+                        .foregroundColor(Color.white)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.center)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .cornerRadius(10)
+                        .padding()
+                }
             }
         }.onAppear(perform: {
             self.checkCKConnect()
@@ -54,7 +70,7 @@ struct MotherView: View {
         testDemand.image = UIImage(named: "aplicaiLogo")!.jpegData(compressionQuality: 0.5)
         
         print("Saving a demand")
-        testDemand.ckSave(then: { (result)->Void in
+        testDemand.ckSaveDemand(then: { (result)->Void in
             switch result {
             case .success(let demand):
                 testDemand = demand
@@ -81,14 +97,18 @@ struct MotherView: View {
                         self.loadCurrentUser()
                     case .noAccount:
                       // the user is NOT logged in
+                        self.errorMessage = "Você deve estar conectado a uma conta iCloud para utilizar o app."
                         print("User not logged in iCloud")
                     case .couldNotDetermine:
                       // for some reason, the status could not be determined (try again)
+                        self.errorMessage = "Falha a conectar ao servidor. Tente novamente."
                         print("Failed on checking user status")
                     case .restricted:
                       // iCloud settings are restricted by parental controls or a configuration profile
+                        self.errorMessage = "Suas configurações não permitem a conexão aos servidores. Verifique o controle parental e os perfis de configuração."
                         print("User configs block icloud access")
                 @unknown default:
+                    self.errorMessage = "Erro desconhecido. Tente novamente."
                     print("Unknown error on checking user status")
                 }
             }

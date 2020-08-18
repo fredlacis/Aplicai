@@ -19,6 +19,8 @@ struct SubscriptionView: View {
     
     @State private var characterCounter: Int = 0
     
+    @State var keyboardOffset: CGFloat = 0
+    
     @State private var motivationText: String = ""
     @State var motivationTextInvalid = true
     var motivationTextProxy: Binding<String> {
@@ -46,10 +48,10 @@ struct SubscriptionView: View {
                             HStack(alignment: .center) {
                                 Image(uiImage: (UIImage(data: self.demand.image  ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                                     .resizable()
+                                    .aspectRatio(contentMode: .fill)
                                     .frame(width: 100, height: 100)
                                     .cornerRadius(15)
                                     .shadow(radius: 6, y: 6)
-                                    .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text(self.demand.title)
                                         .font(.headline)
@@ -114,6 +116,12 @@ struct SubscriptionView: View {
                                     .padding(.top)
                             }
                             .disabled(self.motivationTextInvalid)
+                            .opacity(self.motivationTextInvalid ? 0.6 : 1)
+                            
+                            Rectangle()
+                                .frame(height: self.keyboardOffset)
+                                .animation(.default)
+                                .foregroundColor(.clear)
                             
                             Spacer()
                         }
@@ -122,6 +130,17 @@ struct SubscriptionView: View {
                 }
             }
         }
+        .onAppear(perform: {
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
+                (noti) in
+                let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                self.keyboardOffset = value.height
+            }
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) {
+                (noti) in
+                self.keyboardOffset = 0
+            }
+        })
     }
     
     func publishSolicitation() {
@@ -146,6 +165,6 @@ struct SubscriptionView: View {
 
 struct SubscriptionView_Previews: PreviewProvider {
     static var previews: some View {
-        SubscriptionView(demand: testData[0])
+        SubscriptionView(demand: Demand.empty)
     }
 }

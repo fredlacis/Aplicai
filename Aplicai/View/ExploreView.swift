@@ -69,6 +69,7 @@ struct ExploreView: View {
                     self.exploreDemands = records.filter { record in
                         return record.isFinished == Demand.IsFinished.no.rawValue
                     }
+//                    self.exploreDemands.append(contentsOf: testData)
                     print("------> Finished Loading All Demands")
                     self.isReloading = false
                 case .failure(let error):
@@ -83,6 +84,6 @@ struct ExploreView: View {
 
 struct ExploreView_Previews: PreviewProvider {
     static var previews: some View {
-        ExploreView(exploreDemands: .constant(testData)).environmentObject(SharedNavigation())
+        ExploreView(exploreDemands: .constant([Demand.empty])).environmentObject(SharedNavigation())
     }
 }

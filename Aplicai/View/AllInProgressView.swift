@@ -48,11 +48,25 @@ struct AllInProgressView: View {
 //                        self.generateCard(demand: self.demandsInProgress[i])
 //                    }
                     if self.viewRouter.loggedUser!.accountType == "student" {
+                        if self.userSolicitations.isEmpty && !self.isReloading{
+                            Text("Nenhuma demanda em andamento.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding()
+                        }
                         ForEach((0..<self.userSolicitations.count), id: \.self){ i in
                             self.generateStudentCard(solicitation: self.userSolicitations[i])
                         }
                         .padding(.vertical)
                     } else {
+                        if self.ownedDemands.isEmpty && !self.isReloading{
+                            Text("Nenhuma demanda em andamento.")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding()
+                        }
                         ForEach((0..<self.ownedDemands.count), id: \.self){ i in
                             self.generateBusinessCard(demand: self.ownedDemands[i])
                         }

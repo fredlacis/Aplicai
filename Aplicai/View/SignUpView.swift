@@ -167,6 +167,8 @@ struct SignUpView: View {
     
     @State private var isLoading = false
     
+    @State var keyboardOffset: CGFloat = 0
+    
     var body: some View {
         Container {
             VStack(alignment: .leading, spacing: 0) {
@@ -175,31 +177,39 @@ struct SignUpView: View {
                         Section(header: Text(self.viewRouter.loggedUser?.accountType == "student" ? "Aluno" : "Empreendimento")
                             .font(.largeTitle)) {
                                 TextField(self.viewRouter.loggedUser?.accountType == "student" ? "Nome Completo" : "Nome da Empresa", text: self.name, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                .disableAutocorrection(true)
                                     .padding()
                                     .border(Color(self.nameInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                 TextField("E-mail", text: self.email, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                    .disableAutocorrection(true)
                                     .keyboardType(.emailAddress)
                                     .autocapitalization(.none)
                                     .padding()
                                     .border(Color(self.emailInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                 if self.viewRouter.loggedUser?.accountType == "student" {
                                     TextField("CPF", text: self.cpf, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .disableAutocorrection(true)
                                         .padding()
                                         .border(Color(self.cpfInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                     TextField("Curso", text: self.course, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .disableAutocorrection(true)
                                         .padding()
                                         .border(Color(self.courseInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                     TextField("Matrícula", text: self.registrationNumber, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .disableAutocorrection(true)
                                         .padding()
                                         .border(Color(self.registrationNumberInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                 } else if self.viewRouter.loggedUser?.accountType == "business" {
                                     TextField("CNPJ", text: self.cnpj, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .disableAutocorrection(true)
                                         .padding()
                                         .border(Color(self.cnpjInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                     TextField("Razão Social", text: self.companyName, onEditingChanged: {_ in self.formValid = self.formIsValid()})
+                                        .disableAutocorrection(true)
                                         .padding()
                                         .border(Color(self.companyNameInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                     MultilineTextField(placeholder: "Descrição do empreendimento", text: self.functionDescription)
+                                        .disableAutocorrection(true)
                                         .padding()
                                         .border(Color(self.functionDescriptionInvalid ? #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1) : .clear))
                                 }
@@ -215,12 +225,14 @@ struct SignUpView: View {
                                     } else {
                                         Text("Selecionar imagem de perfil")
                                             .foregroundColor(Color(UIColor.placeholderText))
+                                            .padding(.leading)
                                         Spacer()
                                         Image(systemName: "photo.fill")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 100, height: 100)
                                             .foregroundColor(Color(UIColor.placeholderText))
+                                            .padding(.trailing)
                                     }
                                 }
                                 .onTapGesture {
@@ -228,11 +240,17 @@ struct SignUpView: View {
                                 }
                         }
                         Section(header: Text("Links").font(.headline)){
-                            TextField("URL Linkedin", text: self.linkedin)
+                            TextField("URL Linkedin (Opcional)", text: self.linkedin)
+                                .disableAutocorrection(true)
+                                .padding()
                             if self.viewRouter.loggedUser!.accountType == "student" {
-                                TextField("URL Portfólio", text: self.website)
+                                TextField("URL Portfólio (Opcional)", text: self.website)
+                                    .disableAutocorrection(true)
+                                    .padding()
                             } else {
-                                TextField("URL Site", text: self.website)
+                                TextField("URL Site (Opcional)", text: self.website)
+                                    .disableAutocorrection(true)
+                                    .padding()
                             }
                         }
                         
@@ -248,21 +266,38 @@ struct SignUpView: View {
                         self.registerUser()
                     }){
                         Text("Criar conta")
-                            .font(.system(size: 25))
                             .foregroundColor(Color.white)
                             .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                    }.disabled(!self.formValid)
+                            .padding(8)
+                    }
                         .background(Color.blue)
                         .buttonStyle(PlainButtonStyle())
                         .cornerRadius(15)
-                        .padding()
+                        .padding(.vertical, 8)
+                        .padding(.horizontal)
+                        .disabled(!self.formValid)
+                        .opacity(self.formValid ? 1 : 0.6)
+                    Rectangle()
+                        .frame(height: self.keyboardOffset)
+                        .animation(.default)
+                        .foregroundColor(.clear)
                 } else {
                     LoadingView(showLogo: false)
                 }
             }
             .padding(.top)
         }
+        .onAppear(perform: {
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
+                (noti) in
+                let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                self.keyboardOffset = value.height
+            }
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) {
+                (noti) in
+                self.keyboardOffset = 0
+            }
+        })
     }
     
     func loadImage() {

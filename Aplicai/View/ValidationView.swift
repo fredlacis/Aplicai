@@ -25,16 +25,18 @@ struct ValidationView: View {
                 
                 Image(uiImage: (UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                     .resizable()
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: 170, height: 170)
                     .cornerRadius(20)
-                    .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fill)
                 Text(self.demand.title)
                     .font(.headline)
+                    .multilineTextAlignment(.center)
                 HStack {
                    Image(systemName: "briefcase.fill")
                        .scaleEffect(0.7)
                     Text(self.demand.ownerUser.name)
-                       .font(.subheadline)
+                        .font(.subheadline)
+                        .multilineTextAlignment(.center)
                 }
                
                 Spacer()
@@ -67,6 +69,6 @@ struct ValidationView: View {
 
 struct ValidationView_Previews: PreviewProvider {
     static var previews: some View {
-        ValidationView(demand: testData[0])
+        ValidationView(demand: Demand.empty)
     }
 }

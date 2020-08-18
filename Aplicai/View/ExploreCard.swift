@@ -28,7 +28,7 @@ struct ExploreCard: View {
                         Image(systemName: "briefcase.fill")
                             .scaleEffect(0.7)
                             .foregroundColor(Color.gray)
-                        Text(self.demand.ownerUser.name)
+                        Text(self.demand.ownerUser.name != "" ? self.demand.ownerUser.name : "Demo Business")
                             .font(.subheadline)
                     }
                     HStack {
@@ -57,6 +57,6 @@ struct ExploreCard: View {
 
 struct ExploreCard_Previews: PreviewProvider {
     static var previews: some View {
-        ExploreCard(demand: testData[0])
+        ExploreCard(demand: Demand.empty)
     }
 }

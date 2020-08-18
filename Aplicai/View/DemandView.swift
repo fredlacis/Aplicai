@@ -27,9 +27,9 @@ struct DemandView: View {
                             VStack {
                                 Image(uiImage: (UIImage(data: self.demand.image ?? Data()) ?? UIImage(named: "avatarPlaceholder"))!)
                                     .resizable()
+                                    .aspectRatio(contentMode: .fill)
                                     .frame(width: 100, height: 100)
                                     .cornerRadius(15)
-                                    .aspectRatio(contentMode: .fill)
                                     .shadow(radius: 6, y: 6)
                             }
                             VStack(alignment: .leading, spacing: 5) {
@@ -266,6 +266,6 @@ struct DemandView: View {
 
 struct DemandView_Previews: PreviewProvider {
     static var previews: some View {
-        DemandView(demand: testData[0]).environmentObject(ViewRouter())
+        DemandView(demand: Demand.empty).environmentObject(ViewRouter())
     }
 }
